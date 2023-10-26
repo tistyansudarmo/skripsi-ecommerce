@@ -13,8 +13,6 @@ class Index extends Component
     public $paginate = 8;
     public $search;
 
-    
-
     public function render()
     {
         return view('livewire.product.index', ['products' => $this->search === null ? Product::latest()->paginate($this->paginate) : Product::latest()->where('title', 'like', '%' . $this->search . '%' )->paginate($this->paginate)]);
