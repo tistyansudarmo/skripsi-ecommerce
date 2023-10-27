@@ -1,5 +1,7 @@
 <?php
 
+use App\Livewire\Product\Admin;
+use App\Livewire\Product\HomeProduct;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+
+Route::get('/', HomeProduct::class);
+
+Route::get('/admin/products', Admin::class);
 
 
 

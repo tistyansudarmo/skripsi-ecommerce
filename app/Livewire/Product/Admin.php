@@ -1,8 +1,10 @@
 <?php
+// https://www.codehim.com/bootstrap/bootstrap-5-product-card-template/
 
 namespace App\Livewire\Product;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\File;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Rule;
@@ -41,14 +43,10 @@ class Admin extends Component
         'productStore' => 'productStoreHandler',
     ];
 
-    public function dispatchTo($component, $event, $data = [])
-    {
-        $this->dispatch('dispatchTo', $component, $event, $data);
-    }
     
     public function render()
     {
-        return view('livewire.product.product', ['products' => $this->search === null ? Product::latest()->paginate($this->paginate) : Product::latest()->where('title', 'like', '%' . $this->search . '%' )->paginate($this->paginate)]);
+        return view('livewire.product.admin-product', ['products' => $this->search === null ? Product::latest()->paginate($this->paginate) : Product::latest()->where('title', 'like', '%' . $this->search . '%' )->paginate($this->paginate)]);
     }
 
     public function formCloseHandler() {
@@ -79,8 +77,9 @@ class Admin extends Component
         $product = Product::find($this->productId);
 
         if($this->image) {
-            $product->image = $this->image->store('photos', 'public');
+            File::delete(public_path('storage/' . $product->image));
             $this->validate(['image' => 'mimes:jpeg,jpg,png|max:1024']);
+            $product->image = $this->image->store('photos', 'public');
         }
 
         $product->update([
