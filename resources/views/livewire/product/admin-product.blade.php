@@ -12,10 +12,7 @@
       @if (!$formUpdate)
         @livewire('product.create')
       @else
-      <section>
-            <div class="container px-4 px-lg-5 mt-5">
-                
-              <div class="row mb-3">
+        <div class="row mb-3">
                   <div class="col">
                       <form wire:submit.prevent="update">
                           <div class="mb-3">
@@ -47,14 +44,12 @@
                           <button type="button" wire:click="$dispatch('formClose')" class="btn btn-light ms-2">Close</button>
                           </form>
                   </div>
-              </div>
-            </div>
-        </section>
+        </div>
        @endif
     @endif
     
-  <button class="btn btn-danger mb-3" wire:click="$toggle('formVisible')">Create</button>
   
+  <button class="btn btn-danger mb-3" wire:click="$toggle('formVisible')">Create</button>
   <div class="table-responsive">
   <table class="table table-striped">
   <thead>

@@ -8,18 +8,36 @@
     --font2: "Fira Sans Extra Condensed", sans-serif;
     --font3: "Roboto", sans-serif;
 
-    --btnbg: #ffcc00;
+    --btnbg: linear-gradient(
+        90deg,
+        #5de0f0ff,
+        #77d6f1ff,
+        #90cdf2ff,
+        #aac3f3ff,
+        #c4b9f3ff,
+        #ddb0f4ff,
+        #f7a6f5ff
+    );
     --btnfontcolor: rgb(61, 61, 61);
     --btnfontcolorhover: rgb(255, 255, 255);
-    --btnbghover: #ffc116;
+    --btnbghover: linear-gradient(
+        180deg,
+        #5de0f0ff,
+        #77d6f1ff,
+        #90cdf2ff,
+        #aac3f3ff,
+        #c4b9f3ff,
+        #ddb0f4ff,
+        #f7a6f5ff
+    );
     --btnactivefs: rgb(241, 195, 46);
 
-    --label-index: #960796;
+    --label-index: #8ccef5;
     --danger-index: #5bc257;
     /* PAGINATE */
     --link-color: #000;
     --link-color-hover: #fff;
-    --bg-content-color: #ffcc00;
+    --bg-content-color: #ffcf96;
 }
 
 .container-fluid {
@@ -59,7 +77,7 @@
     min-height: 250px;
     max-height: 250px;
     object-fit: contain;
-    padding: 30px;
+    padding: 15px;
 }
 
 .card h2 {

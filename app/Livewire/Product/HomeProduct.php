@@ -9,10 +9,13 @@ use Livewire\WithPagination;
 class HomeProduct extends Component
 {
     use WithPagination;
-    public $paginate = 4;
+    public $paginate = 8;
     public $search;
-    public $nama = 'tistyan';
     protected $paginationTheme = 'bootstrap';
+
+    protected $queryString = [
+        'search', 
+    ];
 
 
     public function render()

@@ -8,7 +8,8 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
         <link href="{{ asset('css/card.css') }}" rel="stylesheet" />
-        <title>{{ $title ?? 'Page Title' }}</title>
+        <link href="{{ asset('css/category.css') }}" rel="stylesheet" />
+        <title>Lullaby Closet</title>
         @livewireStyles
     </head>
     <body>
