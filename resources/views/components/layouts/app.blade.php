@@ -14,10 +14,10 @@
     </head>
     <body>
          <!-- Navbar-->
-        @include('livewire.navigation.navbar')
+        @livewire('navigation.navbar')
 
         <!-- Header-->
-        @include('livewire.header.header')
+        @livewire('header.header')
         <section>
             <div class="container px-4 px-lg-5 mt-5">
                 {{ $slot }}

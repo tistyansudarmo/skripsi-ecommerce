@@ -1,4 +1,3 @@
-
 <div>
   <div class="container">
     <div class="row justify-content-center">
@@ -25,7 +24,7 @@
       <div class="col hp mb-5">
       <div class="card h-100 shadow-sm">
         <a href="#">
-          <img src="storage/photos/PMp1sg20u0yXqkjWhrD7ceAQi2sToh08BxxKoyhS.png" class="card-img-top" alt="product.title" />
+          <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="product.title" />
         </a>
         <div class="label-top shadow-sm">
           <a class="text-white text-decoration-none" href="#">{{ $product->title }}</a>
@@ -40,7 +39,7 @@
           </h5>
 
           <div class="d-grid gap-2 my-4">
-            <a href="#" class="btn btn-warning bold-btn">add to cart</a>
+            <button wire:click='addToCart({{ $product->id }})' class="btn btn-warning bold-btn">add to cart</button>
           </div>
         </div>
       </div>
