@@ -2,6 +2,8 @@
 
 use App\Livewire\Product\Admin;
 use App\Livewire\Product\HomeProduct;
+use App\Livewire\Shop\Checkout;
+use App\Livewire\Shop\Item;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +18,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', HomeProduct::class);
+Route::get('/', HomeProduct::class)->name('home');
 
 Route::get('/admin/products', Admin::class);
+
+Route::get('/shop-item', Item::class);
+
+Route::get('/checkout', Checkout::class);
 
 
 

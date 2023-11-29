@@ -19,11 +19,10 @@
                         <li class="nav-item"><a wire:navigate class="nav-link active" aria-current="page" href="/admin/products"e>Administrator</a></li>
                     </ul>
                     <div class="d-flex justify-content-start align-items-center">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
+                        <a wire:navigate href="/shop-item" class="btn btn-outline-dark"><i class="bi-cart-fill me-1"></i>
                             Cart
                             <span class="badge bg-dark text-white ms-1 rounded-pill">{{ $cartTotal }}</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

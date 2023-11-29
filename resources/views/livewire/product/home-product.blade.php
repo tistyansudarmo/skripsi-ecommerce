@@ -1,5 +1,5 @@
 <div>
-  <div class="container">
+  {{-- <div class="container">
     <div class="row justify-content-center">
         <div class="row-10 info-panel">
             <div class="col-lg">
@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
    <input wire:model.live="search" class="form-control mb-2" placeholder="Search....">
    <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-4">
@@ -29,7 +29,7 @@
         <div class="label-top shadow-sm">
           <a class="text-white text-decoration-none" href="#">{{ $product->title }}</a>
         </div>
-        
+
         <div class="card-body">
           <div class="clearfix mb-3">
             <span class="float-start badge rounded-pill bg-light text-dark">Rp{{ number_format($product->price,2,",",".") }}</span>
@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-    @endforeach    
+    @endforeach
   </div>
   {{ $products->links() }}
 </div>

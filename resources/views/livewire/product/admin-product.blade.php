@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     {{-- In work, do what you enjoy. --}}
     @if(session()->has('store'))
         <div class="alert alert-success">{{ session('store') }}</div>
@@ -8,11 +8,11 @@
         <div class="alert alert-success">{{ session('update') }}</div>
     @endif
 
-    @if ($formVisible) 
+    @if ($formVisible)
       @if (!$formUpdate)
         @livewire('product.create')
       @else
-        <div class="row mb-3">
+        <div class="row mb-3 mt-3">
                   <div class="col">
                       <form wire:submit.prevent="update">
                           <div class="mb-3">
@@ -37,7 +37,7 @@
                               @if($image)
                                   <img src="{{ $image->temporaryUrl() }}" alt="" width="250px"; height="250px"; class="mt-3">
                               @else
-                                  <img src="{{ $imageOld }}" alt="" width="250px"; height="250px"; class="mt-3">   
+                                  <img src="{{ $imageOld }}" alt="" width="250px"; height="250px"; class="mt-3">
                               @endif
                           </div>
                           <button type="submit" class="btn btn-primary">Submit</button>
@@ -47,10 +47,10 @@
         </div>
        @endif
     @endif
-    
-  
-  <button class="btn btn-danger mb-3" wire:click="$toggle('formVisible')">Create</button>
-  <div class="table-responsive">
+
+
+  <button class="btn btn-danger mb-3 mt-3" wire:click="$toggle('formVisible')">Create</button>
+<div class="table-responsive">
   <table class="table table-striped">
   <thead>
     <tr>
@@ -75,7 +75,7 @@
         {{-- blade admin --}}
         <button type="button" class="badge text-bg-warning border-0" wire:click="showUpdate({{ $product->id }})">Edit</button> <button type="button" class="badge text-bg-danger border-0" wire:click="delete({{ $product->id }})" wire:confirm="Are you sure you want to delete this post?">Delete</button></td>
       <td>{{ $product->id }}</td>
-    </tr> 
+    </tr>
     @endforeach
   </tbody>
 </table>

@@ -1,5 +1,5 @@
 <div>
-    <div class="row mb-3">
+    <div class="row mb-3 mt-3">
         <div class="col">
             <form wire:submit.prevent="save">
                 <div class="mb-3">

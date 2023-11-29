@@ -12,6 +12,7 @@ class Navbar extends Component
 
     protected $listeners = [
         'addToCart' => 'updateCartTotal',
+        'removeCart' => 'updateCartTotal'
     ];
 
     public function render()

@@ -13,15 +13,12 @@
         @livewireStyles
     </head>
     <body>
-         <!-- Navbar-->
         @livewire('navigation.navbar')
-
-        <!-- Header-->
-        @livewire('header.header')
+        @if (Request::route()->getName() == 'home')
+            @livewire('header.header')
+        @endif
         <section>
-            <div class="container px-4 px-lg-5 mt-5">
-                {{ $slot }}
-            </div>
+            {{ $slot }}
         </section>
 
         <footer class="py-2 bg-dark fixed-bottom">
