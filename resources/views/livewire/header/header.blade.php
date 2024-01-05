@@ -1,6 +1,6 @@
 <div>
     {{-- Success is as dangerous as failure. --}}
-    <header style="padding-top: 9rem !important;
+    {{-- <header style="padding-top: 9rem !important;
         padding-bottom: 9rem !important; background-color: #F5F5F5 ">
                        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
@@ -24,5 +24,5 @@
                         </button>
                         </div>
                 </div>
-        </header>
+        </header> --}}
 </div>

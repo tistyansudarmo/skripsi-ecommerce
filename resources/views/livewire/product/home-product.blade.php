@@ -19,6 +19,24 @@
 </div> --}}
 <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
    <input wire:model.live="search" class="form-control mb-2" placeholder="Search....">
+   <div class="row">
+    <div class="col-md-6">
+        <select class="form-select form-select-sm" aria-label="Small select example">
+            <option selected>Open this select menu</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+    </div>
+    <div class="col-md-6">
+        <select class="form-select form-select-sm" aria-label="Small select example">
+            <option selected>Open this select menu</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+    </div>
+   </div>
    <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-4">
       @foreach ($products as $product)
       <div class="col hp mb-5">

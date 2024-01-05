@@ -8,31 +8,13 @@
     --font2: "Fira Sans Extra Condensed", sans-serif;
     --font3: "Roboto", sans-serif;
 
-    --btnbg: linear-gradient(
-        90deg,
-        #5de0f0ff,
-        #77d6f1ff,
-        #90cdf2ff,
-        #aac3f3ff,
-        #c4b9f3ff,
-        #ddb0f4ff,
-        #f7a6f5ff
-    );
+    --btnbg: linear-gradient(90deg, hsla(145, 84%, 73%, 1) 0%, hsla(150, 61%, 48%, 1) 100%);
     --btnfontcolor: rgb(61, 61, 61);
     --btnfontcolorhover: rgb(255, 255, 255);
-    --btnbghover: linear-gradient(
-        180deg,
-        #5de0f0ff,
-        #77d6f1ff,
-        #90cdf2ff,
-        #aac3f3ff,
-        #c4b9f3ff,
-        #ddb0f4ff,
-        #f7a6f5ff
-    );
+    --btnbghover: linear-gradient(90deg, hsla(145, 84%, 73%, 1) 0%, hsla(150, 61%, 48%, 1) 100%);
     --btnactivefs: rgb(241, 195, 46);
 
-    --label-index: #8ccef5;
+    --label-index: #5bc257;
     --danger-index: #5bc257;
     /* PAGINATE */
     --link-color: #000;
@@ -41,7 +23,7 @@
 }
 
 .container-fluid {
-    max-width: 1300px;
+    max-width: 1250px;
 }
 
 .card {
