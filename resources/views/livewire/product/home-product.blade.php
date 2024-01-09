@@ -18,19 +18,11 @@
     </div>
 </div> --}}
 <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
-   <input wire:model.live="search" class="form-control mb-2" placeholder="Search....">
+   <input wire:model.live="search" class="form-control mb-2" placeholder="Find a product" style="margin-top: 60px">
    <div class="row">
-    <div class="col-md-6">
-        <select class="form-select form-select-sm" aria-label="Small select example">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-    </div>
-    <div class="col-md-6">
-        <select class="form-select form-select-sm" aria-label="Small select example">
-            <option selected>Open this select menu</option>
+    <div class="col-md-6 mt-5 mb-3">
+        <select class="form-select form-select-sm w-25" aria-label="Small select example">
+            <option selected>Categories</option>
             <option value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>

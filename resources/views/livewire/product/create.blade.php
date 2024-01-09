@@ -18,6 +18,11 @@
                     <div class="text-danger">@error('price') {{ $message }} @enderror</div>
                 </div>
                 <div class="mb-3">
+                    <label for="quantity" class="form-label">Quantity</label>
+                    <input type="number" class="form-control" id="quantity" wire:model="quantity">
+                    <div class="text-danger">@error('quantity') {{ $message }} @enderror</div>
+                </div>
+                <div class="mb-3">
                     <label for="image" class="form-label">Image</label>
                     <input type="file" class="form-control" id="image" wire:model="image">
                     <div class="text-danger">@error('image') {{ $message }} @enderror</div>

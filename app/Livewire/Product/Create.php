@@ -11,14 +11,17 @@ class Create extends Component
 {
    use WithFileUploads;
 
-    #[Rule('required')] 
+    #[Rule('required')]
     public $title = '';
 
-    #[Rule('required')] 
+    #[Rule('required')]
     public $description = '';
 
-    #[Rule('required')] 
+    #[Rule('required')]
     public $price = '';
+
+    #[Rule('required')]
+    public $quantity = '';
 
     #[Rule('mimes:jpeg,jpg,png|max:1024')] // 1MB Max
     public $image;
@@ -31,13 +34,17 @@ class Create extends Component
     public function save() {
 
         $this->validate();
-        Product::create([
+        $product = Product::create([
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
             'image' => $this->image->store('photos', 'public')
         ]);
-        
+
+        $product->stock()->create([
+            'quantity' => $this->quantity
+        ]);
+
         $this->dispatch('productStore');
     }
 }

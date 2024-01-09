@@ -1,22 +1,23 @@
 <div>
     <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light">
+        <nav class="navbar navbar-expand-lg fixed-top" style="background-color: rgb(244, 244, 244); box-shadow: rgba(23, 23, 23, 0.08) 0px 4px 12px;">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="/">Lullaby Closet</a>
+                <a wire:navigate class="navbar-brand" href="/">Lullaby Closet</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a wire:navigate class="nav-link active" aria-current="page" href="/">Home</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+                    <ul class="nav">
+                        <li class="nav-item">
+                          <a wire:navigate class="nav-link text-dark" href="/">Home</a>
                         </li>
-                        <li class="nav-item"><a wire:navigate class="nav-link active" aria-current="page" href="/admin/products"e>Administrator</a></li>
+                        <li class="nav-item">
+                          <a class="nav-link text-dark" href="#">All Product</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link text-dark" href="#">New Arrival</a>
+                        </li>
+                        <li class="nav-item">
+                          <a wire:navigate class="nav-link text-dark" href="/admin/products">Administrator</a>
+                        </li>
                     </ul>
                     <div class="d-flex justify-content-start align-items-center">
                         <a wire:navigate href="/shop-item" class="btn btn-outline-dark"><i class="bi-cart-fill me-1"></i>

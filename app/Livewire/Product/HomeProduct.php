@@ -15,13 +15,20 @@ class HomeProduct extends Component
     protected $paginationTheme = 'bootstrap';
 
     protected $queryString = [
-        'search', 
+        'search',
     ];
 
 
     public function render()
     {
-        return view('livewire.product.home-product', ['products' => $this->search === null ? Product::latest()->paginate($this->paginate) : Product::latest()->where('title', 'like', '%' . $this->search . '%' )->paginate($this->paginate)]);
+        return view('livewire.product.home-product', [
+            'products' => $this->search === null ?
+                Product::orderBy('id', 'desc')->paginate($this->paginate) :
+                Product::where('title', 'like', '%' . $this->search . '%')
+                    ->orderBy('id', 'desc')
+                    ->paginate($this->paginate)
+        ]);
+
     }
 
     public function addToCart($productId)

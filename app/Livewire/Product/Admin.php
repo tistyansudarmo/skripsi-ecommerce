@@ -4,6 +4,7 @@
 namespace App\Livewire\Product;
 
 use App\Models\Product;
+use App\Models\stocks;
 use Illuminate\Support\Facades\File;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -21,21 +22,24 @@ class Admin extends Component
     public $productId;
     public $formUpdate = false;
 
-    #[Rule('required')] 
+    #[Rule('required')]
     public $title;
 
-    #[Rule('required')] 
+    #[Rule('required')]
     public $description;
 
-    #[Rule('required')] 
+    #[Rule('required')]
     public $price;
+
+    #[Rule('required')]
+    public $quantity;
 
     public $image;
 
     public $imageOld;
 
     protected $queryString = [
-        'search', 
+        'search',
     ];
 
     protected $listeners = [
@@ -43,10 +47,10 @@ class Admin extends Component
         'productStore' => 'productStoreHandler',
     ];
 
-    
+
     public function render()
     {
-        return view('livewire.product.admin-product', ['products' => $this->search === null ? Product::latest()->paginate($this->paginate) : Product::latest()->where('title', 'like', '%' . $this->search . '%' )->paginate($this->paginate)]);
+        return view('livewire.product.admin-product', ['products' => $this->search === null ? Product::orderBy('id', 'desc')->paginate($this->paginate) : Product::where('title', 'like', '%' . $this->search . '%' )->orderBy('id', 'desc')->paginate($this->paginate)]);
     }
 
     public function formCloseHandler() {
@@ -63,12 +67,22 @@ class Admin extends Component
         $this->formVisible = true;
 
         $product = Product::find($productId);
+         // Ambil stock terkait dengan produk
+        $stock = stocks::where('product_id', $product->id)->first();
+
+        // Periksa apakah stock ditemukan sebelum mengakses quantity
+        if ($stock) {
+            $this->quantity = $stock->quantity;
+        } else {
+            // Jika stock tidak ditemukan, Anda bisa mengatasi sesuai kebutuhan, misalnya, memberi nilai default atau memberikan pesan kesalahan.
+            $this->quantity = 0; // Atau sesuaikan dengan nilai default yang sesuai.
+        }
         $this->productId = $product['id'];
         $this->title = $product['title'];
         $this->description = $product['description'];
         $this->price = $product['price'];
         $this->imageOld = asset('storage/' .  $product['image']);
-     
+
     }
 
     public function update() {
@@ -88,6 +102,13 @@ class Admin extends Component
             'price' => $this->price,
         ]);
 
+        // Periksa apakah ada model Stock terkait dengan produk
+        $stock = stocks::where('product_id', $product->id)->first();
+
+        // Update quantity pada model Stock
+        $stock->quantity = $this->quantity;
+        $stock->save();
+
         $this->formVisible = false;
         session()->flash('update', 'Your product was update');
     }
@@ -95,6 +116,12 @@ class Admin extends Component
     public function delete($productId) {
         $data = Product::find($productId);
         $data->delete();
+        // Periksa apakah ada model Stock terkait dengan produk
+        $stock = stocks::where('product_id', $productId)->first();
+
+        // Update quantity pada model Stock
+        $stock->quantity = $this->quantity;
+        $stock->delete();
     }
 
 
