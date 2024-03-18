@@ -2,32 +2,24 @@
     {{-- Nothing in the world is as soft and yielding as water. --}}
     <form wire:submit.prevent="checkout">
     <div class="mb-3">
-        <label for="first-name" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="first-name" placeholder="tistyan">
+        <label for="full_name" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="full_name" wire:model="fullName">
     </div>
     <div class="mb-3">
-        <label for="last-name" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="last-name" placeholder="sudarmo">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" wire:model="username">
     </div>
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" placeholder="name@gmail.com">
+        <input type="email" class="form-control" id="email" wire:model="email">
     </div>
     <div class="mb-3">
         <label for="number-phone" class="form-label">Number Phone</label>
-        <input type="number" class="form-control" id="number-phone" placeholder="08123456789">
+        <input type="text" class="form-control" id="number-phone" wire:model="phoneNumber">
     </div>
     <div class="mb-3">
         <label for="address" class="form-label">Address</label>
-        <input type="text" class="form-control" id="address" placeholder="Jalan Pegangsaan 5">
-    </div>
-    <div class="mb-3">
-        <label for="city" class="form-label">City</label>
-        <input type="text" class="form-control" id="city" placeholder="Manado">
-    </div>
-    <div class="mb-3">
-        <label for="postal" class="form-label">Postal Code</label>
-        <input type="text" class="form-control" id="postal" placeholder="95114">
+        <input type="text" class="form-control" id="address" wire:model="address">
     </div>
     <div class="mb-3">
         <button class="btn btn-sm btn-primary">Submit</button>

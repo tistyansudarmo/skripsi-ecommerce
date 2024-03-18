@@ -19,12 +19,22 @@
                           <a wire:navigate class="nav-link text-dark" href="/admin/products">Administrator</a>
                         </li>
                     </ul>
-                    <div class="d-flex justify-content-start align-items-center">
-                        <a wire:navigate href="/shop-item" class="btn btn-outline-dark"><i class="bi-cart-fill me-1"></i>
+                    <div class="collapse navbar-collapse ms-5 d-flex justify-content-end" id="navbarNavDarkDropdown">
+                        <a wire:navigate href="/shop-item" class="btn btn-outline-dark me-2"><i class="bi-cart-fill me-1"></i>
                             Cart
                             <span class="badge bg-dark text-white ms-1 rounded-pill">{{ $cartTotal }}</span>
                         </a>
-                    </div>
+                        <ul class="navbar-nav">
+                          <li class="nav-item dropdown">
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                              Halo, {{auth()->user()->username}}!
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
                 </div>
             </div>
         </nav>

@@ -15,4 +15,12 @@ class Product extends Model
     public function stock() {
         return $this->hasOne(stocks::class);
     }
+
+    public function transaction() {
+        return $this->hasMany(transaction::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }

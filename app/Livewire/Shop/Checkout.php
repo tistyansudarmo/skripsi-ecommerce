@@ -2,38 +2,38 @@
 
 namespace App\Livewire\Shop;
 
+use App\Models\User;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class Checkout extends Component
 {
-    public $first_name;
-    public $last_name;
+
+    public $fullName;
+    public $username;
     public $email;
-    public $phone;
+    public $phoneNumber;
     public $address;
-    public $city;
-    public $postal_code;
-    public $formCheckout;
-    public $snapToken;
+
+    public function mount()
+    {
+        $user = Auth::user();
+        $this->fullName = $user->full_name;
+        $this->username = $user->username;
+        $this->email = $user->email;
+        $this->phoneNumber = $user->no_telepon;
+        $this->address = $user->alamat;
+    }
+
+    public function checkout()
+    {
+        // Your checkout logic here
+    }
 
     public function render()
     {
         return view('livewire.shop.checkout');
     }
 
-    public function mount() {
-        $this->formCheckout = true;
-    }
-
-    public function checkout() {
-        $this->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'address' => 'required',
-            'city' => 'required',
-            'postal_code' => 'required'
-        ]);
-    }
 }
