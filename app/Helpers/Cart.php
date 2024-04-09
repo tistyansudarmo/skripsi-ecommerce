@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Product;
+use App\Models\Cart as CartModel;
 
 class Cart
 {
@@ -31,31 +32,44 @@ class Cart
     }
 
     public function add(Product $product)
-    {
-        $cart = $this->get();
-        array_push($cart['products'], $product);
-        $this->set($cart);
-    }
+{
+    $cart = $this->get();
+    $cart['products'][] = $product->id;
+
+    // Simpan ke database
+    $cartModel = new CartModel();
+    $cartModel->user_id = auth()->user()->id;
+    $cartModel->product_id = $product->id;
+    $cartModel->save();
+
+    $this->set($cart);
+}
+
 
     public function remove($productId)
     {
         $cart = $this->get();
-        array_splice(
-            $cart['products'],
-            array_search(
-                $productId,
-                array_column(
-                    $cart['products'],
-                    'id'
-                )
-            ),
-            1
-        );
+
+        // Cari posisi produk dalam array products
+        $index = array_search($productId, $cart['products']);
+
+        // Hapus produk dari array jika ditemukan
+        if ($index !== false) {
+            unset($cart['products'][$index]);
+
+        // Simpan perubahan ke session
         $this->set($cart);
+
+        CartModel::where('user_id', auth()->user()->id)
+            ->where('product_id', $productId)
+            ->delete();
+    }
     }
 
     public function clear()
     {
         $this->set($this->empty());
+        // Kosongkan data di database
+        CartModel::truncate();
     }
 }

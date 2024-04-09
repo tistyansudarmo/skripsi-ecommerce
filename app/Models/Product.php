@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\stocks;
+
 
 class Product extends Model
 {
@@ -13,7 +13,7 @@ class Product extends Model
     protected $guarded = ['id'];
 
     public function stock() {
-        return $this->hasOne(stocks::class);
+        return $this->hasOne(Stock::class);
     }
 
     public function transaction() {
@@ -22,5 +22,14 @@ class Product extends Model
 
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function cart()
+    {
+        return $this->belongsToMany(Cart::class);
     }
 }
