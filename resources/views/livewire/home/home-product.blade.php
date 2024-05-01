@@ -18,9 +18,9 @@
     </div>
 </div> --}}
 <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
-   <input wire:model.live="search" class="form-control mb-2" placeholder="Find a product" style="margin-top: 60px">
+   <input wire:model.live="search" class="form-control mb-2" placeholder="Find a product" style="margin-top: 20px">
    <div class="row">
-    <div class="col-md-6 mt-5 mb-3">
+    <div class="col-md-6 mt-3 mb-3">
         <select class="form-select form-select-sm w-25" aria-label="Small select example">
             <option selected>Categories</option>
             <option value="1">One</option>

@@ -2,8 +2,9 @@
 
 namespace App\Livewire\Home;
 
-use App\Facades\Cart;
+use App\Models\Cart;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -33,8 +34,16 @@ class HomeProduct extends Component
 
     public function addToCart($productId)
     {
+        if (!Auth::check()) {
+            return redirect('/login');
+        }
         $product = Product::find($productId);
-        Cart::add($product);
+
+        // Simpan ke database
+        $cartModel = new Cart;
+        $cartModel->user_id = auth()->user()->id;
+        $cartModel->product_id = $product->id;
+        $cartModel->save();
         $this->dispatch('addToCart');
         // dd(Cart::get()['products']);
     }

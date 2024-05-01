@@ -107,7 +107,7 @@ class AdminProducts extends Component
 
         // Update quantity pada model Stock
         $stock->quantity = $this->quantity;
-        $stock->save();
+        $stock->update();
 
         $this->formVisible = false;
         session()->flash('update', 'Your product was update');

@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Navigation;
 
-use App\Facades\Cart;
+
 use Livewire\Component;
+use App\Models\Cart;
+use Illuminate\Support\Facades\Auth;
 
 class Navbar extends Component
 {
@@ -29,6 +31,8 @@ class Navbar extends Component
 
      public function updateCartTotal()
     {
-        $this->cartTotal = count(Cart::get()['products']);
+        if(Auth::check()) {
+            $this->cartTotal = Cart::where('user_id', auth()->user()->id)->count();
+        }
     }
 }

@@ -30,7 +30,7 @@ Route::get('/admin/products', AdminProducts::class)->middleware('auth');
 
 Route::get('/shop-item', Item::class)->middleware('auth');
 
-Route::get('/checkout/{user}', Checkout::class)->middleware('auth');
+Route::get('/checkout', Checkout::class)->middleware('auth');
 
 Route::get('/login', [login::class, 'view'])->middleware('guest')->name('login');
 
