@@ -24,8 +24,10 @@ class HomeProduct extends Component
     {
         return view('livewire.home.home-product', [
             'products' => $this->search === null ?
-                Product::orderBy('id', 'desc')->paginate($this->paginate) :
-                Product::where('title', 'like', '%' . $this->search . '%')
+                Product::with('category')
+                ->orderBy('id', 'desc')->paginate($this->paginate) :
+                Product::with('category')
+                ->where('title', 'like', '%' . $this->search . '%')
                     ->orderBy('id', 'desc')
                     ->paginate($this->paginate)
         ]);

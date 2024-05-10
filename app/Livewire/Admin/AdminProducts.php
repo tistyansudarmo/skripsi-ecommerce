@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Admin;
 
-
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Stock;
 use Illuminate\Support\Facades\File;
@@ -21,6 +21,10 @@ class AdminProducts extends Component
     public $formVisible;
     public $productId;
     public $formUpdate = false;
+    public $category;
+
+    #[Rule('required')]
+    public $selectedCategory;
 
     #[Rule('required')]
     public $title;
@@ -46,6 +50,11 @@ class AdminProducts extends Component
         'formClose' => 'formCloseHandler',
         'productStore' => 'productStoreHandler',
     ];
+
+
+    public function mount() {
+        $this->category = Category::all();
+    }
 
 
     public function render()
@@ -81,6 +90,7 @@ class AdminProducts extends Component
         $this->title = $product['title'];
         $this->description = $product['description'];
         $this->price = $product['price'];
+        $this->selectedCategory = $product['category_id'];
         $this->imageOld = asset('storage/' .  $product['image']);
 
     }
@@ -100,6 +110,7 @@ class AdminProducts extends Component
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
+            'category_id' => $this->selectedCategory
         ]);
 
         // Periksa apakah ada model Stock terkait dengan produk
@@ -110,7 +121,7 @@ class AdminProducts extends Component
         $stock->update();
 
         $this->formVisible = false;
-        session()->flash('update', 'Your product was update');
+        session()->flash('update', 'Your product was updated');
     }
 
     public function delete($productId) {

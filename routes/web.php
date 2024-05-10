@@ -8,6 +8,9 @@ use App\Http\Controllers\login;
 use App\Http\Controllers\register;
 use App\Livewire\Admin\AdminDashboard;
 use App\Livewire\Admin\AdminProducts;
+use App\Livewire\Admin\CreateCategories;
+use App\Livewire\Order\Index as Order;
+use App\Livewire\Transaction\Transaction;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,13 +27,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeProduct::class)->name('home');
 
-Route::get('/admin', AdminDashboard::class)->middleware('auth')->name('admin');
+Route::get('/admin', AdminDashboard::class)->middleware('auth')->name('dashboard');
 
-Route::get('/admin/products', AdminProducts::class)->middleware('auth');
+Route::get('/admin/products', AdminProducts::class)->middleware('auth')->name('admin/products');
 
-Route::get('/shop-item', Item::class)->middleware('auth');
+Route::get('/admin/category', CreateCategories::class)->middleware('auth')->name('admin/categories');
 
-Route::get('/checkout', Checkout::class)->middleware('auth');
+Route::get('/cart', Item::class)->middleware('auth');
+
+Route::get('/order', Order::class)->middleware('auth');
+
+Route::get('/transaction', Transaction::class)->middleware('auth')->name('admin/transactions');
 
 Route::get('/login', [login::class, 'view'])->middleware('guest')->name('login');
 

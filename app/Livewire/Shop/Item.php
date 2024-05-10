@@ -18,7 +18,8 @@ class Item extends Component
 
 
     public function viewCart() {
-        $this->cart = CartModel::join('products', 'products.id', '=', 'carts.product_id')
+        $this->cart = CartModel::with(['product', 'user'])
+        ->join('products', 'products.id', '=', 'carts.product_id')
         ->join('users', 'users.id', '=', 'carts.user_id')
         ->join('stocks', 'stocks.product_id', '=', 'products.id')
         ->select('products.*', 'stocks.*', 'carts.*')
@@ -96,7 +97,7 @@ class Item extends Component
             $transaction->quantity = $this->qty;
             $transaction->total_price = $cart->product->price * $this->qty;
             $transaction->description = $cart->product->description;
-            $transaction->status_transaction = 'Menunggu Pembayaran';
+            $transaction->status_id = 1;
             $transaction->save();
 
             // Kurangi jumlah persediaan produk

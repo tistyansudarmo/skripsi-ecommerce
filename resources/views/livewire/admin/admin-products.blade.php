@@ -36,6 +36,15 @@
                               <div class="text-danger">@error('quantity') {{ $message }} @enderror</div>
                           </div>
                           <div class="mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select class="form-select" aria-label="Default select example" id="category" wire:model="selectedCategory">
+                                <option value="">--- Pilih Category ---</option>
+                                @foreach ($category as $categories)
+                                <option value="{{$categories->id}}">{{$categories->name}}</option>
+                                @endforeach
+                              </select>
+                        </div>
+                          <div class="mb-3">
                               <label for="image" class="form-label">Image</label>
                               <input type="file" class="form-control" id="image" wire:model="image">
                               <div class="text-danger">@error('image') {{ $message }} @enderror</div>
@@ -53,8 +62,9 @@
        @endif
     @endif
 
-
+@if (!$formVisible)
 <button class="btn btn-danger mb-3 mt-3" wire:click="$toggle('formVisible')" style="z-index: 5000">Create</button>
+@endif
     <div class="table-responsive">
     <table class="table table-striped">
     <thead>
@@ -65,7 +75,8 @@
         <th scope="col">Price</th>
         <th scope="col">Image</th>
         <th scope="col">Quantity</th>
-        <th scope="col">Action</th>
+        <th scope="col">Category</th>
+        <th scope="col" class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -82,10 +93,13 @@
         @else
         <p>0</p>
         @endif
-    </td>
-    <td>
-        <button type="button" class="badge text-bg-warning border-0" wire:click="showUpdate({{ $product->id }})">Edit</button> <button type="button" class="badge text-bg-danger border-0" wire:click="delete({{ $product->id }})" wire:confirm="Are you sure you want to delete this post?">Delete</button></td>
-    <td>
+        </td>
+        <td>{{ optional($product->category)->name }}</td>
+        <td>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="badge text-bg-warning border-0 me-2" wire:click="showUpdate({{ $product->id }})">Edit</button> <button type="button" class="badge text-bg-danger border-0" wire:click="delete({{ $product->id }})" wire:confirm="Are you sure you want to delete this post?">Delete</button></td>
+            </div>
+        <td>
         </tr>
         @endforeach
     </tbody>

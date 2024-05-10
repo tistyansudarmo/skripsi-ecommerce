@@ -10,7 +10,7 @@
                     </div>
                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                         <h6 class="text-muted font-semibold">Products</h6>
-                        <h6 class="font-extrabold mb-0">112.000</h6>
+                        <h6 class="font-extrabold mb-0">{{ $product }}</h6>
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                         <h6 class="text-muted font-semibold">Categories</h6>
-                        <h6 class="font-extrabold mb-0">183.000</h6>
+                        <h6 class="font-extrabold mb-0">{{ $categories }}</h6>
                     </div>
                 </div>
             </div>
@@ -42,9 +42,9 @@
                             <i class="iconly-boldAdd-User"></i>
                         </div>
                     </div>
-                    <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                        <h6 class="text-muted font-semibold">Buyer</h6>
-                        <h6 class="font-extrabold mb-0">80.000</h6>
+                    <div class="col-md-8 col-lg-12 col-xl-11 col-xxl-7">
+                        <h6 class="text-muted font-semibold">Transactions</h6>
+                        <h6 class="font-extrabold mb-0">{{ $transactions }}</h6>
                     </div>
                 </div>
             </div>

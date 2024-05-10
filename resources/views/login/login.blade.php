@@ -10,7 +10,7 @@
 </head>
 <body>
     <!-- Login 4 - Bootstrap Brain Component -->
-<section class="p-3 p-md-4 p-xl-5">
+<section class="p-3 p-md-4 p-xl-5 mt-2">
     <div class="container" style="width: 1000px">
       <div class="card border-light-subtle shadow-sm">
         <div class="row g-0">
