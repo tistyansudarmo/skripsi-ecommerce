@@ -9,6 +9,7 @@ use App\Http\Controllers\register;
 use App\Livewire\Admin\AdminDashboard;
 use App\Livewire\Admin\AdminProducts;
 use App\Livewire\Admin\CreateCategories;
+use App\Livewire\Apriori\ProsesApriori;
 use App\Livewire\Order\Index as Order;
 use App\Livewire\Transaction\Transaction;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,8 @@ Route::get('/register', [register::class, 'view'])->middleware('guest');
 Route::post('/register', [register::class, 'store']);
 
 Route::get('/logout', [login::class, 'logout']);
+
+Route::get('/proses-apriori', ProsesApriori::class)->middleware('auth')->name('Proses-Apriori');
 
 
 

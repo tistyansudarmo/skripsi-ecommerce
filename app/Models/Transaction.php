@@ -20,7 +20,7 @@ class Transaction extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function status() {
-        return $this->belongsTo(statusTransaction::class);
+    public function detailTransaction(){
+        return $this->hasMany(detail_transaction::class);
     }
 }

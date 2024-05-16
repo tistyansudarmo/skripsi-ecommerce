@@ -12,10 +12,9 @@
                         <label for="Status" class="form-label">Status</label>
                         <select class="form-select" aria-label="Default select example" id="status" wire:model="newStatus">
                             <option value="">--- Pilih Status Transaksi ---</option>
-                            @foreach ($status as $statusTransaction)
-                                <option value="{{ $statusTransaction->id }}">{{ $statusTransaction->name }}</option>
-                            @endforeach
-                          </select>
+                                <option value="Sedang Diproses">Sedang Diproses</option>
+                                <option value="Dalam Pengiriman Jasa Ekspedisi">Dalam Pengiriman Jasa Ekspedisi</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="noResi" class="form-label">Nomor Resi</label>
@@ -37,10 +36,11 @@
                 <th scope="col">No</th>
                 <th scope="col">Product</th>
                 <th scope="col">Quantity</th>
-                <th scope="col">Price</th>
+                <th scope="col">Total Price</th>
                 <th scope="col">Image</th>
                 <th scope="col" class="text-center">Status</th>
                 <th scope="col">No Resi</th>
+                <th scope="col">Pembeli</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -52,12 +52,12 @@
                     <td class="text-center">{{ $items->quantity }}</td>
                     <td>Rp{{ number_format($items->total_price, 2, ',', '.') }}</td>
                     <td><img src="{{ asset('storage/'. $items->product->image) }}" alt="" style="width: 100px; height: 100px;"></td>
-                    <td class="text-center">{{ $items->status->name}}</td>
+                    <td class="text-center">{{ $items->transaction->status}}</td>
                     <td></td>
+                    <td>{{ $items->transaction->user->full_name }}</td>
                     <td><button class="btn btn-warning mb-3 mt-3 btn-sm" wire:click="viewStatus('{{ $items->id }}')" style="z-index: 5000">Edit</button></td>
-                        </form>
                 </tr>
-                @endforeach
+                    @endforeach
             </tbody>
           </table>
         </div>

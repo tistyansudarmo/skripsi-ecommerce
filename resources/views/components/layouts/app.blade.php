@@ -54,10 +54,6 @@
         <section>
             {{ $slot }}
         </section>
-
-        {{-- <footer class="py-2 bg-dark fixed-bottom">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Lullaby Closet 2023</p></div>
-        </footer> --}}
         <script src="{{ asset('js/scripts.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -70,8 +66,6 @@
               autoplay: {
                 delay: 2500,
                 },
-
-
             });
           </script>
         @livewireScripts

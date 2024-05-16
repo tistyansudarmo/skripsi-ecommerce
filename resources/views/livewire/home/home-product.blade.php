@@ -39,6 +39,6 @@
     </div>
     @endforeach
   </div>
-  <div class="mb-5 pagination-sm">{{ $products->links() }}</div>
+  <div class="mb-5">{{ $products->links() }}</div>
 </div>
 </div>

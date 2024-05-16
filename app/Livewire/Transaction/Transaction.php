@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Transaction;
 
-use App\Livewire\Order\Index;
-use App\Models\statusTransaction;
+use App\Models\detail_transaction;
 use App\Models\Transaction as ModelsTransaction;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
 class Transaction extends Component
 {
@@ -13,8 +13,8 @@ class Transaction extends Component
     public $transactions;
     public $transactionsId;
     public $newStatus;
-    public $status;
     public $formVisible = false;
+
 
     public function render()
     {
@@ -23,33 +23,32 @@ class Transaction extends Component
 
 
     public function allTransaction() {
-        $this->transactions = ModelsTransaction::all();
+        $this->transactions = detail_transaction::all();
     }
 
 
     public function mount() {
 
         $this->allTransaction();
-        $this->status = statusTransaction::all();
     }
 
     public function viewStatus($transactionId) {
 
         $this->formVisible = true;
-        $currentStatus = ModelsTransaction::find($transactionId);
-        $this->newStatus = $currentStatus->status_id;
+        $currentStatus = detail_transaction::find($transactionId);
+        $this->newStatus = $currentStatus->transaction->status;
         $this->transactionsId = $transactionId;
     }
 
 
     public function update() {
 
-        $updateStatus = ModelsTransaction::find($this->transactionsId);
+        $updateStatus = detail_transaction::find($this->transactionsId);
         if (empty($this->newStatus)) {
             return;
         }
-        $updateStatus->update([
-            'status_id' => $this->newStatus
+        $updateStatus->transaction->update([
+            'status' => $this->newStatus
         ]);
 
         $this->allTransaction();

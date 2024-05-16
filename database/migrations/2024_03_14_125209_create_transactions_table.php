@@ -14,11 +14,8 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('product_id');
-            $table->foreignId('status_id');
-            $table->integer('quantity');
+            $table->enum('status', ['Sedang Diproses', 'Dalam Pengiriman Jasa Ekspedisi', 'Dibatalkan', 'Sudah Diterima']);
             $table->decimal('total_price');
-            $table->string('description');
             $table->timestamps();
         });
     }

@@ -16,8 +16,8 @@ class Product extends Model
         return $this->hasOne(Stock::class);
     }
 
-    public function transaction() {
-        return $this->hasMany(transaction::class);
+    public function detailTransaction() {
+        return $this->hasMany(detail_transaction::class);
     }
 
     public function user() {

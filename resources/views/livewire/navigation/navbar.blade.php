@@ -40,7 +40,7 @@
                         </ul>
                         @else
                         <div class="log">
-                            <a href="/login" class="text-decoration-none text-dark" wire:navigate>Login</a>
+                            <a href="/login" class="text-decoration-none text-dark">Login</a>
                         </div>
                         @endif
                       </div>

@@ -1,6 +1,6 @@
 <div>
     <div>
-        <div class="table-responsive container" style="margin-top: 100px">
+        <div class="table-responsive container" style="margin-top: 40px">
           <table class="table table-striped">
             <thead>
               <tr>
@@ -22,7 +22,7 @@
                     <td style="vertical-align: middle;">Rp{{ number_format($item->total_price, 2, ',', '.') }}</td>
                     <td><img src="{{ asset('storage/' . $item->product->image) }}" alt="" style="width: 100px; height: 100px;"></td>
                     <td style="vertical-align: middle;">
-                        <span class="badge text-bg-warning">{{ $item->status->name }}</span>
+                        <span class="badge text-bg-warning">{{ $item->status }}</span>
                     </td>
                     <td style="vertical-align: middle;"></td>
                 </tr>
@@ -35,4 +35,5 @@
           </table>
         </div>
       </div>
+      <div class="mb-5 mt-2">{{ $status->links() }}</div>
 </div>

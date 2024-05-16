@@ -8,6 +8,7 @@
         <link rel="shortcut icon" href="{{asset('assets/images/logo/favicon.svg')}}" type="image/x-icon">
         <link rel="shortcut icon" href="{{asset('assets/images/logo/favicon.png')}}" type="image/png">
         <link rel="stylesheet" href="{{asset('assets/css/shared/iconly.css')}}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <title>Admin Dashboard</title>
         @livewireStyles
     </head>
@@ -61,6 +62,13 @@
                         </li>
                     </ul>
                 </li>
+                <li
+                    class="sidebar-item {{ Request::is('proses-apriori') ? 'active' : '' }} ">
+                    <a href="/proses-apriori" class='sidebar-link'>
+                        <i class="bi bi-database-add"></i>
+                        <span>Proses Apriori</span>
+                    </a>
+                </li>
             </ul>
         </div>
         </div>
@@ -71,7 +79,6 @@
                         <i class="bi bi-justify fs-3"></i>
                     </a>
                 </header>
-
         <div class="page-heading">
         <h3>{{ Route::currentRouteName() }}</h3>
         </div>
@@ -85,10 +92,6 @@
         </div>
             </div>
         </div>
-
-        {{-- <footer class="py-2 bg-dark fixed-bottom">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Lullaby Closet 2023</p></div>
-        </footer> --}}
         <script src="{{asset('assets/js/bootstrap.js')}}"></script>
         <script src="{{asset('assets/js/app.js')}}"></script>
         <script src="{{asset('assets/extensions/apexcharts/apexcharts.min.js')}}"></script>

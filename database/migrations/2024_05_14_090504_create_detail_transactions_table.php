@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('status_transactions', function (Blueprint $table) {
+        Schema::create('detail_transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('transaction_id');
+            $table->foreignId('product_id');
+            $table->integer('quantity');
+            $table->decimal('price');
+            $table->decimal('total_price');
             $table->timestamps();
         });
     }
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('status_transactions');
+        Schema::dropIfExists('detail_transactions');
     }
 };

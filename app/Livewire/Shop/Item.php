@@ -4,6 +4,8 @@ namespace App\Livewire\Shop;
 
 use Livewire\Component;
 use App\Models\Cart as CartModel;
+use App\Models\detail_transaction;
+use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\Stock;
 use Illuminate\Support\Facades\DB;
@@ -90,15 +92,20 @@ class Item extends Component
                 $this->viewCart();
                 return;
             }
-            // Buat entri transaksi
+
             $transaction = new Transaction();
             $transaction->user_id = $cart->user_id;
-            $transaction->product_id = $cart->product_id;
-            $transaction->quantity = $this->qty;
             $transaction->total_price = $cart->product->price * $this->qty;
-            $transaction->description = $cart->product->description;
-            $transaction->status_id = 1;
+            $transaction->status = 'Sedang Diproses';
             $transaction->save();
+
+            $detailTransaction = new detail_transaction();
+            $detailTransaction->transaction_id = $transaction->id;
+            $detailTransaction->product_id = $cart->product_id;
+            $detailTransaction->quantity = $this->qty;
+            $detailTransaction->price = $cart->product->price;
+            $detailTransaction->total_price = $transaction->total_price;
+            $detailTransaction->save();
 
             // Kurangi jumlah persediaan produk
             $stock = Stock::where('product_id', $cart->product_id)->first();

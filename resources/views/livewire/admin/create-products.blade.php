@@ -23,8 +23,9 @@
                     <div class="text-danger">@error('quantity') {{ $message }} @enderror</div>
                 </div>
                 <div class="mb-3">
+                    <label for="quantity" class="form-label">Category</label>
                     <select class="form-select" aria-label="Default select example" id="category" wire:model="selectedCategory">
-                        <option value="">Pilih Category</option>
+                        <option value="">--- Pilih Category ---</option>
                         @foreach ($category as $categories)
                         <option value="{{$categories->id}}">{{$categories->name}}</option>
                         @endforeach
