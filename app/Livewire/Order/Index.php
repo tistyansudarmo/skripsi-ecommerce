@@ -17,7 +17,7 @@ class Index extends Component
         //     $this->status = Transaction::with(['product', 'user'])
         //     ->join('detail_transactions', 'transactions.id', '=', 'detail_transactions.transaction_id')
         //     ->where('user_id', auth()->user()->id)->paginate($this->paginate);
-        // }
+    // }
 
     #[On('updateStatus')]
     public function render()

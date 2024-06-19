@@ -85,9 +85,9 @@
                                                 <div class="mt-3">
                                                     <p class="text-muted mb-2 fw-bold">Quantity</p>
                                                     <div class="quantity-container">
-                                                        <button wire:click="decrement" wire:model="qty" class="quantity-button">-</button>
-                                                        <span class="quantity-display">{{ $qty }}</span>
-                                                        <button wire:click="increment" wire:model="qty" class="quantity-button">+</button>
+                                                        <button wire:click="decrement({{ $item->id }})" class="quantity-button">-</button>
+                                                        <span class="quantity-display">{{ $quantities[$item->id] }}</span>
+                                                        <button wire:click="increment({{ $item->id }})" class="quantity-button">+</button>
                                                     </div>
                                                 </div>
                                             </div>

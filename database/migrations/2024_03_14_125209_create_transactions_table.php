@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->enum('status', ['Sedang Diproses', 'Dalam Pengiriman Jasa Ekspedisi', 'Dibatalkan', 'Sudah Diterima']);
             $table->decimal('total_price');
-            $table->timestamps();
+            $table->date('date');
         });
     }
 

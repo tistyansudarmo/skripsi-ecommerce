@@ -3,13 +3,14 @@
 namespace App\Livewire\Transaction;
 
 use App\Models\detail_transaction;
-use App\Models\Transaction as ModelsTransaction;
+use Livewire\WithPagination;
 use Livewire\Component;
-use Illuminate\Support\Facades\DB;
+
 
 class Transaction extends Component
 {
-
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
     public $transactions;
     public $transactionsId;
     public $newStatus;
@@ -18,19 +19,15 @@ class Transaction extends Component
 
     public function render()
     {
-        return view('livewire.transaction.transaction')->layout('components.layouts.admin-layout');
+        $transactionsPaginate = detail_transaction::paginate(5);
+        return view('livewire.transaction.transaction', ['transactionsPaginate' => $transactionsPaginate])->layout('components.layouts.admin-layout');
     }
 
 
     public function allTransaction() {
-        $this->transactions = detail_transaction::all();
+        $this->transactions = detail_transaction::paginate(5);
     }
 
-
-    public function mount() {
-
-        $this->allTransaction();
-    }
 
     public function viewStatus($transactionId) {
 

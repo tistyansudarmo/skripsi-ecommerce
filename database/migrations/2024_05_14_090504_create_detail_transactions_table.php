@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->decimal('price');
             $table->decimal('total_price');
-            $table->timestamps();
+            $table->date('date');
         });
     }
 

@@ -16,7 +16,7 @@
     .swiper {
         width: 100%;
         height: 60vh;
-        margin-top: 40px;
+        margin-top: -3px;
         }
 
     .swiper-slide {
@@ -28,7 +28,8 @@
     }
 
     .swiper-slide img {
-        width: 80%;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
         display: block;
     }

@@ -46,7 +46,7 @@
             </thead>
             <tbody>
                 <tr>
-                    @foreach ($transactions as $items)
+                    @foreach ($transactionsPaginate as $items)
                     <th scope="row" style="text-align: center; vertical-align: middle;">{{ $loop->iteration }}</th>
                     <td>{{ $items->product->title }}</td>
                     <td class="text-center">{{ $items->quantity }}</td>
@@ -62,5 +62,6 @@
           </table>
         </div>
       </div>
+      <div class="mb-5 mt-3">{{ $transactionsPaginate->links() }}</div>
 
 </div>
