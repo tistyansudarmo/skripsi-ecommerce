@@ -20,9 +20,10 @@ class login extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
             return redirect()->intended('/');
         }
+
+        session()->flash('error', 'Username atau Password anda salah');
 
         return back();
     }

@@ -11,6 +11,7 @@ use App\Livewire\Admin\AdminProducts;
 use App\Livewire\Admin\CreateCategories;
 use App\Livewire\Apriori\ProsesApriori;
 use App\Livewire\Order\Index as Order;
+use App\Livewire\Product\Product;
 use App\Livewire\Transaction\Transaction;
 use Illuminate\Support\Facades\Route;
 
@@ -52,7 +53,7 @@ Route::get('/logout', [login::class, 'logout']);
 
 Route::get('/proses-apriori', ProsesApriori::class)->middleware('auth')->name('Proses-Apriori');
 
-
+Route::get('/product/{title}', Product::class)->middleware('auth')->name('product');
 
 
 

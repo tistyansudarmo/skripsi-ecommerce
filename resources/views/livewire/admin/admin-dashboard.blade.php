@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="col-md-8 col-lg-12 col-xl-11 col-xxl-7">
-                        <h6 class="text-muted font-semibold">Transactions</h6>
+                        <h6 class="text-muted font-semibold">Customers</h6>
                         <h6 class="font-extrabold mb-0">{{ $transactions }}</h6>
                     </div>
                 </div>
@@ -60,8 +60,8 @@
                         </div>
                     </div>
                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                        <h6 class="text-muted font-semibold">Income</h6>
-                        <h6 class="font-extrabold mb-0">112</h6>
+                        <h6 class="text-muted font-semibold">Transactions</h6>
+                        <h6 class="font-extrabold mb-0">10</h6>
                     </div>
                 </div>
             </div>

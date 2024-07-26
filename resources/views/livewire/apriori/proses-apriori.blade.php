@@ -35,9 +35,9 @@
                             <td style="vertical-align: middle;">{{ $item1->product->title }}</td>
                             <td style="vertical-align: middle;" class="text-center">{{ $jumlahTransaksi[$item1->product_id] }}</td>
                             <td style="vertical-align: middle;">JumlahTransaksi / JumlahItem * 100</td>
-                            <td style="vertical-align: middle;">{{ $itemSupport[$item1->id]}}</td>
+                            <td style="vertical-align: middle;">{{ $itemSupport[$item1->product_id]}}</td>
                             <td style="vertical-align: middle;">
-                                @if($itemSupport[$item1->id] >= $minSupport)
+                                @if($itemSupport[$item1->product_id] >= $minSupport)
                                     Terpenuhi
                                 @else
                                     Tidak terpenuhi
@@ -63,16 +63,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($itemSupport[$item1->id] >= $minSupport)
                         @foreach ($itemset1 as $item1)
+                        @if ($itemSupport[$item1->product_id] >= $minSupport)
                                 <tr>
                                     <th scope="row" style="vertical-align: middle;">{{ $loop->iteration }}</th>
                                     <td style="vertical-align: middle;">{{ $item1->product->title }}</td>
                                     <td style="vertical-align: middle;">{{ $jumlahTransaksi[$item1->product_id] }}</td>
-                                    <td style="vertical-align: middle;">{{ $itemSupport[$item1->id] }}</td>
+                                    <td style="vertical-align: middle;">{{ $itemSupport[$item1->product_id] }}</td>
                                 </tr>
-                        @endforeach
                         @endif
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -80,7 +80,7 @@
 
         <h6 class="mb-3">Itemset 2</h6>
         <div>
-            <div class="table-responsive container">
+            <div class="table-responsive container mb-5">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -89,22 +89,59 @@
                             <th scope="col">Item 2</th>
                             <th scope="col">Transaksi</th>
                             <th scope="col">Support</th>
-                            <th scope="col">Keterangan</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($frequentItemsets2 as $index => $itemset)
+                        @php
+                        $itemset1 = isset($itemset[0]) ? App\Models\Product::find($itemset[0])->title : '';
+                        $itemset2 = isset($itemset[1]) ? App\Models\Product::find($itemset[1])->title : '';
+                        @endphp
                             <tr>
-                                <th scope="row" style="vertical-align: middle;"></th>
-                                <td style="vertical-align: middle;"></td>
-                                <td style="vertical-align: middle;"></td>
-                                <td style="vertical-align: middle;"></td>
-                                <td style="vertical-align: middle;"></td>
-                                <td style="vertical-align: middle;">Terpenuhi</td>
-                                <td style="vertical-align: middle;">Tidak terpenuhi</td>
+                                <th scope="row" style="vertical-align: middle;">{{ $index + 1 }}</th>
+                                <td style="vertical-align: middle;">
+                                    {{ $itemset1}}
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    {{ $itemset2}}
+                                </td>
+                                <td style="vertical-align: middle;">
+
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    {{ number_format($itemset2Support[$index], 2) }}
+                                </td>
                             </tr>
+                        @endforeach
+                      </tbody>
+                </table>
+            </div>
+        </div>
+
+         <h6 class="mb-3">Itemset 2 yang lolos</h6>
+        <div>
+            <div class="table-responsive container mb-5">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Item 1</th>
+                            <th scope="col">Item 2</th>
+                            <th scope="col">Transaksi</th>
+                            <th scope="col">Support</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                                <tr>
+                                    <th scope="row" style="vertical-align: middle;"></th>
+                                    <td style="vertical-align: middle;"></td>
+                                    <td style="vertical-align: middle;"></td>
+                                    <td style="vertical-align: middle;"></td>
+                                    <td style="vertical-align: middle;"></td>
+                                </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-    @endif
-</div>
+        @endif
+    </div>

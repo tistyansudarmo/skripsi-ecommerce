@@ -31,7 +31,7 @@
                 <div class="row gy-3 gy-md-4 overflow-hidden">
                   <div class="col-12">
                     <label for="username" class="form-label">Username<span class="text-danger">*</span></label>
-                    <input type="username" class="form-control" name="username" id="username" required>
+                    <input type="text" class="form-control" name="username" id="username" value="{{ old('username') }}" required>
                   </div>
                   <div class="col-12">
                     <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
@@ -42,6 +42,9 @@
                       <button class="btn bsb-btn-xl btn-success" type="submit">Login</button>
                     </div>
                   </div>
+                  @if(session()->has('error'))
+                  <div class="text-danger text-center mt-3">{{ session('error') }}</div>
+                  @endif
                 </div>
               </form>
               <div class="row">

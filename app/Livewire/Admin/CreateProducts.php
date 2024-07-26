@@ -30,7 +30,7 @@ class CreateProducts extends Component
     #[Rule('required')]
     public $selectedCategory;
 
-    #[Rule('mimes:jpeg,jpg,png|max:1024')] // 1MB Max
+    // #[Rule('mimes:jpeg,jpg,png|max:1024')] // 1MB Max
     public $image;
 
 

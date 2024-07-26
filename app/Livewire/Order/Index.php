@@ -24,6 +24,7 @@ class Index extends Component
     {
         return view('livewire.order.index', ['status' => Transaction::with(['product', 'user'])
             ->join('detail_transactions', 'transactions.id', '=', 'detail_transactions.transaction_id')
+            ->orderBy('transactions.id', 'desc')
             ->where('user_id', auth()->user()->id)->paginate($this->paginate)]);
     }
 }
