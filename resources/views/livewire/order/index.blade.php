@@ -1,6 +1,9 @@
 <div>
-    <div>
-        <div class="table-responsive container" style="margin-top: 40px">
+    <div class="table-responsive container" style="margin-top: 100px">
+            @if(session()->has('successCheckout'))
+            <div class="alert alert-success mt-4">{{ session('successCheckout') }}</div>
+            @endif
+            <div>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -16,15 +19,15 @@
             <tbody>
                 @forelse ($status as $item)
                 <tr>
-                    <th scope="row" style="vertical-align: middle;">{{ $loop->iteration }}</th>
+                    <th scope="row" style="vertical-align: middle;">{{ $loop->iteration + $offset }}</th>
                     <td style="vertical-align: middle;">{{ $item->product->title }}</td>
                     <td style="vertical-align: middle;" class="text-center">{{ $item->quantity }}</td>
                     <td style="vertical-align: middle;">Rp{{ number_format($item->total_price, 2, ',', '.') }}</td>
                     <td><img src="{{ asset('storage/' . $item->product->image) }}" alt="" style="width: 100px; height: 100px;"></td>
                     <td style="vertical-align: middle;">
-                        <span class="badge text-bg-warning">{{ $item->status }}</span>
+                        <span class="badge text-dark">{{ $item->status }}</span>
                     </td>
-                    <td style="vertical-align: middle;"></td>
+                    <td style="vertical-align: middle;">?</td>
                 </tr>
                 @empty
                 <tr>
@@ -34,6 +37,6 @@
             </tbody>
           </table>
         </div>
+        <div class="mt-2">{{ $status->links() }}</div>
       </div>
-      <div class="mb-5 mt-2">{{ $status->links() }}</div>
 </div>

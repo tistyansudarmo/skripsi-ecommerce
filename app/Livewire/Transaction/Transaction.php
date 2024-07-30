@@ -14,13 +14,15 @@ class Transaction extends Component
     public $transactions;
     public $transactionsId;
     public $newStatus;
+    public $paginate = 5;
     public $formVisible = false;
 
 
     public function render()
     {
-        $transactionsPaginate = detail_transaction::paginate(5);
-        return view('livewire.transaction.transaction', ['transactionsPaginate' => $transactionsPaginate])->layout('components.layouts.admin-layout');
+        $transactionsPaginate = detail_transaction::orderBy('id', 'desc')->paginate($this->paginate);
+        $offset = ($transactionsPaginate->currentPage() -1) * $this->paginate;
+        return view('livewire.transaction.transaction', ['transactionsPaginate' => $transactionsPaginate, 'offset' => $offset])->layout('components.layouts.admin-layout');
     }
 
 

@@ -47,7 +47,7 @@
             <tbody>
                 <tr>
                     @foreach ($transactionsPaginate as $items)
-                    <th scope="row" style="text-align: center; vertical-align: middle;">{{ $loop->iteration }}</th>
+                    <th scope="row" style="text-align: center; vertical-align: middle;">{{ $loop->iteration + $offset }}</th>
                     <td>{{ $items->product->title }}</td>
                     <td class="text-center">{{ $items->quantity }}</td>
                     <td>Rp{{ number_format($items->total_price, 2, ',', '.') }}</td>

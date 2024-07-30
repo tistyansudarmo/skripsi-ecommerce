@@ -62,7 +62,7 @@ class Product extends Component
         $stock = Stock::where('product_id', $this->selectedProduct->id)->first();
         $stock->quantity -= $this->quantity;
         $stock->save();
-
+        session()->flash('successCheckout', 'Your transaction was successful');
         return redirect('/order');
 
 

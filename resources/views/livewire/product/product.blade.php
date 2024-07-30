@@ -1,58 +1,18 @@
 <div>
-    <style>
-        .quantity-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .quantity-button {
-            background-color: #f8f9fa;
-            border: 1px solid #ced4da;
-
-            border-radius: 0.25rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .quantity-button:hover {
-            background-color: #e2e6ea;
-        }
-
-        .quantity-display {
-            margin: 0 0.75rem;
-        }
-
-        @media (max-width: 768px) {
-        .product-info .col-md-5,
-        .product-info .col-md-4,
-        .product-info .col-md-3  {
-            width: 80%;
-            text-align: center;
-        }
-        .product-info .col-md-3 .quantity-container {
-            justify-content: center;
-        }
-
-        .product-info .col-md-4 .stock{
-            margin-left: 0px !important;
-        }
-     }
-
-    </style>
      <!-- Product section-->
-     <section class="py-2">
+     <section style="margin-top: 140px">
         <div class="container px-4 px-lg-5 my-5">
             <div class="row gx-4 gx-lg-5 align-items-center">
                 <div class="col-md-6">
-                <img class="card-img mb-5 mb-md-0" src="{{ asset('storage/' . $selectedProduct->image) }}">
+                <img class="card-img mb-5 mb-md-0 w-75" src="{{ asset('storage/' . $selectedProduct->image) }}">
                 </div>
                 <div class="col-md-6">
-                    <h1 class="display-5 fw-bolder">{{ $selectedProduct->title }}</h1>
-                    <div class="fs-5 mb-5">
+                    <h1 class="display-1 fw-bolder">{{ $selectedProduct->title }}</h1>
+                    <div class="fs-2 mb-5">
                         <span>Rp{{ number_format($selectedProduct->price,2,",",".") }}</span>
-                        <span class="fs-6 ms-2 opacity-50">Tersisa {{$selectedProduct->stock->quantity}} pcs</span>
+                        <span class="fs-1 ms-2 opacity-50">Tersisa {{$selectedProduct->stock->quantity}} pcs</span>
                     </div>
-                    <p class="lead">{{ $selectedProduct->description }}</p>
+                    <p class="lead fs-1">{{ $selectedProduct->description }}</p>
                     <div class="d-flex">
                         <div class="quantity-container">
                             <button class="quantity-button" wire:click="decrement({{ $selectedProduct->id }})">-</button>
@@ -64,7 +24,7 @@
                             Beli Sekarang
                         </button>
                     </div>
-                    <div class="fs-6 mt-3">
+                    <div class=" mt-3">
                         <span>Total : Rp{{ number_format($totalPrice,2,",",".") }}</span>
                     </div>
                 </div>

@@ -8,10 +8,10 @@
     --font2: "Fira Sans Extra Condensed", sans-serif;
     --font3: "Roboto", sans-serif;
 
-    --btnbg: linear-gradient(90deg, hsla(145, 84%, 73%, 1) 0%, hsla(150, 61%, 48%, 1) 100%);
+    /* --btnbg: #FF9900; */
     --btnfontcolor: rgb(61, 61, 61);
     --btnfontcolorhover: rgb(255, 255, 255);
-    --btnbghover: linear-gradient(90deg, hsla(145, 84%, 73%, 1) 0%, hsla(150, 61%, 48%, 1) 100%);
+    /* --btnbghover: #f7b85a; */
     --btnactivefs: rgb(241, 195, 46);
 
     --label-index: #5bc257;
@@ -205,4 +205,42 @@
 }
 .fa-chevron-circle-right:before {
     color: darkgray;
+}
+
+.quantity-container {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-button {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.quantity-button:hover {
+    background-color: #e2e6ea;
+}
+
+.quantity-display {
+    margin: 0 0.75rem;
+}
+
+@media (max-width: 768px) {
+.product-info .col-md-5,
+.product-info .col-md-4,
+.product-info .col-md-3  {
+    width: 80%;
+    text-align: center;
+}
+.product-info .col-md-3 .quantity-container {
+    justify-content: center;
+}
+
+.product-info .col-md-4 .stock{
+    margin-left: 0px !important;
+}
 }

@@ -1,45 +1,4 @@
-<div class="container">
-    <style>
-        .quantity-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .quantity-button {
-            background-color: #f8f9fa;
-            border: 1px solid #ced4da;
-
-            border-radius: 0.25rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .quantity-button:hover {
-            background-color: #e2e6ea;
-        }
-
-        .quantity-display {
-            margin: 0 0.75rem;
-        }
-
-        @media (max-width: 768px) {
-        .product-info .col-md-5,
-        .product-info .col-md-4,
-        .product-info .col-md-3  {
-            width: 80%;
-            text-align: center;
-        }
-        .product-info .col-md-3 .quantity-container {
-            justify-content: center;
-        }
-
-        .product-info .col-md-4 .stock{
-            margin-left: 0px !important;
-        }
-     }
-
-    </style>
-
+<div class="container" style="margin-top: 120px">
     @if(session()->has('checkout'))
     <div class="alert alert-success mt-4">{{ session('checkout') }}</div>
     @endif

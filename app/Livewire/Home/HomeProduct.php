@@ -49,4 +49,5 @@ class HomeProduct extends Component
         $this->dispatch('addToCart');
         // dd(Cart::get()['products']);
     }
+
 }

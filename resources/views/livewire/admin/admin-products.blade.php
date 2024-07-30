@@ -82,7 +82,7 @@
     <tbody>
         @foreach ($products as $product)
         <tr>
-        <th scope="row">{{ $loop->iteration }}</th>
+        <th scope="row" style="text-align: center; vertical-align: middle;">{{ $loop->iteration + $offset }}</th>
         <td>{{ $product->title }}</td>
         <td>{{ $product->description }}</td>
         <td>Rp{{ number_format($product->price,2,",",".") }}</td>

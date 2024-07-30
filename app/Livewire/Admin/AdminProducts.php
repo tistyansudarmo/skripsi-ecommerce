@@ -59,7 +59,10 @@ class AdminProducts extends Component
 
     public function render()
     {
-        return view('livewire.admin.admin-products', ['products' => $this->search === null ? Product::orderBy('id', 'desc')->paginate($this->paginate) : Product::where('title', 'like', '%' . $this->search . '%' )->orderBy('id', 'desc')->paginate($this->paginate)])->layout('components.layouts.admin-layout');
+        $products = $this->search === null ? Product::orderBy('id', 'desc')->paginate($this->paginate) : Product::where('title', 'like', '%' . $this->search . '%' )->orderBy('id', 'desc')->paginate($this->paginate);
+        $offset = ($products->currentPage()-1) * $this->paginate;
+
+        return view('livewire.admin.admin-products', ['products' => $products, 'offset' => $offset])->layout('components.layouts.admin-layout');
     }
 
     public function formCloseHandler() {
