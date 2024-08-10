@@ -25,9 +25,8 @@ class Transaction extends Component
         return view('livewire.transaction.transaction', ['transactionsPaginate' => $transactionsPaginate, 'offset' => $offset])->layout('components.layouts.admin-layout');
     }
 
-
     public function allTransaction() {
-        $this->transactions = detail_transaction::paginate(5);
+        $this->transactions = detail_transaction::orderBy('id', 'desc')->paginate($this->paginate)->toArray();
     }
 
 

@@ -14,8 +14,8 @@ class login extends Controller
 
     public function auth(Request $request) {
         $credentials = $request->validate([
-            'username' => ['required'],
-            'password' => ['required'],
+            'username' => 'required',
+            'password' => 'required|min:8|max:16',
         ]);
 
         if (Auth::attempt($credentials)) {
@@ -23,9 +23,7 @@ class login extends Controller
             return redirect()->intended('/');
         }
 
-        session()->flash('error', 'Username atau Password anda salah');
-
-        return back();
+        return back()->with('error', 'Username atau Password anda salah')->withInput();
     }
 
     public function logout(Request $request) {

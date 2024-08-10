@@ -8,13 +8,19 @@
     <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.3/components/logins/login-4/assets/css/login-4.css">
     <title>Login</title>
 </head>
+<style>
+    @media (max-width: 767.98px) {
+    .image {
+        display: none !important;
+    }
+}
+</style>
 <body>
-    <!-- Login 4 - Bootstrap Brain Component -->
 <section class="p-3 p-md-4 p-xl-5">
-    <div class="container" style="width: 1000px">
-      <div class="card border-light-subtle shadow-sm">
+    <div class="container d-flex justify-content-center align-items-center">
+      <div class="card border-light-subtle shadow-sm w-75">
         <div class="row g-0">
-          <div class="col-12 col-md-6">
+          <div class="image col-12 col-md-6">
             <img class="img-fluid rounded-start w-100 h-100 object-fit-cover" loading="lazy" src="./images/shopinglogin.jpg" alt="">
           </div>
           <div class="col-12 col-md-6">
@@ -35,13 +41,16 @@
                   </div>
                   <div class="col-12">
                     <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" name="password" id="password" required>
+                    <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" required>
                   </div>
                   <div class="col-12">
                     <div class="d-grid">
                       <button class="btn bsb-btn-xl btn-success" type="submit">Login</button>
                     </div>
                   </div>
+                  @error('password')
+                    <div class="text-danger text-center">{{ $message }}</div>
+                  @enderror
                   @if(session()->has('error'))
                   <div class="text-danger text-center mt-3">{{ session('error') }}</div>
                   @endif
@@ -60,6 +69,6 @@
         </div>
       </div>
     </div>
-  </section>
+</section>
 </body>
 </html>

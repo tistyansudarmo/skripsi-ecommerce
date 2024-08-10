@@ -33,7 +33,7 @@
                         <tr>
                             <th scope="row" style="vertical-align: middle;">{{ $loop->iteration }}</th>
                             <td style="vertical-align: middle;">{{ $item1->product->title }}</td>
-                            <td style="vertical-align: middle;" class="text-center">{{ $jumlahTransaksi[$item1->product_id] }}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{ $totalTransactionItemset1[$item1->product_id] }}</td>
                             <td style="vertical-align: middle;">JumlahTransaksi / JumlahItem * 100</td>
                             <td style="vertical-align: middle;">{{ $itemSupport[$item1->product_id]}}</td>
                             <td style="vertical-align: middle;">
@@ -68,7 +68,7 @@
                                 <tr>
                                     <th scope="row" style="vertical-align: middle;">{{ $loop->iteration }}</th>
                                     <td style="vertical-align: middle;">{{ $item1->product->title }}</td>
-                                    <td style="vertical-align: middle;">{{ $jumlahTransaksi[$item1->product_id] }}</td>
+                                    <td style="vertical-align: middle;">{{ $totalTransactionItemset1[$item1->product_id] }}</td>
                                     <td style="vertical-align: middle;">{{ $itemSupport[$item1->product_id] }}</td>
                                 </tr>
                         @endif
@@ -92,26 +92,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($frequentItemsets2 as $index => $itemset)
-                        @php
-                        $itemset1 = isset($itemset[0]) ? App\Models\Product::find($itemset[0])->title : '';
-                        $itemset2 = isset($itemset[1]) ? App\Models\Product::find($itemset[1])->title : '';
-                        @endphp
-                            <tr>
-                                <th scope="row" style="vertical-align: middle;">{{ $index + 1 }}</th>
-                                <td style="vertical-align: middle;">
-                                    {{ $itemset1}}
-                                </td>
-                                <td style="vertical-align: middle;">
-                                    {{ $itemset2}}
-                                </td>
-                                <td style="vertical-align: middle;">
-
-                                </td>
-                                <td style="vertical-align: middle;">
-                                    {{ number_format($itemset2Support[$index], 2) }}
-                                </td>
-                            </tr>
+                        @foreach ($itemsets2 as $itemset)
+                        <tr>
+                            <th scope="row" style="vertical-align: middle;">{{ $loop->iteration}}</th>
+                            <td style="vertical-align: middle;">{{ $itemset['itemset1'] }}</td>
+                            <td style="vertical-align: middle;">{{ $itemset['itemset2'] }}</td>
+                            <td style="vertical-align: middle;">{{ $itemset['transaksi'] }}</td>
+                            <td style="vertical-align: middle;">{{ $itemset['support'] }}</td>
+                        </tr>
                         @endforeach
                       </tbody>
                 </table>

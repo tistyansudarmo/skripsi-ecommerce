@@ -95,7 +95,7 @@
                                         </table>
                                     </div>
                                     <div class="mt-3 d-grid d-md-block">
-                                        <button class="btn btn-success btn-sm" wire:click="checkout" wire:confirm="Are you sure you want to buy this product?">Checkout</button>
+                                        <button class="btn btn-success btn-sm" wire:click="checkout" wire:confirm="Are you sure want to buy this product?">Checkout</button>
                                     </div>
                                 </div>
                             </div>

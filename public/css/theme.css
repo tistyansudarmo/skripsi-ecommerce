@@ -17516,6 +17516,20 @@ iframe {
   border-bottom-color: #DF6951;
 }
 
+@media (max-width: 767.98px) {
+    .image-home {
+        display: none !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .btn-navbar {
+        display: flex;
+        flex-direction: column;
+        width: 180px;
+    }
+}
+
 /*-----------------------------------------------
 |   User Styles
 -----------------------------------------------*/

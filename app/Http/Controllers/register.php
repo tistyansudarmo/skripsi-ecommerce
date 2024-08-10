@@ -12,15 +12,20 @@ class register extends Controller
     }
 
     public function store(Request $request) {
-        $regist = new User;
-        $regist->username = $request->username;
-        $regist->full_name = $request->full_name;
-        $regist->password = bcrypt($request->password);
-        $regist->no_telepon = $request->no_telepon;
-        $regist->alamat = $request->alamat;
-        $regist->email = $request->email;
 
-        $regist->save();
+        $validated = $request->validate([
+            'username' => 'required|unique:users',
+            'full_name' => 'required',
+            'password' => 'required|min:8|max:16',
+            'no_telepon' => 'required',
+            'alamat' => 'required',
+            'email' => 'required|unique:users'
+        ]);
+
+        $validated['password'] = bcrypt($validated['password']);
+
+        User::create($validated);
+
         return redirect('/login');
     }
 }
