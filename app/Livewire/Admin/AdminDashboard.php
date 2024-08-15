@@ -6,6 +6,7 @@ namespace App\Livewire\Admin;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Models\User;
 use Livewire\Component;
 
 class AdminDashboard extends Component
@@ -13,6 +14,7 @@ class AdminDashboard extends Component
     public $product;
     public $categories;
     public $transactions;
+    public $user;
 
     public function render()
     {
@@ -23,6 +25,7 @@ class AdminDashboard extends Component
         $this->product = Product::all()->count();
         $this->categories = Category::all()->count();
         $this->transactions = Transaction::all()->count();
+        $this->user = User::whereNot('username', 'admin')->count();
     }
 
 

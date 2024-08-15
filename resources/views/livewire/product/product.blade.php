@@ -28,6 +28,9 @@
                         <span>Total : Rp{{ number_format($totalPrice,2,",",".") }}</span>
                     </div>
                 </div>
+                @if(session()->has('errorCheckout'))
+                    <div class="alert alert-danger text-center">{{ session('errorCheckout') }}</div>
+                @endif
             </div>
         </div>
     </section>

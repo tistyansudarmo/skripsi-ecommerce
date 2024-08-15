@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
 
 class login extends Controller
 {
@@ -12,9 +14,28 @@ class login extends Controller
         return view('login.login');
     }
 
+    public function googleRedirect() {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function loginGoogle() {
+
+        $googleUser = Socialite::driver('google')->user();
+
+        $user = User::updateOrCreate([
+            'google_id' => $googleUser->id,
+        ], [
+            'name' => $googleUser->name,
+            'email' => $googleUser->email,
+        ]);
+
+        Auth::login($user);
+        return redirect('/');
+    }
+
     public function auth(Request $request) {
         $credentials = $request->validate([
-            'username' => 'required',
+            'email' => 'required|email:dns,rfc',
             'password' => 'required|min:8|max:16',
         ]);
 
@@ -23,7 +44,7 @@ class login extends Controller
             return redirect()->intended('/');
         }
 
-        return back()->with('error', 'Username atau Password anda salah')->withInput();
+        return back()->with('error', 'Email atau Password anda salah')->withInput();
     }
 
     public function logout(Request $request) {

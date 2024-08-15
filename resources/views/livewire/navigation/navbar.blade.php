@@ -12,7 +12,7 @@
                   <li class="nav-item"><a class="nav-link" aria-current="page" href="/admin" target="_blank">Administrator</a></li>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Halo, {{ Auth::user()->full_name }}!
+                        Halo, {{ Auth::user()->name }}!
                     </a>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="/order">Pesanan saya</a></li>

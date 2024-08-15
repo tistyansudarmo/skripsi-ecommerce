@@ -9,6 +9,8 @@ use App\Models\Transaction;
 use App\Models\Stock;
 use Illuminate\Support\Carbon;
 
+use function Laravel\Prompts\alert;
+
 class Product extends Component
 {
 
@@ -42,6 +44,10 @@ class Product extends Component
     }
 
     public function checkout() {
+        if($this->quantity > $this->selectedProduct->stock->quantity) {
+            session()->flash('errorCheckout', 'The quantity of product is not enough!');
+            return;
+        }
 
         $transaction = new Transaction();
         $transaction->user_id = auth()->user()->id;

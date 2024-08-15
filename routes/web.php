@@ -2,7 +2,6 @@
 
 
 use App\Livewire\Home\HomeProduct;
-use App\Livewire\Shop\Checkout;
 use App\Livewire\Shop\Item;
 use App\Http\Controllers\login;
 use App\Http\Controllers\register;
@@ -14,6 +13,7 @@ use App\Livewire\Order\Index as Order;
 use App\Livewire\Product\Product;
 use App\Livewire\Transaction\Transaction;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -55,5 +55,7 @@ Route::get('/proses-apriori', ProsesApriori::class)->middleware('auth')->name('P
 
 Route::get('/product/{title}', Product::class)->middleware('auth')->name('product');
 
+Route::get('/auth/redirect', [login::class, 'googleRedirect'])->middleware('guest');
 
+Route::get('/auth/google/callback', [login::class, 'loginGoogle'])->middleware('guest');
 

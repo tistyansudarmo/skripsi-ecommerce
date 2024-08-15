@@ -14,12 +14,11 @@ class register extends Controller
     public function store(Request $request) {
 
         $validated = $request->validate([
-            'username' => 'required|unique:users',
-            'full_name' => 'required',
+            'name' => 'required',
+            'email' => 'required|email:dns,rfc|unique:users',
             'password' => 'required|min:8|max:16',
             'no_telepon' => 'required',
             'alamat' => 'required',
-            'email' => 'required|unique:users'
         ]);
 
         $validated['password'] = bcrypt($validated['password']);

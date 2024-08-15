@@ -36,8 +36,8 @@
                 @csrf
                 <div class="row gy-3 gy-md-4 overflow-hidden">
                   <div class="col-12">
-                    <label for="username" class="form-label">Username<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="username" id="username" value="{{ old('username') }}" required>
+                    <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="email" id="email" value="{{ old('email') }}" required>
                   </div>
                   <div class="col-12">
                     <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
@@ -45,8 +45,11 @@
                   </div>
                   <div class="col-12">
                     <div class="d-grid">
-                      <button class="btn bsb-btn-xl btn-success" type="submit">Login</button>
+                      <button class="btn btn-md btn-success" type="submit">Login</button>
                     </div>
+                    <div class="d-grid mt-2">
+                        <a href="auth/redirect" class="btn btn-md btn-warning">Sign in with Google</a>
+                      </div>
                   </div>
                   @error('password')
                     <div class="text-danger text-center">{{ $message }}</div>
