@@ -50,7 +50,7 @@
                         <i class="bi bi-bag-heart"></i>
                         <span>Products</span>
                     </a>
-                    <ul class="submenu ">
+                    <ul class="submenu">
                         <li class="submenu-item">
                             <a href="/admin/products">Create Products</a>
                         </li>

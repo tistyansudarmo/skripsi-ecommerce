@@ -9,7 +9,6 @@ use App\Models\Transaction;
 use App\Models\Stock;
 use Illuminate\Support\Carbon;
 
-use function Laravel\Prompts\alert;
 
 class Product extends Component
 {
@@ -17,9 +16,17 @@ class Product extends Component
     public $selectedProduct;
     public $quantity = 1;
     public $totalPrice;
+    public $alamat;
+    public $no_telepon;
+    public $name;
+    public $email;
 
     public function mount($title)
     {
+        $this->name = auth()->user()->name;
+        $this->alamat = auth()->user()->alamat;
+        $this->no_telepon = auth()->user()->no_telepon;
+        $this->email = auth()->user()->email;
         $this->selectedProduct = ModelsProduct::where('title', $title)->first();
         $this->totalPrice = $this->calculateTotalPrice();
     }
@@ -48,6 +55,14 @@ class Product extends Component
             session()->flash('errorCheckout', 'The quantity of product is not enough!');
             return;
         }
+
+        $user = auth()->user();
+        $user->update([
+            'name' => $this->name,
+            'alamat' => $this->alamat,
+            'no_telepon' => $this->no_telepon,
+            'email' => $this->email
+        ]);
 
         $transaction = new Transaction();
         $transaction->user_id = auth()->user()->id;

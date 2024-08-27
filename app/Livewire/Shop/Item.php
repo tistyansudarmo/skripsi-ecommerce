@@ -14,10 +14,18 @@ class Item extends Component
     public $cart;
     public $totalPrice;
     public $quantities = [];
+    public $alamat;
+    public $no_telepon;
+    public $name;
+    public $email;
 
     public function mount()
     {
         $this->viewCart();
+        $this->name = auth()->user()->name;
+        $this->alamat = auth()->user()->alamat;
+        $this->no_telepon = auth()->user()->no_telepon;
+        $this->email = auth()->user()->email;
     }
 
     public function viewCart()
@@ -93,6 +101,14 @@ class Item extends Component
 
     public function checkout()
     {
+        $user = auth()->user();
+        $user->update([
+            'name' => $this->name,
+            'alamat' => $this->alamat,
+            'no_telepon' => $this->no_telepon,
+            'email' => $this->email
+        ]);
+
         $carts = auth()->user()->cart;
 
         foreach ($carts as $cart) {
@@ -103,30 +119,33 @@ class Item extends Component
                 $this->viewCart();
                 return;
             }
+        }
 
-            $transaction = new Transaction();
-            $transaction->user_id = $cart->user_id;
-            $transaction->total_price = $cart->product->price * $quantity;
-            $transaction->date = Carbon::now()->format('Y-m-d');
-            $transaction->status = 'Sedang Diproses';
-            $transaction->save();
+        $transaction = new Transaction();
+        $transaction->user_id = $cart->user_id;
+        $transaction->total_price = $cart->product->price * $quantity;
+        $transaction->date = Carbon::now()->format('Y-m-d');
+        $transaction->status = 'Sedang Diproses';
+        $transaction->save();
 
+         // Loop melalui Cart dan simpan masing-masing ke dalam detail_transactions
+         foreach ($this->cart as $selectedProduct) {
             $detailTransaction = new detail_transaction();
             $detailTransaction->transaction_id = $transaction->id;
-            $detailTransaction->product_id = $cart->product_id;
+            $detailTransaction->product_id = $selectedProduct->product_id;
             $detailTransaction->quantity = $quantity;
-            $detailTransaction->price = $cart->product->price;
+            $detailTransaction->price = $selectedProduct->product->price;
             $detailTransaction->total_price = $transaction->total_price;
             $detailTransaction->date = Carbon::now()->format('Y-m-d');
             $detailTransaction->save();
 
-            $stock = Stock::where('product_id', $cart->product_id)->first();
+            // Kurangi stok produk
+            $stock = Stock::where('product_id', $selectedProduct->product_id)->first();
             $stock->quantity -= $quantity;
             $stock->save();
         }
 
         CartModel::where('user_id', auth()->user()->id)->delete();
-
         $this->viewCart();
         session()->flash('checkout', 'Your product has been successfully checked out');
         $this->dispatch('removeCart');

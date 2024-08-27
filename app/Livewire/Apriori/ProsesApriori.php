@@ -6,6 +6,7 @@ use App\Models\detail_transaction;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 
 class ProsesApriori extends Component
@@ -17,13 +18,15 @@ class ProsesApriori extends Component
     public $confident;
     public $totalTransactionItemset1;
     public $totalTransactionItemset2;
+    public $totalTransactionItemset3;
     public $totalItem;
     public $fromDate;
     public $toDate;
     public $formVisible = true;
     public $itemsets2;
-    public $frequentItemsets2 = [];
-    public $itemset2Support = [];
+    public $itemsets3;
+    public $passedItems;
+
 
 
     public function generateItemset1() {
@@ -86,11 +89,11 @@ class ProsesApriori extends Component
         // Loop untuk setiap kandidat itemset 2 yang terbentuk
         foreach ($candidateItemsets2 as $candidateItemset) {
             // Menghitung jumlah transaksi yang mengandung pasangan item tersebut
-            $this->totalTransactionItemset2 = detail_transaction::whereHas('product', function ($query) use ($candidateItemset) {
-                $query->whereIn('product_id', $candidateItemset);
-            })
-            ->distinct('transaction_id')
-            ->count('transaction_id');
+            $this->totalTransactionItemset2 = DB::table('detail_transactions as dt1')
+            ->join('detail_transactions as dt2', 'dt1.transaction_id', '=', 'dt2.transaction_id')
+            ->where('dt1.product_id', $candidateItemset[0])
+            ->where('dt2.product_id', $candidateItemset[1])
+            ->count();
 
             // Menghitung support dari itemset 2
             $support = $this->totalTransactionItemset2 / $this->totalItem;
@@ -104,21 +107,64 @@ class ProsesApriori extends Component
                 'itemset1' => $itemset1,  // Menyimpan judul produk pertama
                 'itemset2' => $itemset2,  // Menyimpan judul produk kedua
                 'transaksi' => $this->totalTransactionItemset2, // Menyimpan hasil perhitungan transaksi
-                'support' => $support    // Menyimpan nilai support
+                'support' => $support,    // Menyimpan nilai support
+                'product_id' => $candidateItemset,
             ];
+
         }
     }
 
+    public function generateItemset3() {
+        // Menggabungkan Itemsets 2 dengan item yang tersisa untuk menghasilkan kandidat Itemsets 3
+        $candidateItemsets3 = [];
+        foreach ($this->itemsets2 as $itemset2) {
+            foreach ($this->itemset1 as $item1) {
+                if (!in_array($item1->product_id, $itemset2['product_id'])) {
+                    $newItemset = array_merge($itemset2['product_id'], [$item1->product_id]);
+                    sort($newItemset);
+                    $candidateItemsets3[] = $newItemset;
+                }
+            }
+        }
+
+        // Menghapus duplikat kandidat Itemsets 3
+        $candidateItemsets3 = array_unique($candidateItemsets3, SORT_REGULAR);
+
+        // Filter kandidat Itemsets 3 berdasarkan nilai support dan tambahkan ke Itemset 3 yang final
+        $this->itemsets3 = [];
+        foreach ($candidateItemsets3 as $candidateItemset) {
+            $totalTransactionItemset3 = DB::table('detail_transactions as dt1')
+                ->join('detail_transactions as dt2', 'dt1.transaction_id', '=', 'dt2.transaction_id')
+                ->join('detail_transactions as dt3', 'dt1.transaction_id', '=', 'dt3.transaction_id')
+                ->where('dt1.product_id', $candidateItemset[0])
+                ->where('dt2.product_id', $candidateItemset[1])
+                ->where('dt3.product_id', $candidateItemset[2])
+                ->count();
+
+            $support = $totalTransactionItemset3 / $this->totalItem;
+            if ($support >= $this->minSupport) {
+                $this->itemsets3[] = [
+                    'itemset1' => Product::find($candidateItemset[0])->title,
+                    'itemset2' => Product::find($candidateItemset[1])->title,
+                    'itemset3' => Product::find($candidateItemset[2])->title,
+                    'transaksi' => $totalTransactionItemset3,
+                    'support' => $support
+                ];
+            }
+        }
+    }
 
     public function mount() {
         $this->generateItemset1();
         $this->generateItemset2();
+        $this->generateItemset3();
     }
 
     public function save() {
         $this->validate();
         $this->generateItemset1();
         $this->generateItemset2();
+        $this->generateItemset3();
         $this->formVisible = false;
     }
 

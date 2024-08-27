@@ -25,7 +25,7 @@ class AdminDashboard extends Component
         $this->product = Product::all()->count();
         $this->categories = Category::all()->count();
         $this->transactions = Transaction::all()->count();
-        $this->user = User::whereNot('username', 'admin')->count();
+        $this->user = User::whereNot('name', 'admin')->count();
     }
 
 

@@ -67,6 +67,7 @@ class AdminProducts extends Component
 
     public function formCloseHandler() {
         $this->formVisible = false;
+        $this->reset(['title','description','price','quantity','selectedCategory','image','imageOld']);
     }
 
     public function productStoreHandler() {

@@ -17,7 +17,7 @@
                       <form wire:submit.prevent="update">
                           <div class="mb-3">
                               <label for="title" class="form-label">Title</label>
-                              <input type="text" class="form-control" id="title" aria-describedby="emailHelp" wire:model="title">
+                              <input type="text" class="form-control" id="title" wire:model="title">
                               <div class="text-danger">@error('title') {{ $message }} @enderror</div>
                           </div>
                           <div class="mb-3">

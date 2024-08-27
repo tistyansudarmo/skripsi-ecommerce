@@ -26,36 +26,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::get('/', HomeProduct::class)->name('home');
 
-Route::get('/admin', AdminDashboard::class)->middleware('auth')->name('dashboard');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [login::class, 'view'])->name('login');
+    Route::get('/register', [register::class, 'view']);
+    Route::get('/auth/redirect', [login::class, 'googleRedirect']);
+    Route::get('/auth/google/callback', [login::class, 'loginGoogle']);
+    Route::post('/login', [login::class, 'auth']);
+    Route::post('/register', [register::class, 'store']);
+});
 
-Route::get('/admin/products', AdminProducts::class)->middleware('auth')->name('admin/products');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin', AdminDashboard::class)->name('dashboard');
+    Route::get('/admin/products', AdminProducts::class)->name('admin/products');
+    Route::get('/admin/category', CreateCategories::class)->name('admin/categories');
+    Route::get('/cart', Item::class);
+    Route::get('/order', Order::class);
+    Route::get('/transaction', Transaction::class)->name('admin/transactions');
+    Route::get('/proses-apriori', ProsesApriori::class)->name('Proses-Apriori');
+    Route::get('/product/{title}', Product::class)->name('product');
+    Route::get('/logout', [login::class, 'logout']);
+});
 
-Route::get('/admin/category', CreateCategories::class)->middleware('auth')->name('admin/categories');
 
-Route::get('/cart', Item::class)->middleware('auth');
 
-Route::get('/order', Order::class)->middleware('auth');
 
-Route::get('/transaction', Transaction::class)->middleware('auth')->name('admin/transactions');
 
-Route::get('/login', [login::class, 'view'])->middleware('guest')->name('login');
 
-Route::post('/login', [login::class, 'auth']);
 
-Route::get('/register', [register::class, 'view'])->middleware('guest');
 
-Route::post('/register', [register::class, 'store']);
 
-Route::get('/logout', [login::class, 'logout']);
-
-Route::get('/proses-apriori', ProsesApriori::class)->middleware('auth')->name('Proses-Apriori');
-
-Route::get('/product/{title}', Product::class)->middleware('auth')->name('product');
-
-Route::get('/auth/redirect', [login::class, 'googleRedirect'])->middleware('guest');
-
-Route::get('/auth/google/callback', [login::class, 'loginGoogle'])->middleware('guest');
 

@@ -3,6 +3,7 @@
 namespace App\Livewire\Home;
 
 use App\Models\Cart;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -13,6 +14,7 @@ class HomeProduct extends Component
     use WithPagination;
     public $paginate = 8;
     public $search;
+    public $categoryId;
     protected $paginationTheme = 'bootstrap';
 
     protected $queryString = [
@@ -22,14 +24,20 @@ class HomeProduct extends Component
 
     public function render()
     {
+        $products = $this->search === null ?
+        Product::with('category')
+        ->where('category_id', 'like', '%' . $this->categoryId . '%')
+        ->orderBy('id', 'desc')->paginate($this->paginate) :
+        Product::with('category')
+        ->where('title', 'like', '%' . $this->search . '%')
+        ->orderBy('id', 'desc')
+        ->paginate($this->paginate);
+
+        $categories = Category::all();
+
         return view('livewire.home.home-product', [
-            'products' => $this->search === null ?
-                Product::with('category')
-                ->orderBy('id', 'desc')->paginate($this->paginate) :
-                Product::with('category')
-                ->where('title', 'like', '%' . $this->search . '%')
-                    ->orderBy('id', 'desc')
-                    ->paginate($this->paginate)
+            'products' => $products,
+            'categories' => $categories
         ]);
 
     }
@@ -39,6 +47,7 @@ class HomeProduct extends Component
         if (!Auth::check()) {
             return redirect('/login');
         }
+
         $product = Product::find($productId);
 
         // Simpan ke database

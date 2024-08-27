@@ -89,6 +89,7 @@
                             <th scope="col">Item 2</th>
                             <th scope="col">Transaksi</th>
                             <th scope="col">Support</th>
+                            <th scope="col">Keterangan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -99,6 +100,13 @@
                             <td style="vertical-align: middle;">{{ $itemset['itemset2'] }}</td>
                             <td style="vertical-align: middle;">{{ $itemset['transaksi'] }}</td>
                             <td style="vertical-align: middle;">{{ $itemset['support'] }}</td>
+                            <td style="vertical-align: middle;">
+                                @if ($itemset['support'] >= $minSupport)
+                                Terpenuhi
+                                @else
+                                Tidak Terpenuhi
+                                @endif
+                            </td>
                         </tr>
                         @endforeach
                       </tbody>
@@ -106,7 +114,7 @@
             </div>
         </div>
 
-         <h6 class="mb-3">Itemset 2 yang lolos</h6>
+        <h6 class="mb-3">Itemset 2 yang lolos</h6>
         <div>
             <div class="table-responsive container mb-5">
                 <table class="table table-striped">
@@ -120,13 +128,87 @@
                         </tr>
                     </thead>
                     <tbody>
-                                <tr>
-                                    <th scope="row" style="vertical-align: middle;"></th>
-                                    <td style="vertical-align: middle;"></td>
-                                    <td style="vertical-align: middle;"></td>
-                                    <td style="vertical-align: middle;"></td>
-                                    <td style="vertical-align: middle;"></td>
-                                </tr>
+                            @foreach ($itemsets2 as $itemset)
+                            @if ($itemset['support'] >= $minSupport)
+                            <tr>
+                                <th scope="row" style="vertical-align: middle;">{{ $loop->iteration}}</th>
+                                <td style="vertical-align: middle;">{{ $itemset['itemset1'] }}</td>
+                                <td style="vertical-align: middle;">{{ $itemset['itemset2'] }}</td>
+                                <td style="vertical-align: middle;">{{ $itemset['transaksi'] }}</td>
+                                <td style="vertical-align: middle;">{{ $itemset['support'] }}</td>
+                            </tr>
+                            @endif
+                            @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h6 class="mb-3">Itemset 3</h6>
+        <div>
+            <div class="table-responsive container mb-5">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Item 1</th>
+                            <th scope="col">Item 2</th>
+                            <th scope="col">Item 3</th>
+                            <th scope="col">Transaksi</th>
+                            <th scope="col">Support</th>
+                            <th scope="col">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($itemsets3 as $itemset3)
+                            <tr>
+                                <th scope="row" style="vertical-align: middle;">{{ $loop->iteration }}</th>
+                                <td style="vertical-align: middle;">{{ $itemset3['itemset1'] }}</td>
+                                <td style="vertical-align: middle;">{{ $itemset3['itemset2'] }}</td>
+                                <td style="vertical-align: middle;">{{ $itemset3['itemset3'] }}</td>
+                                <td style="vertical-align: middle;">{{ $itemset3['transaksi'] }}</td>
+                                <td style="vertical-align: middle;">{{ $itemset3['support'] }}</td>
+                                <td style="vertical-align: middle;">
+                                    @if ($itemset3['support'] >= $minSupport)
+                                    Terpenuhi
+                                    @else
+                                    Tidak Terpenuhi
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h6 class="mb-3">Itemset 3 yang lolos</h6>
+        <div>
+            <div class="table-responsive container mb-5">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Item 1</th>
+                            <th scope="col">Item 2</th>
+                            <th scope="col">Item 3</th>
+                            <th scope="col">Transaksi</th>
+                            <th scope="col">Support</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($itemsets3 as $itemset3)
+                        @if ($itemset3['support'] >= $minSupport)
+                        <tr>
+                            <th scope="row" style="vertical-align: middle;">{{ $loop->iteration }}</th>
+                            <td style="vertical-align: middle;">{{ $itemset3['itemset1'] }}</td>
+                            <td style="vertical-align: middle;">{{ $itemset3['itemset2'] }}</td>
+                            <td style="vertical-align: middle;">{{ $itemset3['itemset3'] }}</td>
+                            <td style="vertical-align: middle;">{{ $itemset3['transaksi'] }}</td>
+                            <td style="vertical-align: middle;">{{ $itemset3['support'] }}</td>
+                        </tr>
+                        @endif
+                        @endforeach
                     </tbody>
                 </table>
             </div>

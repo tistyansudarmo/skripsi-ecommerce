@@ -30,10 +30,10 @@
                   </ul>
                 <div class="d-flex ms-lg-4 btn-navbar">
                  @if (Auth::check())
-                 <a class="btn btn-warning" style="font-size: 12px" href="/logout">Logout</a>
+                 <a class="btn btn-warning btn-navbar" style="font-size: 12px" href="/logout">Logout</a>
                  @else
-                 <a class="btn btn-secondary-outline" href="/login" style="font-size: 13px">Sign In</a>
-                 <a class="btn btn-warning ms-3" href="/register" style="font-size: 13px">Register</a>
+                 <a class="btn btn-secondary-outline btn-navbar" href="/login" style="font-size: 13px">Sign In</a>
+                 <a class="btn btn-warning ms-3 btn-register" href="/register" style="font-size: 13px">Register</a>
                  @endif
                 </div>
               </div>

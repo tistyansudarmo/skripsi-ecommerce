@@ -24,7 +24,6 @@ class login extends Controller
 
         $user = User::updateOrCreate([
             'google_id' => $googleUser->id,
-        ], [
             'name' => $googleUser->name,
             'email' => $googleUser->email,
         ]);

@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="{{asset('css/card.css')}}" rel="stylesheet" />
         <link href="{{asset('css/category.css') }}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;family=Volkhov:wght@700&amp;display=swap" rel="stylesheet">
         <link href="{{ asset('css/theme.css') }}" rel="stylesheet" />
@@ -15,7 +16,7 @@
         @livewire('navigation.navbar')
         @if (request()->route()->getName() == 'home')
         <main class="main" id="top">
-            <section class="pt-7" style="margin-top: 120px">
+            <section class="pt-7 homeDescription" style="margin-top: 120px">
               <div class="container">
                 <div class="row align-items-center">
                   <div class="col-md-6 text-md-start text-center py-6">
@@ -26,7 +27,7 @@
                     </div>
                   </div>
                   <div class="col-md-6 text-end">
-                    <img class="pt-7 pt-md-0 img-fluid image-home" src="assets/images/hero/hero-img.png" alt="" />
+                    <img class="pt-7 pt-md-0 img-fluid image-home" src="assets/images/hero/hero-img.png" alt="hero-img"/>
                   </div>
                 </div>
               </div>
@@ -36,6 +37,8 @@
         <section>
             {{ $slot }}
         </section>
+        @livewire('navigation.navbar-bottom')
+
         <script src="{{ asset('js/scripts.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <script>

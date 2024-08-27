@@ -54,7 +54,7 @@
                     <td><img src="{{ asset('storage/'. $items->product->image) }}" alt="" style="width: 100px; height: 100px;"></td>
                     <td class="text-center">{{ $items->transaction->status}}</td>
                     <td></td>
-                    <td>{{ $items->transaction->user->full_name }}</td>
+                    <td>{{ $items->transaction->user->name }}</td>
                     <td><button class="btn btn-warning mb-3 mt-3 btn-sm" wire:click="viewStatus('{{ $items->id }}')" style="z-index: 5000">Edit</button></td>
                 </tr>
                     @endforeach

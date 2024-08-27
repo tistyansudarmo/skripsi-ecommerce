@@ -13,10 +13,14 @@
     .image {
         display: none !important;
     }
+
+    .section-login {
+        margin-top: 75px;
+    }
 }
 </style>
 <body>
-<section class="p-3 p-md-4 p-xl-5">
+<section class="p-3 p-md-4 p-xl-5 section-login">
     <div class="container d-flex justify-content-center align-items-center">
       <div class="card border-light-subtle shadow-sm w-75">
         <div class="row g-0">
@@ -47,7 +51,7 @@
                     <div class="d-grid">
                       <button class="btn btn-md btn-success" type="submit">Login</button>
                     </div>
-                    <div class="d-grid mt-2">
+                    <div class="d-grid mt-3">
                         <a href="auth/redirect" class="btn btn-md btn-warning">Sign in with Google</a>
                       </div>
                   </div>
