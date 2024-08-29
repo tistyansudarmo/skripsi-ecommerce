@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-6 mt-3 mb-3">
                 <select class="form-select form-select-sm w-50" aria-label="Small select example" wire:model.live="categoryId">
-                    <option value="">Categories</option>
+                    <option value="">All Categories</option>
                     @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach

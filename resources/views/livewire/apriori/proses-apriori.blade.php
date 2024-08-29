@@ -5,6 +5,10 @@
         <input type="text" class="form-control" id="support" wire:model="minSupport" required>
         <div class="text-danger">@error('minSupport') {{ $message }} @enderror</div>
 
+        <label for="confidence" class="form-label mt-3">Minimum Confidence<span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="confidence" wire:model="minConfidence">
+        <div class="text-danger">@error('minConfidence') {{ $message }} @enderror</div>
+
         <label for="from" class="form-label mt-3">From</label>
         <input type="date" class="form-control" id="from" wire:model="fromDate" required>
         <label for="to" class="form-label mt-3">To</label>
@@ -209,6 +213,30 @@
                         </tr>
                         @endif
                         @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h6 class="mb-3">Association Rules</h6>
+        <div>
+            <div class="table-responsive container mb-5">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Rules</th>
+                            <th scope="col">Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($associations as $association)
+                        <tr>
+                            <th scope="row" style="vertical-align: middle;">{{ $loop->iteration }}</th>
+                            <td>{{ $association['rule'] }}</td>
+                            <td></td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

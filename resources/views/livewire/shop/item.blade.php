@@ -84,26 +84,14 @@
                         <div class="mt-lg-0 mt-3 mb-4">
                             <div class="card border shadow-none">
                                 <div class="card-header bg-transparent border-bottom py-3 px-4">
-                                    <p class="font-size-16 mb-0">Order Summary</p>
+                                    <p class="font-size-16 mb-0">Keranjang Belanja</p>
                                 </div>
                                 <div class="card-body p-4 pt-2">
                                     <div class="table-responsive">
                                         <table class="table mb-0">
                                             <tbody>
-                                                <tr>
-                                                    <td>Sub Total</td>
-                                                    <td class="text-end">Rp{{ number_format($totalPrice, 2, ",", ".") }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Discount</td>
-                                                    <td class="text-end">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Alamat</td>
-                                                    <td class="text-end">{{ auth()->user()->alamat }}</td>
-                                                </tr>
                                                 <tr class="bg-light">
-                                                    <th>Total :</th>
+                                                    <th>Total Harga</th>
                                                     <td class="text-end">
                                                         <span class="fw-bold">
                                                             Rp{{ number_format($totalPrice, 2, ",", ".") }}

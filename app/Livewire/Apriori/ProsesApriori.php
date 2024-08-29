@@ -26,7 +26,7 @@ class ProsesApriori extends Component
     public $itemsets2;
     public $itemsets3;
     public $passedItems;
-
+    public $associations = [];
 
 
     public function generateItemset1() {
@@ -154,10 +154,42 @@ class ProsesApriori extends Component
         }
     }
 
+    public function generateAssociationRulesFromItemset3()
+    {
+        $this->associations = [];
+
+         // Pastikan kita memiliki itemsets3 yang lolos seleksi
+        if (empty($this->itemsets3)) {
+            return; // Keluar jika itemsets3 kosong
+        }
+
+        // Ambil itemset pertama dari itemsets3
+        $itemset = $this->itemsets3[0];
+
+        // Mendefinisikan item-item dari itemset3
+        $item1 = $itemset['itemset1'];
+        $item2 = $itemset['itemset2'];
+        $item3 = $itemset['itemset3'];
+
+        // Buat asosiasi seperti yang diinginkan
+        // Buat asosiasi seperti yang diinginkan dengan support dan confidence
+        $this->associations[] = ['rule' => "$item1 -> $item2"];
+        $this->associations[] = ['rule' => "$item2 -> $item1"];
+        $this->associations[] = ['rule' => "$item1 -> $item3"];
+        $this->associations[] = ['rule' => "$item3 -> $item1"];
+        $this->associations[] = ['rule' => "$item2 -> $item3"];
+        $this->associations[] = ['rule' => "$item3 -> $item2"];
+        $this->associations[] = ['rule' => "$item1, $item2 -> $item3"];
+        $this->associations[] = ['rule' => "$item1, $item3 -> $item2"];
+        $this->associations[] = ['rule' => "$item2, $item3 -> $item1"];
+    }
+
+
     public function mount() {
         $this->generateItemset1();
         $this->generateItemset2();
         $this->generateItemset3();
+        $this->generateAssociationRulesFromItemset3();
     }
 
     public function save() {
@@ -165,6 +197,7 @@ class ProsesApriori extends Component
         $this->generateItemset1();
         $this->generateItemset2();
         $this->generateItemset3();
+        $this->generateAssociationRulesFromItemset3();
         $this->formVisible = false;
     }
 
