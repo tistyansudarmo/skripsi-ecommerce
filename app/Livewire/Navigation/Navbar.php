@@ -25,8 +25,8 @@ class Navbar extends Component
     #[On('removeCart')]
     public function mount()
     {
-        if(Auth::check()) {
-            $this->cartTotal = Cart::where('user_id', auth()->user()->id)->count();
+        if(Auth::guard('customers')->check()) {
+            $this->cartTotal = Cart::where('customer_id', Auth::guard('customers')->user()->id)->count();
         }
     }
 

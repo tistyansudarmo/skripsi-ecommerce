@@ -54,10 +54,31 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                   </div>
-                  <div class="col-md-12 col-12">
-                    <label for="alamat" class="form-label">Alamat <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" id="alamat" required>
-                    @error('alamat')
+                  <div class="col-md-6 col-12">
+                    <label for="address_street" class="form-label">Alamat<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="address_street" id="address_street" required>
+                    @error('address_street')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label for="province" class="form-label">Provinsi<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control @error('province') is-invalid @enderror" name="province" id="province" required>
+                    @error('province')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label for="city" class="form-label">City<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control @error('city') is-invalid @enderror" name="city" id="city" required>
+                    @error('city')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label for="postal_code" class="form-label">Kode Pos<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control @error('postal_code') is-invalid @enderror" name="postal_code" id="postal_code" required>
+                    @error('postal_code')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                   </div>

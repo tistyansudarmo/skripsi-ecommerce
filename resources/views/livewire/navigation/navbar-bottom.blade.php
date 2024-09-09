@@ -26,8 +26,11 @@
             <li class="nav-item">
                 <div class="d-flex flex-column align-items-center">
                     @if (Auth::check())
-                        <a class="nav-link" href="/logout" style="font-size: 24px; margin-bottom:-12px"><i class="bi bi-box-arrow-right"></i></a>
-                        <span style="font-size: 12px;">Logout</span>
+                    <form action="{{ route('logout') }}" method="post">
+                        @csrf
+                        <button class="nav-link" style="font-size: 24px; margin-bottom:-16px"><i class="bi bi-box-arrow-right"></i></button>
+                        <span style="font-size: 12px;  margin-left:6px">Logout</span>
+                    </form>
                     @else
                         <a class="nav-link" href="/login" style="font-size: 24px; margin-bottom:-12px"><i class="bi bi-box-arrow-in-right"></i></a>
                         <span style="font-size: 12px;">Login</span>

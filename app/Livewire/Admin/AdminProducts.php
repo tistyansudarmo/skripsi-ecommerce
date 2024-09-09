@@ -27,7 +27,7 @@ class AdminProducts extends Component
     public $selectedCategory;
 
     #[Rule('required')]
-    public $title;
+    public $name;
 
     #[Rule('required')]
     public $description;
@@ -37,6 +37,9 @@ class AdminProducts extends Component
 
     #[Rule('required')]
     public $quantity;
+
+    #[Rule('required')]
+    public $size;
 
     public $image;
 
@@ -59,7 +62,7 @@ class AdminProducts extends Component
 
     public function render()
     {
-        $products = $this->search === null ? Product::orderBy('id', 'desc')->paginate($this->paginate) : Product::where('title', 'like', '%' . $this->search . '%' )->orderBy('id', 'desc')->paginate($this->paginate);
+        $products = $this->search === null ? Product::orderBy('id', 'desc')->paginate($this->paginate) : Product::where('name', 'like', '%' . $this->search . '%' )->orderBy('id', 'desc')->paginate($this->paginate);
         $offset = ($products->currentPage()-1) * $this->paginate;
 
         return view('livewire.admin.admin-products', ['products' => $products, 'offset' => $offset])->layout('components.layouts.admin-layout');
@@ -67,7 +70,7 @@ class AdminProducts extends Component
 
     public function formCloseHandler() {
         $this->formVisible = false;
-        $this->reset(['title','description','price','quantity','selectedCategory','image','imageOld']);
+        $this->reset(['name','description','price','quantity','selectedCategory','image','imageOld', 'size']);
     }
 
     public function productStoreHandler() {
@@ -91,11 +94,12 @@ class AdminProducts extends Component
             $this->quantity = 0; // Atau sesuaikan dengan nilai default yang sesuai.
         }
         $this->productId = $product['id'];
-        $this->title = $product['title'];
+        $this->name = $product['name'];
         $this->description = $product['description'];
         $this->price = $product['price'];
         $this->selectedCategory = $product['category_id'];
         $this->imageOld = asset('storage/' .  $product['image']);
+        $this->size = $product['size'];
 
     }
 
@@ -111,10 +115,11 @@ class AdminProducts extends Component
         }
 
         $product->update([
-            'title' => $this->title,
+            'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
-            'category_id' => $this->selectedCategory
+            'category_id' => $this->selectedCategory,
+            'size' => $this->size
         ]);
 
         // Periksa apakah ada model Stock terkait dengan produk

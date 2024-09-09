@@ -10,7 +10,7 @@
                     <h1 class="display-1 fw-bolder title-product">{{ ucwords($selectedProduct->title) }}</h1>
                     <div class="fs-2 mb-5 detail-desc">
                         <span>Rp{{ number_format($selectedProduct->price,2,",",".") }}</span>
-                        <span class="fs-1 ms-2 opacity-50">Tersisa {{$selectedProduct->stock->quantity}} pcs</span>
+                        <span class="fs-1 ms-2 opacity-50">Tersisa {{$selectedProduct->stock->quantity ?? 0}} pcs</span>
                     </div>
                     <p class="lead fs-1 detail-desc">{{ ucwords($selectedProduct->description) }}</p>
                     <div class="d-flex detail-desc">

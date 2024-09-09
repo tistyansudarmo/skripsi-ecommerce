@@ -16,18 +16,18 @@
             @foreach ($products as $product)
             <div class="col hp mb-3">
             <div class="card h-100 shadow-sm">
-                <a href="/product/{{ $product->title }}">
+                <a href="/product/{{ $product->name }}">
                 <img src="{{ asset('storage/' . $product->image) }}" loading="lazy" class="card-img-top" alt="product-image" />
                 </a>
                 <div class="label-top shadow-sm">
-                {{ $product->title }}
+                {{ $product->name }}
                 </div>
 
                 <div class="card-body">
                 <div class="clearfix mb-3">
                     <span class="float-start badge rounded-pill bg-light text-dark">Rp{{ number_format($product->price,2,",",".") }}</span>
                 </div>
-                <h5 class="card-title">
+                <h5 class="card-title" style="font-size: 0.92rem">
                     {{ $product->description }}
                 </h5>
 

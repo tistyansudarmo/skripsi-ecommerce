@@ -3,9 +3,9 @@
         <div class="col">
             <form wire:submit.prevent="save">
                 <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" aria-describedby="emailHelp" wire:model="title">
-                    <div class="text-danger">@error('title') {{ $message }} @enderror</div>
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" aria-describedby="emailHelp" wire:model="name">
+                    <div class="text-danger">@error('name') {{ $message }} @enderror</div>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
@@ -22,6 +22,11 @@
                     <input type="number" class="form-control" id="quantity" wire:model="quantity">
                     <div class="text-danger">@error('quantity') {{ $message }} @enderror</div>
                 </div>
+                <div class="mb-3">
+                    <label for="size" class="form-label">Size</label>
+                    <input type="text" class="form-control" id="size" wire:model="size">
+                    <div class="text-danger">@error('size') {{ $message }} @enderror</div>
+                  </div>
                 <div class="mb-3">
                     <label for="quantity" class="form-label">Category</label>
                     <select class="form-select" aria-label="Default select example" id="category" wire:model="selectedCategory">

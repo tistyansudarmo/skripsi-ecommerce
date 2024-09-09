@@ -29,7 +29,7 @@ class HomeProduct extends Component
         ->where('category_id', 'like', '%' . $this->categoryId . '%')
         ->orderBy('id', 'desc')->paginate($this->paginate) :
         Product::with('category')
-        ->where('title', 'like', '%' . $this->search . '%')
+        ->where('name', 'like', '%' . $this->search . '%')
         ->orderBy('id', 'desc')
         ->paginate($this->paginate);
 
@@ -44,7 +44,7 @@ class HomeProduct extends Component
 
     public function addToCart($productId)
     {
-        if (!Auth::check()) {
+        if (!Auth::guard('customers')->check()) {
             return redirect('/login');
         }
 
@@ -52,7 +52,7 @@ class HomeProduct extends Component
 
         // Simpan ke database
         $cartModel = new Cart;
-        $cartModel->user_id = auth()->user()->id;
+        $cartModel->customer_id = Auth::guard('customers')->user()->id;
         $cartModel->product_id = $product->id;
         $cartModel->save();
         $this->dispatch('addToCart');

@@ -26,8 +26,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', HomeProduct::class)->name('home');
 
+
+
+Route::get('/', HomeProduct::class)->name('home');
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [login::class, 'view'])->name('login');
     Route::get('/register', [register::class, 'view']);
@@ -37,17 +39,23 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/register', [register::class, 'store']);
 });
 
-Route::middleware(['auth'])->group(function () {
+
+Route::middleware(['auth:users'])->group(function () {
     Route::get('/admin', AdminDashboard::class)->name('dashboard');
     Route::get('/admin/products', AdminProducts::class)->name('admin/products');
     Route::get('/admin/category', CreateCategories::class)->name('admin/categories');
-    Route::get('/cart', Item::class);
-    Route::get('/order', Order::class);
     Route::get('/transaction', Transaction::class)->name('admin/transactions');
     Route::get('/proses-apriori', ProsesApriori::class)->name('Proses-Apriori');
-    Route::get('/product/{title}', Product::class)->name('product');
-    Route::get('/logout', [login::class, 'logout']);
+    Route::get('transactions/export/', [Transaction::class, 'export']);
 });
+
+Route::middleware(['auth:customers'])->group(function () {
+    Route::get('/cart', Item::class);
+    Route::get('/order', Order::class);
+    Route::get('/product/{name}', Product::class)->name('product');
+});
+
+Route::post('/logout', [login::class, 'logout'])->middleware('auth:users,customers')->name('logout');
 
 
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class register extends Controller
@@ -15,15 +15,18 @@ class register extends Controller
 
         $validated = $request->validate([
             'name' => 'required',
-            'email' => 'required|email:dns,rfc|unique:users',
+            'email' => 'required|email:dns,rfc|unique:customers',
             'password' => 'required|min:8|max:16',
             'no_telepon' => 'required',
-            'alamat' => 'required',
+            'address_street' => 'required',
+            'province' => 'required',
+            'city' => 'required',
+            'postal_code' => 'required'
         ]);
 
         $validated['password'] = bcrypt($validated['password']);
 
-        User::create($validated);
+        Customer::create($validated);
 
         return redirect('/login');
     }

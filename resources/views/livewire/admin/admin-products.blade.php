@@ -16,9 +16,9 @@
                   <div class="col">
                       <form wire:submit.prevent="update">
                           <div class="mb-3">
-                              <label for="title" class="form-label">Title</label>
-                              <input type="text" class="form-control" id="title" wire:model="title">
-                              <div class="text-danger">@error('title') {{ $message }} @enderror</div>
+                              <label for="name" class="form-label">Name</label>
+                              <input type="text" class="form-control" id="name" wire:model="name">
+                              <div class="text-danger">@error('name') {{ $message }} @enderror</div>
                           </div>
                           <div class="mb-3">
                               <label for="description" class="form-label">Description</label>
@@ -34,6 +34,11 @@
                               <label for="quantity" class="form-label">Quantity</label>
                               <input type="number" class="form-control" id="quantity" wire:model="quantity">
                               <div class="text-danger">@error('quantity') {{ $message }} @enderror</div>
+                          </div>
+                          <div class="mb-3">
+                            <label for="size" class="form-label">Size</label>
+                            <input type="text" class="form-control" id="size" wire:model="size">
+                            <div class="text-danger">@error('size') {{ $message }} @enderror</div>
                           </div>
                           <div class="mb-3">
                             <label for="category" class="form-label">Category</label>
@@ -70,11 +75,12 @@
     <thead>
         <tr>
         <th scope="col">No</th>
-        <th scope="col">Title</th>
+        <th scope="col">Name</th>
         <th scope="col">Description</th>
         <th scope="col">Price</th>
         <th scope="col">Image</th>
         <th scope="col">Quantity</th>
+        <th scope="col">Size</th>
         <th scope="col">Category</th>
         <th scope="col" class="text-center">Action</th>
         </tr>
@@ -83,7 +89,7 @@
         @foreach ($products as $product)
         <tr>
         <th scope="row" style="text-align: center; vertical-align: middle;">{{ $loop->iteration + $offset }}</th>
-        <td>{{ $product->title }}</td>
+        <td>{{ $product->name }}</td>
         <td>{{ $product->description }}</td>
         <td>Rp{{ number_format($product->price,2,",",".") }}</td>
         <td><img src="{{ asset('storage/'. $product->image) }}" alt="" style="width: 100px; height: 100px;"></td>
@@ -94,6 +100,7 @@
         <p>0</p>
         @endif
         </td>
+        <td>{{ $product->size }}</td>
         <td>{{ optional($product->category)->name }}</td>
         <td>
             <div class="d-flex justify-content-between">

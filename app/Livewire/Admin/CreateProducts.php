@@ -13,7 +13,7 @@ class CreateProducts extends Component
     use WithFileUploads;
 
     #[Rule('required')]
-    public $title = '';
+    public $name = '';
 
     #[Rule('required')]
     public $description = '';
@@ -26,6 +26,9 @@ class CreateProducts extends Component
 
     #[Rule('required')]
     public $category = '';
+
+    #[Rule('required')]
+    public $size = '';
 
     #[Rule('required')]
     public $selectedCategory;
@@ -48,11 +51,12 @@ class CreateProducts extends Component
 
         $this->validate();
         $product = Product::create([
-            'title' => $this->title,
+            'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
             'category_id' => $this->selectedCategory,
-            'image' => $this->image->store('photos', 'public')
+            'image' => $this->image->store('photos', 'public'),
+            'size' => $this->size
         ]);
 
         $product->stock()->create([

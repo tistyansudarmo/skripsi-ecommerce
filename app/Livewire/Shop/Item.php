@@ -32,10 +32,10 @@ class Item extends Component
     {
         $this->cart = CartModel::with(['product', 'user'])
             ->join('products', 'products.id', '=', 'carts.product_id')
-            ->join('users', 'users.id', '=', 'carts.user_id')
+            ->join('customers', 'customers.id', '=', 'carts.customer_id')
             ->join('stocks', 'stocks.product_id', '=', 'products.id')
             ->select('products.*', 'stocks.*', 'carts.*')
-            ->where('carts.user_id', '=', auth()->user()->id)
+            ->where('carts.customer_id', '=', auth()->user()->id)
             ->get();
 
         // Iterasi melalui setiap item dalam properti 'cart'

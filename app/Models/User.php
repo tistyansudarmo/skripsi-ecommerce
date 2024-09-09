@@ -42,16 +42,5 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function transaction() {
-        return $this->hasMany(Transaction::class);
-    }
 
-    public function product() {
-        return $this->hasMany(Product::class);
-    }
-
-    public function cart()
-    {
-        return $this->hasMany(Cart::class);
-    }
 }

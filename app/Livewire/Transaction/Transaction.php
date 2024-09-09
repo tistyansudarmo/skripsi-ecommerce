@@ -5,6 +5,8 @@ namespace App\Livewire\Transaction;
 use App\Models\detail_transaction;
 use Livewire\WithPagination;
 use Livewire\Component;
+use App\Exports\TransactionsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class Transaction extends Component
@@ -52,5 +54,10 @@ class Transaction extends Component
         $this->allTransaction();
         session()->flash('updateStatus', 'Transaction status has been updated');
 
+    }
+
+    public function export()
+    {
+        return Excel::download(new TransactionsExport, 'transactions.xlsx');
     }
 }

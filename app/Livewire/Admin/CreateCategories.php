@@ -45,6 +45,5 @@ class CreateCategories extends Component
 
             session()->flash('delete', 'Success deleted category');
         }
-
     }
 }

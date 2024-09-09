@@ -28,6 +28,7 @@
         </div>
     </div>
     @endif
+    <a href="/transactions/export" class="btn btn-danger mb-3 mt-3">Export Data</a>
     <div>
         <div class="table-responsive">
           <table class="table">

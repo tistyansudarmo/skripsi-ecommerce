@@ -8,7 +8,7 @@ use App\Models\detail_transaction;
 use App\Models\Transaction;
 use App\Models\Stock;
 use Illuminate\Support\Carbon;
-
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Component
 {
@@ -21,13 +21,13 @@ class Product extends Component
     public $name;
     public $email;
 
-    public function mount($title)
+    public function mount($name)
     {
-        $this->name = auth()->user()->name;
-        $this->alamat = auth()->user()->alamat;
-        $this->no_telepon = auth()->user()->no_telepon;
-        $this->email = auth()->user()->email;
-        $this->selectedProduct = ModelsProduct::where('title', $title)->first();
+        $this->name = Auth::guard('customers')->user()->name;
+        $this->alamat = Auth::guard('customers')->user()->alamat;
+        $this->no_telepon = Auth::guard('customers')->user()->no_telepon;
+        $this->email = Auth::guard('customers')->user()->email;
+        $this->selectedProduct = ModelsProduct::where('name', $name)->first();
         $this->totalPrice = $this->calculateTotalPrice();
     }
 
@@ -56,7 +56,7 @@ class Product extends Component
             return;
         }
 
-        $user = auth()->user();
+        $user = Auth::guard('customers')->user();
         $user->update([
             'name' => $this->name,
             'alamat' => $this->alamat,
@@ -65,7 +65,7 @@ class Product extends Component
         ]);
 
         $transaction = new Transaction();
-        $transaction->user_id = auth()->user()->id;
+        $transaction->user_id = Auth::guard('customers')->user()->id;
         $transaction->total_price = $this->selectedProduct->price * $this->quantity;
         $transaction->date = Carbon::now()->format('Y-m-d');
         $transaction->status = 'Sedang Diproses';

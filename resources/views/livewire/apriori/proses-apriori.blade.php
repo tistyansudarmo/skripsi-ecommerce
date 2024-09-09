@@ -1,7 +1,11 @@
 <div class="container">
     @if ($formVisible)
     <form wire:submit="save">
-        <label for="support" class="form-label">Minimum Support<span class="text-danger">*</span></label>
+        <label for="importTransaction" class="form-label">Import Transaction<span class="text-danger">*</span></label>
+        <input type="file" class="form-control" id="importTransaction" wire:model="importTransaction" required>
+        <div class="text-danger">@error('importTransaction') {{ $message }} @enderror</div>
+
+        <label for="support" class="form-label mt-3">Minimum Support<span class="text-danger">*</span></label>
         <input type="text" class="form-control" id="support" wire:model="minSupport" required>
         <div class="text-danger">@error('minSupport') {{ $message }} @enderror</div>
 
@@ -36,12 +40,12 @@
                         @foreach ($itemset1 as $item1)
                         <tr>
                             <th scope="row" style="vertical-align: middle;">{{ $loop->iteration }}</th>
-                            <td style="vertical-align: middle;">{{ $item1->product->title }}</td>
-                            <td style="vertical-align: middle;" class="text-center">{{ $totalTransactionItemset1[$item1->product_id] }}</td>
+                            <td style="vertical-align: middle;">{{ $item1->product }}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{ $totalTransactionItemset1[$item1->product] }}</td>
                             <td style="vertical-align: middle;">JumlahTransaksi / JumlahItem * 100</td>
-                            <td style="vertical-align: middle;">{{ $itemSupport[$item1->product_id]}}</td>
+                            <td style="vertical-align: middle;">{{ $itemSupport[$item1->product]}}</td>
                             <td style="vertical-align: middle;">
-                                @if($itemSupport[$item1->product_id] >= $minSupport)
+                                @if($itemSupport[$item1->product] >= $minSupport)
                                     Terpenuhi
                                 @else
                                     Tidak terpenuhi
@@ -68,12 +72,12 @@
                     </thead>
                     <tbody>
                         @foreach ($itemset1 as $item1)
-                        @if ($itemSupport[$item1->product_id] >= $minSupport)
+                        @if ($itemSupport[$item1->product] >= $minSupport)
                                 <tr>
                                     <th scope="row" style="vertical-align: middle;">{{ $loop->iteration }}</th>
-                                    <td style="vertical-align: middle;">{{ $item1->product->title }}</td>
-                                    <td style="vertical-align: middle;">{{ $totalTransactionItemset1[$item1->product_id] }}</td>
-                                    <td style="vertical-align: middle;">{{ $itemSupport[$item1->product_id] }}</td>
+                                    <td style="vertical-align: middle;">{{ $item1->product }}</td>
+                                    <td style="vertical-align: middle;">{{ $totalTransactionItemset1[$item1->product] }}</td>
+                                    <td style="vertical-align: middle;">{{ $itemSupport[$item1->product] }}</td>
                                 </tr>
                         @endif
                         @endforeach
@@ -234,9 +238,31 @@
                         <tr>
                             <th scope="row" style="vertical-align: middle;">{{ $loop->iteration }}</th>
                             <td>{{ $association['rule'] }}</td>
-                            <td></td>
+                            <td>{{ number_format($association['confidence'], 2) }}</td>
                         </tr>
-                    @endforeach
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h6 class="mb-3">Kesimpulan</h6>
+        <div>
+            <div class="table-responsive container mb-5">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($associations as $association)
+                        @if (number_format($association['confidence'], 2) >= $minConfidence)
+                        <tr>
+                            <td style="vertical-align: middle;">{{ $association['conclusion'] }}</td>
+                        </tr>
+                        @endif
+                        @endforeach
                     </tbody>
                 </table>
             </div>

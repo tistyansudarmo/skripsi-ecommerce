@@ -8,11 +8,10 @@
                 <ul class="navbar-nav ms-auto">
                   <li class="nav-item"><a class="nav-link" aria-current="page" href="/">Home</a></li>
                   <li class="nav-item"><a class="nav-link" aria-current="page" href="#">All Product</a></li>
-                  @if (Auth::check())
-                  <li class="nav-item"><a class="nav-link" aria-current="page" href="/admin" target="_blank">Administrator</a></li>
+                  @if (Auth::guard('customers')->check())
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Halo, {{ Auth::user()->name }}!
+                        Halo, {{ Auth::guard('customers')->user()->name }}!
                     </a>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="/order">Pesanan saya</a></li>
@@ -29,8 +28,11 @@
                   </li>
                   </ul>
                 <div class="d-flex ms-lg-4 btn-navbar">
-                 @if (Auth::check())
-                 <a class="btn btn-warning btn-navbar" style="font-size: 12px" href="/logout">Logout</a>
+                 @if (Auth::guard('customers')->check())
+                 <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button class="btn btn-warning btn-navbar" style="font-size: 12px">Logout</button>
+                 </form>
                  @else
                  <a class="btn btn-secondary-outline btn-navbar" href="/login" style="font-size: 13px">Sign In</a>
                  <a class="btn btn-warning ms-3 btn-register" href="/register" style="font-size: 13px">Register</a>
