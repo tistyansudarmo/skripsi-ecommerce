@@ -14,8 +14,15 @@ class TransactionsExport implements FromCollection
     {
         return detail_transaction::join('products', 'detail_transactions.product_id', '=', 'products.id')
                                     ->join('transactions', 'transactions.id', '=', 'detail_transactions.transaction_id')
-                                    ->join('costumers', 'costumers.id', '=', 'transactions.user_id')
-                                    ->select('detail_transactions.transaction_id','costumers.name', 'products.name', 'detail_transactions.quantity', 'detail_transactions.price', 'detail_transactions.date')
+                                    ->join('customers', 'customers.id', '=', 'transactions.customer_id')
+                                    ->select(
+                                        'detail_transactions.transaction_id',
+                                        'customers.name as customer_name', // Alias untuk nama customer
+                                        'products.name as product_name',   // Alias untuk nama produk
+                                        'products.size',
+                                        'detail_transactions.price',
+                                        'detail_transactions.date'
+                                    )
                                     ->get();
     }
 }

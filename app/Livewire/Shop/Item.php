@@ -4,10 +4,7 @@ namespace App\Livewire\Shop;
 
 use Livewire\Component;
 use App\Models\Cart as CartModel;
-use App\Models\detail_transaction;
-use App\Models\Transaction;
-use App\Models\Stock;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class Item extends Component
 {
@@ -19,23 +16,20 @@ class Item extends Component
     public $name;
     public $email;
 
+
     public function mount()
     {
         $this->viewCart();
-        $this->name = auth()->user()->name;
-        $this->alamat = auth()->user()->alamat;
-        $this->no_telepon = auth()->user()->no_telepon;
-        $this->email = auth()->user()->email;
     }
 
     public function viewCart()
     {
-        $this->cart = CartModel::with(['product', 'user'])
+        $this->cart = CartModel::with(['product', 'customer'])
             ->join('products', 'products.id', '=', 'carts.product_id')
             ->join('customers', 'customers.id', '=', 'carts.customer_id')
             ->join('stocks', 'stocks.product_id', '=', 'products.id')
             ->select('products.*', 'stocks.*', 'carts.*')
-            ->where('carts.customer_id', '=', auth()->user()->id)
+            ->where('carts.customer_id', '=', Auth::guard('customers')->user()->id)
             ->get();
 
         // Iterasi melalui setiap item dalam properti 'cart'
@@ -99,55 +93,23 @@ class Item extends Component
         $this->dispatch('removeCart');
     }
 
-    public function checkout()
-    {
-        $user = auth()->user();
-        $user->update([
-            'name' => $this->name,
-            'alamat' => $this->alamat,
-            'no_telepon' => $this->no_telepon,
-            'email' => $this->email
-        ]);
 
-        $carts = auth()->user()->cart;
-
-        foreach ($carts as $cart) {
-            $quantity = $this->quantities[$cart->id];
-
-            if ($quantity > $cart->product->stock->quantity) {
+    public function redirectToCheckout(){
+        $quantities = [];
+        foreach ($this->cart as $item) {
+            if ($this->quantities[$item->id] > $item->product->stock->quantity) {
                 session()->flash('errorCheckout', 'The quantity of product is not enough!');
                 $this->viewCart();
                 return;
             }
+
+            $quantity = $this->quantities[$item->id];
+            $quantities[$item->id] = $quantity;
+            $weight = $item->product->weight;
         }
-
-        $transaction = new Transaction();
-        $transaction->user_id = $cart->user_id;
-        $transaction->total_price = $cart->product->price * $quantity;
-        $transaction->date = Carbon::now()->format('Y-m-d');
-        $transaction->status = 'Sedang Diproses';
-        $transaction->save();
-
-         // Loop melalui Cart dan simpan masing-masing ke dalam detail_transactions
-         foreach ($this->cart as $selectedProduct) {
-            $detailTransaction = new detail_transaction();
-            $detailTransaction->transaction_id = $transaction->id;
-            $detailTransaction->product_id = $selectedProduct->product_id;
-            $detailTransaction->quantity = $quantity;
-            $detailTransaction->price = $selectedProduct->product->price;
-            $detailTransaction->total_price = $transaction->total_price;
-            $detailTransaction->date = Carbon::now()->format('Y-m-d');
-            $detailTransaction->save();
-
-            // Kurangi stok produk
-            $stock = Stock::where('product_id', $selectedProduct->product_id)->first();
-            $stock->quantity -= $quantity;
-            $stock->save();
-        }
-
-        CartModel::where('user_id', auth()->user()->id)->delete();
-        $this->viewCart();
-        session()->flash('checkout', 'Your product has been successfully checked out');
-        $this->dispatch('removeCart');
+        session()->put('totalQtyCart', $quantities);
+        session()->put('weight', $weight);
+        session()->put('totalPriceCart', $this->totalPrice);
+        return redirect()->route('checkoutCart');
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_id')->constrained('products')->onDelete('cascade'); // Relasi dengan tabel products
             $table->integer('quantity');
         });
     }

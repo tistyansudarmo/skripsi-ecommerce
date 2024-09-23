@@ -4,15 +4,18 @@
 use App\Livewire\Home\HomeProduct;
 use App\Livewire\Shop\Item;
 use App\Http\Controllers\login;
+use App\Http\Controllers\Payment;
 use App\Http\Controllers\register;
 use App\Livewire\Admin\AdminDashboard;
 use App\Livewire\Admin\AdminProducts;
 use App\Livewire\Admin\CreateCategories;
 use App\Livewire\Apriori\ProsesApriori;
+use App\Livewire\Checkout\Checkout;
 use App\Livewire\Order\Index as Order;
 use App\Livewire\Product\Product;
 use App\Livewire\Transaction\Transaction;
 use Illuminate\Support\Facades\Route;
+
 
 
 /*
@@ -53,6 +56,10 @@ Route::middleware(['auth:customers'])->group(function () {
     Route::get('/cart', Item::class);
     Route::get('/order', Order::class);
     Route::get('/product/{name}', Product::class)->name('product');
+    Route::get('/checkout/{name}', Checkout::class)->name('checkout');
+    Route::get('/checkout', Checkout::class)->name('checkoutCart');
+    Route::get('/payment/{snap_token}', [Payment::class, 'index'])->name('payment');
+    Route::post('/midtrans/notification', [Checkout::class, 'handleMidtransNotification']);
 });
 
 Route::post('/logout', [login::class, 'logout'])->middleware('auth:users,customers')->name('logout');

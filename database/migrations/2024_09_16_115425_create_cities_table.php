@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('cities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id');
-            $table->enum('status', ['Sedang Diproses', 'Dalam Pengiriman Jasa Ekspedisi', 'Dibatalkan', 'Sudah Diterima']);
-            $table->decimal('total_price');
-            $table->date('date');
+            $table->unsignedBigInteger('province_id');
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('cities');
     }
 };

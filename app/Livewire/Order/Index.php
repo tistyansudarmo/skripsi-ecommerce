@@ -17,7 +17,7 @@ class Index extends Component
     #[On('updateStatus')]
     public function render()
     {
-        $status = Transaction::with(['product', 'user'])
+        $status = Transaction::with(['product', 'customer'])
         ->join('detail_transactions', 'transactions.id', '=', 'detail_transactions.transaction_id')
         ->orderBy('transactions.id', 'desc')
         ->where('customer_id', Auth::guard('customers')->user()->id)->paginate($this->paginate);

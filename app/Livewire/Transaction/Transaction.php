@@ -22,7 +22,12 @@ class Transaction extends Component
 
     public function render()
     {
-        $transactionsPaginate = detail_transaction::orderBy('id', 'desc')->paginate($this->paginate);
+        $transactionsPaginate = detail_transaction::with(['transaction.customer','product'])
+        ->join('transactions', 'transactions.id', 'detail_transactions.transaction_id')
+        ->join('customers', 'customers.id', 'transactions.customer_id')
+        ->join('products', 'products.id', 'detail_transactions.product_id')
+        ->select('customers.name as customer_name', 'detail_transactions.*','transactions.status', 'products.name as product_name', 'products.size as product_size')
+        ->orderBy('detail_transactions.id', 'desc')->paginate($this->paginate);
         $offset = ($transactionsPaginate->currentPage() -1) * $this->paginate;
         return view('livewire.transaction.transaction', ['transactionsPaginate' => $transactionsPaginate, 'offset' => $offset])->layout('components.layouts.admin-layout');
     }

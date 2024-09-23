@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('size');
             $table->double('price');
+            $table->integer('weight');
             $table->string('image')->nullable();
         });
     }

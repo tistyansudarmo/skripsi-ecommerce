@@ -20,7 +20,7 @@
                                     </div>
                                     <div class="flex-grow-1 align-self-center overflow-hidden">
                                         <div>
-                                            <h5 class="text-truncate font-size-18 fw-bold" style="margin-bottom: -12px">{{ $item->title }}</h5>
+                                            <h5 class="text-truncate font-size-18 fw-bold" style="margin-bottom: -12px">{{ $item->name }}</h5>
                                             <p class="mb-0">{{ $item->description }}</p>
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@
                                         </table>
                                     </div>
                                     <div class="mt-3 d-grid d-md-block">
-                                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" >Checkout</button>
+                                        <button class="btn btn-success btn-sm" wire:click="redirectToCheckout">Checkout</button>
                                     </div>
                                 </div>
                             </div>
@@ -117,42 +117,4 @@
             @endif
         </div>
     </div>
-    {{-- Modal Checkout --}}
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md">
-          <div class="modal-content" style="border-radius: 0;">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Data Pengirim</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="mb-3">
-                  <label for="name" class="col-form-label">Nama</label>
-                  <input type="text" class="form-control" id="name" name="name" wire:model="name">
-                </div>
-                <div class="mb-3">
-                  <label for="alamat" class="col-form-label">Alamat Lengkap</label>
-                  <input type="text" class="form-control" id="alamat" name="alamat" wire:model="alamat">
-                </div>
-                <div class="mb-3">
-                    <label for="no_telepon" class="col-form-label">Nomor Handphone</label>
-                    <input type="text" class="form-control" id="no_telepon" name="no_telepon" wire:model="no_telepon">
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="col-form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" wire:model="email">
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary ms-3 me-5" wire:click="checkout" data-bs-dismiss="modal">Beli</button>
-            </div>
-          </div>
-        </div>
-    </div>
-    {{-- End Modal Check Out--}}
-
-
   </div>

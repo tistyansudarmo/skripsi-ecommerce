@@ -63,7 +63,7 @@ class ProsesApriori extends Component
             $support = $itemCount / $this->totalItem;
 
             // Menyimpan nilai support untuk setiap produk ke dalam array
-            $this->itemSupport[$item->product] = $support;
+            $this->itemSupport[$item->product] = number_format($support,2);
         }
     }
 
@@ -114,7 +114,7 @@ class ProsesApriori extends Component
                 'itemset1' => $itemset1,  // Menyimpan judul produk pertama
                 'itemset2' => $itemset2,  // Menyimpan judul produk kedua
                 'transaksi' => $this->totalTransactionItemset2, // Menyimpan hasil perhitungan transaksi
-                'support' => $support,    // Menyimpan nilai support
+                'support' => number_format($support,2),    // Menyimpan nilai support
                 'product' => $candidateItemset,
             ];
 
@@ -155,14 +155,13 @@ class ProsesApriori extends Component
                     'itemset2' => $candidateItemset[1],
                     'itemset3' => $candidateItemset[2],
                     'transaksi' => $totalTransactionItemset3,
-                    'support' => $support
+                    'support' => number_format($support,2)
                 ];
             }
         }
     }
 
-    public function generateAssociationRulesFromItemset3()
-{
+    public function generateAssociationRulesFromItemset3() {
     $this->associations = [];
 
     // Pastikan kita memiliki itemsets3 yang lolos seleksi

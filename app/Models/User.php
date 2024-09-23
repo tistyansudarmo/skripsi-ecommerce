@@ -42,5 +42,14 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function province()
+    {
+        return $this->belongsTo(Province::class);
+    }
 
+    // Relasi ke City
+    public function city()
+    {
+        return $this->belongsTo(Cities::class);
+    }
 }

@@ -7,10 +7,10 @@
                 <img class="card-img mb-5 mb-md-0 w-75 img-product" src="{{ asset('storage/' . $selectedProduct->image) }}">
                 </div>
                 <div class="col-md-6">
-                    <h1 class="display-1 fw-bolder title-product">{{ ucwords($selectedProduct->title) }}</h1>
+                    <h1 class="display-1 fw-bolder title-product">{{ ucwords($selectedProduct->name) }}</h1>
                     <div class="fs-2 mb-5 detail-desc">
                         <span>Rp{{ number_format($selectedProduct->price,2,",",".") }}</span>
-                        <span class="fs-1 ms-2 opacity-50">Tersisa {{$selectedProduct->stock->quantity ?? 0}} pcs</span>
+                        <span class="fs-1 ms-2 opacity-50">Tersisa {{$selectedProduct->stock->quantity ?? '0'}} pcs</span>
                     </div>
                     <p class="lead fs-1 detail-desc">{{ ucwords($selectedProduct->description) }}</p>
                     <div class="d-flex detail-desc">
@@ -19,23 +19,23 @@
                             <span class="quantity-display">{{ $quantity }}</span>
                             <button class="quantity-button" wire:click="increment({{ $selectedProduct->id }})">+</button>
                         </div>
-                        <button class="btn btn-success flex-shrink-0 ms-4" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                        <button wire:click="redirectToCheckout" class="btn btn-success flex-shrink-0 ms-4">
                             Beli Sekarang
                         </button>
                     </div>
                     <div class="mt-3 detail-desc">
                         <span>Total : Rp{{ number_format($totalPrice,2,",",".") }}</span>
                     </div>
+                        @if(session()->has('errorCheckout'))
+                            <div class="alert alert-danger text-center mt-2">{{ session('errorCheckout') }}</div>
+                        @endif
                 </div>
-                @if(session()->has('errorCheckout'))
-                    <div class="alert alert-danger text-center">{{ session('errorCheckout') }}</div>
-                @endif
             </div>
         </div>
     </section>
 
      {{-- Modal --}}
-     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     {{-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md">
           <div class="modal-content" style="border-radius: 0;">
             <div class="modal-header">
@@ -68,7 +68,7 @@
             </div>
           </div>
         </div>
-    </div>
+    </div> --}}
     {{-- End Modal --}}
 
     <!-- Related items section-->

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('product_id')->constrained('products')->onDelete('cascade'); // Relasi dengan tabel products
+            $table->unsignedBigInteger('customer_id')->constrained('customers')->onDelete('cascade'); // Relasi dengan tabel customers
         });
     }
 

@@ -37,6 +37,7 @@
                 <th scope="col">No</th>
                 <th scope="col">Product</th>
                 <th scope="col">Quantity</th>
+                <th scope="col">Size</th>
                 <th scope="col">Total Price</th>
                 <th scope="col">Image</th>
                 <th scope="col" class="text-center">Status</th>
@@ -49,13 +50,14 @@
                 <tr>
                     @foreach ($transactionsPaginate as $items)
                     <th scope="row" style="text-align: center; vertical-align: middle;">{{ $loop->iteration + $offset }}</th>
-                    <td>{{ $items->product->title }}</td>
+                    <td>{{ $items->product_name }}</td>
                     <td class="text-center">{{ $items->quantity }}</td>
+                    <td class="text-center">{{ $items->product_size }}</td>
                     <td>Rp{{ number_format($items->total_price, 2, ',', '.') }}</td>
                     <td><img src="{{ asset('storage/'. $items->product->image) }}" alt="" style="width: 100px; height: 100px;"></td>
                     <td class="text-center">{{ $items->transaction->status}}</td>
                     <td></td>
-                    <td>{{ $items->transaction->user->name }}</td>
+                    <td>{{ $items->customer_name }}</td>
                     <td><button class="btn btn-warning mb-3 mt-3 btn-sm" wire:click="viewStatus('{{ $items->id }}')" style="z-index: 5000">Edit</button></td>
                 </tr>
                     @endforeach
