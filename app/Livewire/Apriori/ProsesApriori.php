@@ -9,6 +9,7 @@ use App\Models\ProsesApriori as ModelsProsesApriori;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Livewire\WithFileUploads;
+use App\Models\Product;
 
 
 class ProsesApriori extends Component
@@ -60,7 +61,7 @@ class ProsesApriori extends Component
             $this->totalTransactionItemset1[$item->product] = $itemCount;
 
             // Menghitung support untuk setiap produk
-            $support = $itemCount / $this->totalItem;
+            $support = $itemCount / $this->totalItem / 10;
 
             // Menyimpan nilai support untuk setiap produk ke dalam array
             $this->itemSupport[$item->product] = number_format($support,2);
@@ -234,6 +235,53 @@ class ProsesApriori extends Component
         $this->associations[] = ['rule' => "$item1, $item2 -> $item3", 'confidence' => $countItemset123 / $countItemset1Itemset2, 'conclusion' => "Jika pelanggan membeli $item1 dan $item2, maka pelanggan juga akan membeli $item3."];
         $this->associations[] = ['rule' => "$item1, $item3 -> $item2", 'confidence' => $countItemset123 / $countItemset1Itemset3, 'conclusion' => "Jika pelanggan membeli $item1 dan $item3, maka pelanggan juga akan membeli $item2."];
         $this->associations[] = ['rule' => "$item2, $item3 -> $item1", 'confidence' => $countItemset123 / $countItemset2Itemset3, 'conclusion' => "Jika pelanggan membeli $item2 dan $item3, maka pelanggan juga akan membeli $item1."];
+
+        // foreach ($this->associations as $association) {
+        //     $product1 = Product::where('name', $item1)->first();
+        //     $product2 = Product::where('name', $item2)->first();
+        //     $product3 = Product::where('name', $item3)->first();
+        //     if (number_format($association['confidence'], 2) >= $this->minConfidence) {
+        //         DB::table('product_recommendations')
+        //         ->insert([ 'product1_id' => $product1->id, 'product2_id' => $product2->id, 'product3_id' => $product3->id, 'product1_name' => $product1->name, 'product2_name' => $product2->name, 'product3_name' => $product3->name, 'conclusion' => $association['conclusion'], 'created_at' => now(), 'updated_at' => now(), ]);
+        //     }
+        // }
+
+
+        foreach ($this->associations as $association) {
+            // Ambil conclusion dan pisahkan berdasarkan kata
+            $conclusion = $association['conclusion'];
+
+            // Ekstrak $item1, $item2, dan $item3 dari conclusion menggunakan explode
+            preg_match('/membeli (.+?) dan (.+?), maka pelanggan juga akan membeli (.+)\./', $conclusion, $matches);
+
+            // Pastikan ada hasil match yang valid
+            if (isset($matches[1]) && isset($matches[2]) && isset($matches[3])) {
+                $item1 = $matches[1]; // Produk pertama
+                $item2 = $matches[2]; // Produk kedua
+                $item3 = $matches[3]; // Produk ketiga
+
+                // Cari produk berdasarkan nama
+                $product1 = Product::where('name', $item1)->first();
+                $product2 = Product::where('name', $item2)->first();
+                $product3 = Product::where('name', $item3)->first();
+
+                // Pastikan produk ditemukan
+                if ($product1 && $product2 && $product3 && number_format($association['confidence'], 2) >= $this->minConfidence) {
+                    // Simpan ke dalam database
+                    DB::table('product_recommendations')->insert([
+                        'product1_id' => $product1->id,
+                        'product2_id' => $product2->id,
+                        'product3_id' => $product3->id,
+                        'product1_name' => $product1->name,
+                        'product2_name' => $product2->name,
+                        'product3_name' => $product3->name,
+                        'conclusion' => $association['conclusion'],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+        }
     }
 }
 

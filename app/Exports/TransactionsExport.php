@@ -21,8 +21,7 @@ class TransactionsExport implements FromCollection
                                         'products.name as product_name',   // Alias untuk nama produk
                                         'products.size',
                                         'detail_transactions.price',
-                                        'detail_transactions.date'
-                                    )
+                                        'detail_transactions.date')
                                     ->get();
     }
 }

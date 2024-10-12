@@ -309,13 +309,18 @@
             <div class="row my-4">
                 <div class="col">
                     <div class="text-start mt-2 mt-sm-0">
-                        <button class="btn btn-success" id="pay-button" wire:click="checkout">Process</button>
+                        <button class="btn btn-success" wire:click="checkout" >Process</button>
                     </div>
                 </div> <!-- end col -->
             </div> <!-- end row-->
         </div>
     </div>
-    {{-- <script type="text/javascript">
+    <script type="text/javascript"
+    src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="{{ config('services.midtrans.client_key') }}">
+    </script>
+
+    <script type="text/javascript">
         // Replace with the ID of your pay button
         var payButton = document.getElementById('pay-button');
 
@@ -341,6 +346,6 @@
             }
           });
         });
-      </script> --}}
+      </script>
     <!-- end row -->
 </div>

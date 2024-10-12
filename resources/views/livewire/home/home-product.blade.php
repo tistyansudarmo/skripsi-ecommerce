@@ -42,4 +42,63 @@
         <div class="mb-5">{{ $products->links() }}</div>
     </div>
 </section>
+
+<section class="py-5 bg-light">
+    <div class="container-fluid bg-transparent my-4 p-3" style="position: relative">
+        <h2 class="mb-4">Recommendation Products</h2>
+        <div class="row row-cols-2 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-4" id="searchInput">
+            @if(Auth::guard('customers')->check())
+                @if($productRecom && count($productRecom) > 0)
+                    @foreach ($productRecom as $recommendation)
+                    @php
+                    if ($recommendation->transaction_product_id === $recommendation->product_recom1) {
+                        $recommendedProduct = App\Models\Product::find($recommendation->product_recom2);
+                    } elseif ($recommendation->transaction_product_id === $recommendation->product_recom2) {
+                        $recommendedProduct = App\Models\Product::find($recommendation->product_recom1);
+                    } elseif ($recommendation->transaction_product_id === $recommendation->product_recom1) {
+                        $recommendedProduct = App\Models\Product::find($recommendation->product_recom3);
+                    } elseif ($recommendation->transaction_product_id === $recommendation->product_recom3) {
+                        $recommendedProduct = App\Models\Product::find($recommendation->product_recom1);
+                    } elseif ($recommendation->transaction_product_id === $recommendation->product_recom2) {
+                        $recommendedProduct = App\Models\Product::find($recommendation->product_recom3);
+                    } elseif ($recommendation->transaction_product_id === $recommendation->product_recom3) {
+                        $recommendedProduct = App\Models\Product::find($recommendation->product_recom2);
+                    }
+                    @endphp
+                        @if($recommendedProduct)
+                        <div class="col hp mb-3">
+                            <div class="card h-100 shadow-sm">
+                                <a href="/product/{{ $recommendedProduct->name }}">
+                                    <img src="{{ asset('storage/' . $recommendedProduct->image) }}" loading="lazy" class="card-img-top" alt="product-image" />
+                                </a>
+                                <div class="label-top shadow-sm">
+                                    {{ $recommendedProduct->name }}
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="clearfix mb-3">
+                                        <span class="float-start badge rounded-pill bg-light text-dark">Rp{{ number_format($recommendedProduct->price, 2, ",", ".") }}</span>
+                                    </div>
+                                    <h5 class="card-title" style="font-size: 0.92rem">
+                                        {{ $recommendedProduct->description }}
+                                    </h5>
+
+                                    <div class="d-grid gap-2 my-4">
+                                        <button class="btn btn-warning bold-btn cart-btn">add to cart</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                    @endforeach
+                @else
+                    <p>No recommendations available. Please buy a product to see personalized product recommendations.</p>
+                @endif
+            @else
+            <p class="text-recom" style="white-space: nowrap; text-align: left;">No recommendations available. Please log in and buy a product to see personalized product recommendations.</p>
+            @endif
+        </div>
+    </div>
+</section>
+
 </div>

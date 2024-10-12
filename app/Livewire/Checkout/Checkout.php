@@ -62,6 +62,7 @@ class Checkout extends Component
     public $shippingCosts;
     public $shippingService;
     public $etd;
+    public $snapToken;
 
     public function render()
     {
@@ -112,6 +113,8 @@ class Checkout extends Component
         } else {
             $this->productCart();
         }
+
+        $this->checkout();
     }
 
 
@@ -291,7 +294,7 @@ class Checkout extends Component
         $snapToken = Snap::getSnapToken($payload);
 
         // Redirect to Midtrans payment page using Snap token
-        return redirect()->route('checkout', ['snap_token' => $snapToken]);
+        return redirect()->route('payment', ['snap_token' => $snapToken]);
     }
 
     public function handleMidtransNotification() {
