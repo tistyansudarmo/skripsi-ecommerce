@@ -61,7 +61,7 @@ class ProsesApriori extends Component
             $this->totalTransactionItemset1[$item->product] = $itemCount;
 
             // Menghitung support untuk setiap produk
-            $support = $itemCount / $this->totalItem / 10;
+            $support = $itemCount / $this->totalItem;
 
             // Menyimpan nilai support untuk setiap produk ke dalam array
             $this->itemSupport[$item->product] = number_format($support,2);
@@ -123,25 +123,41 @@ class ProsesApriori extends Component
     }
 
     public function generateItemset3() {
-        // Menggabungkan Itemsets 2 dengan item yang tersisa untuk menghasilkan kandidat Itemsets 3
+        // Array untuk menampung kandidat itemset 3
         $candidateItemsets3 = [];
+
+        // Daftar itemset 2 yang lolos
+        $passedItemset2 = [];
         foreach ($this->itemsets2 as $itemset2) {
-            foreach ($this->itemset1 as $item1) {
-                if (!in_array($item1->product, $itemset2['product'])) {
-                    $newItemset = array_merge($itemset2['product'], [$item1->product]);
-                    sort($newItemset);
-                    $candidateItemsets3[] = $newItemset;
+            // Memeriksa apakah item dari Itemset 2 memenuhi syarat minimum support
+            if ($itemset2['support'] >= $this->minSupport) {
+                // Jika ya, tambahkan pasangan item dari itemset2 ke daftar passedItemset2
+                $passedItemset2[] = $itemset2['product'];
+            }
+        }
+
+        // Membentuk kandidat itemset 3 dari itemset 2 yang lolos
+        for ($i = 0; $i < count($passedItemset2) - 1; $i++) {
+            for ($j = $i + 1; $j < count($passedItemset2); $j++) {
+                // Membentuk kandidat itemset 3 hanya jika dua item pertama cocok
+                if ($passedItemset2[$i][0] == $passedItemset2[$j][0]) {
+                    // Membentuk kombinasi itemset 3
+                    $candidateItemsets3[] = [
+                        $passedItemset2[$i][0], // Item pertama sama dari kedua itemset 2
+                        $passedItemset2[$i][1], // Item kedua dari itemset 2 pertama
+                        $passedItemset2[$j][1]  // Item kedua dari itemset 2 kedua
+                    ];
                 }
             }
         }
 
-        // Menghapus duplikat kandidat Itemsets 3
-        $candidateItemsets3 = array_unique($candidateItemsets3, SORT_REGULAR);
-
-        // Filter kandidat Itemsets 3 berdasarkan nilai support dan tambahkan ke Itemset 3 yang final
+        // Array untuk menampung hasil akhir itemset 3 yang sudah dihitung
         $this->itemsets3 = [];
+
+        // Loop untuk setiap kandidat itemset 3 yang terbentuk
         foreach ($candidateItemsets3 as $candidateItemset) {
-            $totalTransactionItemset3 = DB::table('proses_aprioris as proses1')
+            // Menghitung jumlah transaksi yang mengandung ketiga item tersebut
+            $this->totalTransactionItemset3 = DB::table('proses_aprioris as proses1')
                 ->join('proses_aprioris as proses2', 'proses1.transaction_id', '=', 'proses2.transaction_id')
                 ->join('proses_aprioris as proses3', 'proses1.transaction_id', '=', 'proses3.transaction_id')
                 ->where('proses1.product', $candidateItemset[0])
@@ -149,18 +165,26 @@ class ProsesApriori extends Component
                 ->where('proses3.product', $candidateItemset[2])
                 ->count();
 
-            $support = $totalTransactionItemset3 / $this->totalItem;
-            if ($support >= $this->minSupport) {
-                $this->itemsets3[] = [
-                    'itemset1' => $candidateItemset[0],
-                    'itemset2' => $candidateItemset[1],
-                    'itemset3' => $candidateItemset[2],
-                    'transaksi' => $totalTransactionItemset3,
-                    'support' => number_format($support,2)
-                ];
-            }
+            // Menghitung support dari itemset 3
+            $support = $this->totalTransactionItemset3 / $this->totalItem;
+
+            // Mengambil nama produk dari itemset
+            $itemset1 = $candidateItemset[0];
+            $itemset2 = $candidateItemset[1];
+            $itemset3 = $candidateItemset[2];
+
+            // Menyimpan hasil perhitungan ke dalam array itemsets3
+            $this->itemsets3[] = [
+                'itemset1' => $itemset1,  // Menyimpan judul produk pertama
+                'itemset2' => $itemset2,  // Menyimpan judul produk kedua
+                'itemset3' => $itemset3,  // Menyimpan judul produk ketiga
+                'transaksi' => $this->totalTransactionItemset3, // Menyimpan hasil perhitungan transaksi
+                'support' => number_format($support, 2),    // Menyimpan nilai support
+                'product' => $candidateItemset, // Menyimpan kombinasi itemset
+            ];
         }
     }
+
 
     public function generateAssociationRulesFromItemset3() {
     $this->associations = [];
@@ -172,6 +196,7 @@ class ProsesApriori extends Component
 
     // Loop melalui setiap itemset di itemsets3
     foreach ($this->itemsets3 as $itemset) {
+        if($itemset['support'] >= $this->minSupport) {
         // Mendefinisikan item-item dari itemset3
         $item1 = $itemset['itemset1'];
         $item2 = $itemset['itemset2'];
@@ -235,46 +260,61 @@ class ProsesApriori extends Component
         $this->associations[] = ['rule' => "$item1, $item2 -> $item3", 'confidence' => $countItemset123 / $countItemset1Itemset2, 'conclusion' => "Jika pelanggan membeli $item1 dan $item2, maka pelanggan juga akan membeli $item3."];
         $this->associations[] = ['rule' => "$item1, $item3 -> $item2", 'confidence' => $countItemset123 / $countItemset1Itemset3, 'conclusion' => "Jika pelanggan membeli $item1 dan $item3, maka pelanggan juga akan membeli $item2."];
         $this->associations[] = ['rule' => "$item2, $item3 -> $item1", 'confidence' => $countItemset123 / $countItemset2Itemset3, 'conclusion' => "Jika pelanggan membeli $item2 dan $item3, maka pelanggan juga akan membeli $item1."];
+    }
+}
 
-        // foreach ($this->associations as $association) {
-        //     $product1 = Product::where('name', $item1)->first();
-        //     $product2 = Product::where('name', $item2)->first();
-        //     $product3 = Product::where('name', $item3)->first();
-        //     if (number_format($association['confidence'], 2) >= $this->minConfidence) {
-        //         DB::table('product_recommendations')
-        //         ->insert([ 'product1_id' => $product1->id, 'product2_id' => $product2->id, 'product3_id' => $product3->id, 'product1_name' => $product1->name, 'product2_name' => $product2->name, 'product3_name' => $product3->name, 'conclusion' => $association['conclusion'], 'created_at' => now(), 'updated_at' => now(), ]);
-        //     }
-        // }
+    foreach ($this->associations as $association) {
+        // Ambil conclusion dan pisahkan berdasarkan kata
+        $conclusion = $association['conclusion'];
 
+        if (preg_match('/membeli (.+?) dan (.+?), maka pelanggan juga akan membeli (.+)\./', $conclusion, $matches)) {
+            # code...
+        if (isset($matches[1]) && isset($matches[2]) && isset($matches[3])) {
+            $item1 = $matches[1]; // Produk pertama
+            $item2 = $matches[2]; // Produk kedua
+            $item3 = $matches[3]; // Produk ketiga
 
-        foreach ($this->associations as $association) {
-            // Ambil conclusion dan pisahkan berdasarkan kata
-            $conclusion = $association['conclusion'];
+            // Cari produk berdasarkan nama
+            $product1 = Product::where('name', $item1)->first();
+            $product2 = Product::where('name', $item2)->first();
+            $product3 = Product::where('name', $item3)->first();
 
-            // Ekstrak $item1, $item2, dan $item3 dari conclusion menggunakan explode
-            preg_match('/membeli (.+?) dan (.+?), maka pelanggan juga akan membeli (.+)\./', $conclusion, $matches);
-
-            // Pastikan ada hasil match yang valid
-            if (isset($matches[1]) && isset($matches[2]) && isset($matches[3])) {
+            // Pastikan produk ditemukan
+            if ($product1 && $product2 && $product3 && number_format($association['confidence'], 2) >= $this->minConfidence) {
+                // Simpan ke dalam database
+                DB::table('product_recommendations')->insert([
+                    'product1_id' => $product1->id,
+                    'product2_id' => $product2->id,
+                    'product3_id' => $product3->id,
+                    'product1_name' => $product1->name,
+                    'product2_name' => $product2->name,
+                    'product3_name' => $product3->name,
+                    'conclusion' => $association['conclusion'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+        } elseif (preg_match('/membeli (.+?), maka pelanggan juga akan membeli (.+)\./', $conclusion, $matches)) {
+            # code...
+            if (isset($matches[1]) && isset($matches[2])) {
                 $item1 = $matches[1]; // Produk pertama
                 $item2 = $matches[2]; // Produk kedua
-                $item3 = $matches[3]; // Produk ketiga
 
                 // Cari produk berdasarkan nama
                 $product1 = Product::where('name', $item1)->first();
                 $product2 = Product::where('name', $item2)->first();
-                $product3 = Product::where('name', $item3)->first();
 
                 // Pastikan produk ditemukan
-                if ($product1 && $product2 && $product3 && number_format($association['confidence'], 2) >= $this->minConfidence) {
+                if ($product1 && $product2 && number_format($association['confidence'], 2) >= $this->minConfidence) {
                     // Simpan ke dalam database
                     DB::table('product_recommendations')->insert([
                         'product1_id' => $product1->id,
                         'product2_id' => $product2->id,
-                        'product3_id' => $product3->id,
+                        'product3_id' => null,
                         'product1_name' => $product1->name,
                         'product2_name' => $product2->name,
-                        'product3_name' => $product3->name,
+                        'product3_name' => null,
                         'conclusion' => $association['conclusion'],
                         'created_at' => now(),
                         'updated_at' => now(),

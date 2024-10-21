@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('customer');
             $table->string('product');
             $table->string('size');
-            $table->double('price');
+            $table->decimal('price',10,2);
             $table->timestamps();
         });
     }

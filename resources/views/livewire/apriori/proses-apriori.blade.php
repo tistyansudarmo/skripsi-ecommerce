@@ -231,6 +231,7 @@
                             <th scope="col">No</th>
                             <th scope="col">Rules</th>
                             <th scope="col">Confidence</th>
+                            <th scope="col">Keterangan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -239,6 +240,13 @@
                             <th scope="row" style="vertical-align: middle;">{{ $loop->iteration }}</th>
                             <td>{{ $association['rule'] }}</td>
                             <td>{{ number_format($association['confidence'], 2) }}</td>
+                            <td style="vertical-align: middle;">
+                                @if (number_format($association['confidence'], 2) >= $minConfidence)
+                                Terpenuhi
+                                @else
+                                Tidak Terpenuhi
+                                @endif
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

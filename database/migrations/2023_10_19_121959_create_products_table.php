@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('size');
-            $table->double('price');
+            $table->decimal('price',10,2);
             $table->integer('weight');
             $table->string('image')->nullable();
         });

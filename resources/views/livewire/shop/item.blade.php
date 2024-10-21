@@ -53,13 +53,13 @@
                                         </div>
                                     </div>
                                     <div class="d-grid d-md-block">
-                                        <button class="btn btn-danger btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#exampleModalDelete" style="margin-top: -20px">Delete</button>
+                                        <button class="btn btn-danger btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#exampleModalDelete{{ $item->id }}" style="margin-top: -20px">Delete</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                          <!-- Modal Delete -->
-                        <div class="modal fade" id="exampleModalDelete" tabindex="-1" aria-labelledby="exampleModalDelete" aria-hidden="true">
+                        <div class="modal fade" id="exampleModalDelete{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalDelete" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-md">
                             <div class="modal-content" style="border-radius: 0;">
                                 <div class="modal-header">
@@ -67,7 +67,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                Are sure want to delete {{ ucwords($item->title) }}?
+                                Are sure want to delete {{ ucwords($item->product->name) }}?
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

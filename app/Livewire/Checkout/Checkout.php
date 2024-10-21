@@ -178,22 +178,22 @@ class Checkout extends Component
             $this->etd = $shippingExplode[2];
         }
 
-        // Save transaction to the database
-        $transaction = new Transaction();
-        $transaction->customer_id = Auth::guard('customers')->user()->id;
-        $transaction->total_price = $this->totalPrice + $this->shippingCosts;
-        $transaction->courier = $this->courier;
-        $transaction->order_id_midtrans = uniqid();
-        $transaction->shipping_cost = $this->shippingCosts;
-        $transaction->shipping_service = $this->shippingService;
-        $transaction->estimate = $this->etd;
-        // $transaction->order_id = uniqid();
-        $transaction->date = Carbon::now()->format('Y-m-d');
-        $transaction->status = 'Belum dibayar';
-        $transaction->save();
-
         // Save detail transaction (for one product or cart)
         if ($this->selectedProduct) {
+            // Save transaction to the database
+            $transaction = new Transaction();
+            $transaction->customer_id = Auth::guard('customers')->user()->id;
+            $transaction->total_price = $this->totalPrice + $this->shippingCosts;
+            $transaction->courier = $this->courier;
+            $transaction->order_id_midtrans = uniqid();
+            $transaction->shipping_cost = $this->shippingCosts;
+            $transaction->shipping_service = $this->shippingService;
+            $transaction->estimate = $this->etd;
+            // $transaction->order_id = uniqid();
+            $transaction->date = Carbon::now()->format('Y-m-d');
+            $transaction->status = 'Belum dibayar';
+            $transaction->save();
+
             $detailTransaction = new detail_transaction();
             $detailTransaction->transaction_id = $transaction->id;
             $detailTransaction->product_id = $this->selectedProduct->id;
@@ -209,19 +209,34 @@ class Checkout extends Component
             $stock->save();
         } else {
             foreach ($this->cart as $item) {
-                $detailTransaction = new detail_transaction();
-                $detailTransaction->transaction_id = $transaction->id;
-                $detailTransaction->product_id = $item->product_id;
-                $detailTransaction->quantity = $this->totalQtyCart[$item->id];
-                $detailTransaction->price = $item->product->price;
-                $detailTransaction->total_price = $transaction->total_price;
-                $detailTransaction->date = Carbon::now()->format('Y-m-d');
-                $detailTransaction->save();
 
-                // Update stock
-                $stock = Stock::where('product_id', $item->product_id)->first();
-                $stock->quantity -= $this->totalQtyCart[$item->id];
-                $stock->save();
+            // Save transaction to the database
+            $transaction = new Transaction();
+            $transaction->customer_id = Auth::guard('customers')->user()->id;
+            $transaction->total_price = $this->totalPriceCart + $this->shippingCosts;
+            $transaction->courier = $this->courier;
+            $transaction->order_id_midtrans = uniqid();
+            $transaction->shipping_cost = $this->shippingCosts;
+            $transaction->shipping_service = $this->shippingService;
+            $transaction->estimate = $this->etd;
+            // $transaction->order_id = uniqid();
+            $transaction->date = Carbon::now()->format('Y-m-d');
+            $transaction->status = 'Belum dibayar';
+            $transaction->save();
+
+            $detailTransaction = new detail_transaction();
+            $detailTransaction->transaction_id = $transaction->id;
+            $detailTransaction->product_id = $item->product_id;
+            $detailTransaction->quantity = $this->totalQtyCart[$item->id];
+            $detailTransaction->price = $item->product->price;
+            $detailTransaction->total_price = $this->totalPriceCart + $this->shippingCosts;
+            $detailTransaction->date = Carbon::now()->format('Y-m-d');
+            $detailTransaction->save();
+
+            // Update stock
+            $stock = Stock::where('product_id', $item->product_id)->first();
+            $stock->quantity -= $this->totalQtyCart[$item->id];
+            $stock->save();
             }
 
             // Clear the cart after checkout

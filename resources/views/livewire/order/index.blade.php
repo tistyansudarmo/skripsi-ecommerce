@@ -30,7 +30,7 @@
                     <td style="vertical-align: middle;">{{ $item->product->name}}</td>
                     <td style="vertical-align: middle;" class="text-center">{{ $item->quantity }}</td>
                     <td style="vertical-align: middle;">Rp{{ number_format($item->price, 2, ',', '.') }}</td>
-                    <td style="vertical-align: middle;">Rp{{ number_format($item->total_price-$item->price, 2, ',', '.') }}</td>
+                    <td style="vertical-align: middle;">Rp{{ number_format($item->shipping_cost, 2, ',', '.') }}</td>
                     <td style="vertical-align: middle;">Rp{{ number_format($item->total_price, 2, ',', '.') }}</td>
                     <td><img src="{{ asset('storage/' . $item->product->image) }}" alt="" style="width: 100px; height: 100px;"></td>
                     <td style="vertical-align: middle;">

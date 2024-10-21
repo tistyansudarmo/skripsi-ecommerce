@@ -38,6 +38,7 @@ class HomeProduct extends Component
         $categories = Category::all();
 
         $productRecom = null;
+        $recommendedProducts = [];
 
         // Cek apakah user sudah login
         if (Auth::guard('customers')->check()) {
@@ -61,10 +62,35 @@ class HomeProduct extends Component
                 ->get();
         }
 
+        if ($productRecom && count($productRecom) > 0) {
+        $transactionProductIds = $productRecom->pluck('transaction_product_id')->toArray();
+
+        foreach ($productRecom as $recommendation) {
+            // Prioritaskan product_recom3 jika cocok dengan product_recom1 dan product_recom2
+            if ($recommendation->product_recom3 &&
+                in_array($recommendation->product_recom1, $transactionProductIds) &&
+                in_array($recommendation->product_recom2, $transactionProductIds)) {
+
+                // Cek apakah produk rekomendasi ketiga sudah ada di recommendedProducts
+                if (!in_array($recommendation->product_recom3, array_column($recommendedProducts, 'id'))) {
+                    $recommendedProducts[] = Product::find($recommendation->product_recom3);
+                }
+            } elseif ($recommendation->product_recom3 === null &&
+                in_array($recommendation->product_recom1, $transactionProductIds)) {
+
+                if (!in_array($recommendation->product_recom1, array_column($recommendedProducts, 'id'))) {
+                    $recommendedProducts[] = Product::find($recommendation->product_recom2);
+                }
+            }
+        }
+    }
+
+
 
         return view('livewire.home.home-product', [
             'products' => $products,
             'categories' => $categories,
+            'recommendedProducts' => $recommendedProducts,
             'productRecom' => $productRecom
         ]);
 

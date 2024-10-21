@@ -23,14 +23,14 @@
             <section class="pt-7 homeDescription" style="margin-top: 120px">
               <div class="container">
                 <div class="row align-items-center">
-                  <div class="col-md-6 text-md-start text-center py-6">
+                  <div class="col-md-6 text-md-start text-center py-6" data-aos="fade-right" data-aos-duration="3000">
                     <h1 class="mb-4 fs-9 fw-bold">Curated Collection for the Modern Woman</h1>
                     <p class="mb-6 lead text-secondary">Find your unique fashion with our handpicked selection. Your Style, Your Story!</p>
                     <div class="text-center text-md-start">
                         <button class="btn btn-lg btn-warning" id="scrollToSearch">Our Products</button>
                     </div>
                   </div>
-                  <div class="col-md-6 text-end">
+                  <div class="col-md-6 text-end" data-aos="fade-left" data-aos-duration="3000">
                     <img class="pt-7 pt-md-0 img-fluid image-home" src="assets/images/hero/hero-img.png" alt="hero-img"/>
                   </div>
                 </div>
@@ -52,6 +52,9 @@
         });
         </script>
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            AOS.init();
+        </script>
         @livewireScripts
     </body>
 </html>
