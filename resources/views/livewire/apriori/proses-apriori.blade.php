@@ -1,9 +1,9 @@
 <div class="container">
     @if ($formVisible)
     <form wire:submit="save">
-        <label for="importTransaction" class="form-label">Import Transaction<span class="text-danger">*</span></label>
+        {{-- <label for="importTransaction" class="form-label">Import Transaction<span class="text-danger">*</span></label>
         <input type="file" class="form-control" id="importTransaction" wire:model="importTransaction" required>
-        <div class="text-danger">@error('importTransaction') {{ $message }} @enderror</div>
+        <div class="text-danger">@error('importTransaction') {{ $message }} @enderror</div> --}}
 
         <label for="support" class="form-label mt-3">Minimum Support<span class="text-danger">*</span></label>
         <input type="text" class="form-control" id="support" wire:model="minSupport" required>
@@ -40,12 +40,12 @@
                         @foreach ($itemset1 as $item1)
                         <tr>
                             <th scope="row" style="vertical-align: middle;">{{ $loop->iteration }}</th>
-                            <td style="vertical-align: middle;">{{ $item1->product }}</td>
-                            <td style="vertical-align: middle;" class="text-center">{{ $totalTransactionItemset1[$item1->product] }}</td>
+                            <td style="vertical-align: middle;">{{ $item1->product->name }}</td>
+                            <td style="vertical-align: middle;" class="text-center">{{ $totalTransactionItemset1[$item1->product_id] }}</td>
                             <td style="vertical-align: middle;">JumlahTransaksi / JumlahItem * 100</td>
-                            <td style="vertical-align: middle;">{{ $itemSupport[$item1->product]}}</td>
+                            <td style="vertical-align: middle;">{{ $itemSupport[$item1->product_id]}}</td>
                             <td style="vertical-align: middle;">
-                                @if($itemSupport[$item1->product] >= $minSupport)
+                                @if($itemSupport[$item1->product_id] >= $minSupport)
                                     Terpenuhi
                                 @else
                                     Tidak terpenuhi
@@ -72,12 +72,12 @@
                     </thead>
                     <tbody>
                         @foreach ($itemset1 as $item1)
-                        @if ($itemSupport[$item1->product] >= $minSupport)
+                        @if ($itemSupport[$item1->product_id] >= $minSupport)
                                 <tr>
                                     <th scope="row" style="vertical-align: middle;">{{ $loop->iteration }}</th>
-                                    <td style="vertical-align: middle;">{{ $item1->product }}</td>
-                                    <td style="vertical-align: middle;">{{ $totalTransactionItemset1[$item1->product] }}</td>
-                                    <td style="vertical-align: middle;">{{ $itemSupport[$item1->product] }}</td>
+                                    <td style="vertical-align: middle;">{{ $item1->product->name }}</td>
+                                    <td style="vertical-align: middle;">{{ $totalTransactionItemset1[$item1->product_id] }}</td>
+                                    <td style="vertical-align: middle;">{{ $itemSupport[$item1->product_id] }}</td>
                                 </tr>
                         @endif
                         @endforeach

@@ -3,6 +3,7 @@
 namespace App\Livewire\Apriori;
 
 use App\Imports\TransactionImport;
+use App\Models\detail_transaction;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
 use App\Models\ProsesApriori as ModelsProsesApriori;
@@ -33,38 +34,38 @@ class ProsesApriori extends Component
     public $itemsets3;
     public $passedItems;
     public $associations = [];
-    #[Rule('required|file|mimes:xlsx,xls,csv')]
-    public $importTransaction;
+    // #[Rule('required|file|mimes:xlsx,xls,csv')]
+    // public $importTransaction;
 
 
     public function generateItemset1() {
         // Mendapatkan daftar produk unik yang ada dalam transaksi antara tanggal yang diberikan
-        $this->itemset1 = ModelsProsesApriori::whereBetween('created_at', [$this->fromDate, $this->toDate])
-            ->select('product')
+        $this->itemset1 = detail_transaction::whereBetween('date', [$this->fromDate, $this->toDate])
+            ->select('product_id')
             ->distinct()
             ->get();
 
         // Menghitung jumlah produk unik dalam transaksi antara tanggal yang diberikan
-        $this->totalItem = ModelsProsesApriori::whereBetween('created_at', [$this->fromDate, $this->toDate])
-            ->distinct('product')
+        $this->totalItem = detail_transaction::whereBetween('date', [$this->fromDate, $this->toDate])
+            ->distinct('product_id')
             ->count();
 
         // Menghitung jumlah transaksi unik dan support untuk setiap produk
         foreach($this->itemset1 as $item) {
             // Menghitung jumlah transaksi unik yang melibatkan produk tertentu dalam rentang tanggal yang diberikan
-            $itemCount = ModelsProsesApriori::where('product', $item->product)
-                ->whereBetween('created_at', [$this->fromDate, $this->toDate])
+            $itemCount = detail_transaction::where('product_id', $item->product_id)
+                ->whereBetween('date', [$this->fromDate, $this->toDate])
                 ->distinct('transaction_id')
                 ->count('transaction_id');
 
             // Menyimpan jumlah transaksi unik untuk setiap produk ke dalam array
-            $this->totalTransactionItemset1[$item->product] = $itemCount;
+            $this->totalTransactionItemset1[$item->product_id] = $itemCount;
 
             // Menghitung support untuk setiap produk
             $support = $itemCount / $this->totalItem;
 
             // Menyimpan nilai support untuk setiap produk ke dalam array
-            $this->itemSupport[$item->product] = number_format($support,2);
+            $this->itemSupport[$item->product_id] = number_format($support,2);
         }
     }
 
@@ -77,9 +78,9 @@ class ProsesApriori extends Component
         $passedItemset1 = [];
         foreach ($this->itemset1 as $item1) {
             // Memeriksa apakah item dari Itemset 1 memenuhi syarat minimum support
-            if ($this->itemSupport[$item1->product] >= $this->minSupport) {
+            if ($this->itemSupport[$item1->product_id] >= $this->minSupport) {
                 // Jika ya, tambahkan product_id ke daftar passedItemset1
-                $passedItemset1[] = $item1->product;
+                $passedItemset1[] = $item1->product_id;
             }
         }
 
@@ -97,18 +98,18 @@ class ProsesApriori extends Component
         // Loop untuk setiap kandidat itemset 2 yang terbentuk
         foreach ($candidateItemsets2 as $candidateItemset) {
             // Menghitung jumlah transaksi yang mengandung pasangan item tersebut
-            $this->totalTransactionItemset2 = DB::table('proses_aprioris as proses1')
-            ->join('proses_aprioris as proses2', 'proses1.transaction_id', '=', 'proses2.transaction_id')
-            ->where('proses1.product', $candidateItemset[0])
-            ->where('proses2.product', $candidateItemset[1])
+            $this->totalTransactionItemset2 = DB::table('detail_transactions as proses1')
+            ->join('detail_transactions as proses2', 'proses1.transaction_id', '=', 'proses2.transaction_id')
+            ->where('proses1.product_id', $candidateItemset[0])
+            ->where('proses2.product_id', $candidateItemset[1])
             ->count();
 
             // Menghitung support dari itemset 2
             $support = $this->totalTransactionItemset2 / $this->totalItem;
 
             // Mengambil name (nama) dari produk di dalam itemset
-            $itemset1 = $candidateItemset[0];
-            $itemset2 = $candidateItemset[1];
+            $itemset1 = isset($candidateItemset[0]) ? Product::find($candidateItemset[0])->name : '';
+            $itemset2 = isset($candidateItemset[1]) ? Product::find($candidateItemset[1])->name : '';
 
             // Menyimpan hasil perhitungan ke dalam array itemsets2
             $this->itemsets2[] = [
@@ -157,21 +158,21 @@ class ProsesApriori extends Component
         // Loop untuk setiap kandidat itemset 3 yang terbentuk
         foreach ($candidateItemsets3 as $candidateItemset) {
             // Menghitung jumlah transaksi yang mengandung ketiga item tersebut
-            $this->totalTransactionItemset3 = DB::table('proses_aprioris as proses1')
-                ->join('proses_aprioris as proses2', 'proses1.transaction_id', '=', 'proses2.transaction_id')
-                ->join('proses_aprioris as proses3', 'proses1.transaction_id', '=', 'proses3.transaction_id')
-                ->where('proses1.product', $candidateItemset[0])
-                ->where('proses2.product', $candidateItemset[1])
-                ->where('proses3.product', $candidateItemset[2])
+            $this->totalTransactionItemset3 = DB::table('detail_transactions as proses1')
+                ->join('detail_transactions as proses2', 'proses1.transaction_id', '=', 'proses2.transaction_id')
+                ->join('detail_transactions as proses3', 'proses1.transaction_id', '=', 'proses3.transaction_id')
+                ->where('proses1.product_id', $candidateItemset[0])
+                ->where('proses2.product_id', $candidateItemset[1])
+                ->where('proses3.product_id', $candidateItemset[2])
                 ->count();
 
             // Menghitung support dari itemset 3
             $support = $this->totalTransactionItemset3 / $this->totalItem;
 
             // Mengambil nama produk dari itemset
-            $itemset1 = $candidateItemset[0];
-            $itemset2 = $candidateItemset[1];
-            $itemset3 = $candidateItemset[2];
+            $itemset1 = isset($candidateItemset[0]) ? Product::find($candidateItemset[0])->name : '';
+            $itemset2 = isset($candidateItemset[1]) ? Product::find($candidateItemset[1])->name : '';
+            $itemset3 = isset($candidateItemset[2]) ? Product::find($candidateItemset[2])->name : '';
 
             // Menyimpan hasil perhitungan ke dalam array itemsets3
             $this->itemsets3[] = [
@@ -181,6 +182,9 @@ class ProsesApriori extends Component
                 'transaksi' => $this->totalTransactionItemset3, // Menyimpan hasil perhitungan transaksi
                 'support' => number_format($support, 2),    // Menyimpan nilai support
                 'product' => $candidateItemset, // Menyimpan kombinasi itemset
+                'idItemset1' => $candidateItemset[0],
+                'idItemset2' => $candidateItemset[1],
+                'idItemset3' => $candidateItemset[2]
             ];
         }
     }
@@ -198,47 +202,47 @@ class ProsesApriori extends Component
     foreach ($this->itemsets3 as $itemset) {
         if($itemset['support'] >= $this->minSupport) {
         // Mendefinisikan item-item dari itemset3
-        $item1 = $itemset['itemset1'];
-        $item2 = $itemset['itemset2'];
-        $item3 = $itemset['itemset3'];
+        $item1 = $itemset['idItemset1'];
+        $item2 = $itemset['idItemset2'];
+        $item3 = $itemset['idItemset3'];
 
         // Menghitung jumlah transaksi
-        $countItemset1 = DB::table('proses_aprioris')
-            ->where('product', $item1)
+        $countItemset1 = DB::table('detail_transactions')
+            ->where('product_id', $item1)
             ->count();
 
-        $countItemset2 = DB::table('proses_aprioris')
-            ->where('product', $item2)
+        $countItemset2 = DB::table('detail_transactions')
+            ->where('product_id', $item2)
             ->count();
 
-        $countItemset3 = DB::table('proses_aprioris')
-            ->where('product', $item3)
+        $countItemset3 = DB::table('detail_transactions')
+            ->where('product_id', $item3)
             ->count();
 
-        $countItemset1Itemset2 = DB::table('proses_aprioris as proses1')
-            ->join('proses_aprioris as proses2', 'proses1.transaction_id', '=', 'proses2.transaction_id')
-            ->where('proses1.product', $item1)
-            ->where('proses2.product', $item2)
+        $countItemset1Itemset2 = DB::table('detail_transactions as proses1')
+            ->join('detail_transactions as proses2', 'proses1.transaction_id', '=', 'proses2.transaction_id')
+            ->where('proses1.product_id', $item1)
+            ->where('proses2.product_id', $item2)
             ->count();
 
-        $countItemset1Itemset3 = DB::table('proses_aprioris as proses1')
-            ->join('proses_aprioris as proses2', 'proses1.transaction_id', '=', 'proses2.transaction_id')
-            ->where('proses1.product', $item1)
-            ->where('proses2.product', $item3)
+        $countItemset1Itemset3 = DB::table('detail_transactions as proses1')
+            ->join('detail_transactions as proses2', 'proses1.transaction_id', '=', 'proses2.transaction_id')
+            ->where('proses1.product_id', $item1)
+            ->where('proses2.product_id', $item3)
             ->count();
 
-        $countItemset2Itemset3 = DB::table('proses_aprioris as proses2')
-            ->join('proses_aprioris as proses3', 'proses2.transaction_id', '=', 'proses3.transaction_id')
-            ->where('proses2.product', $item2)
-            ->where('proses3.product', $item3)
+        $countItemset2Itemset3 = DB::table('detail_transactions as proses2')
+            ->join('detail_transactions as proses3', 'proses2.transaction_id', '=', 'proses3.transaction_id')
+            ->where('proses2.product_id', $item2)
+            ->where('proses3.product_id', $item3)
             ->count();
 
-        $countItemset123 = DB::table('proses_aprioris as proses1')
-            ->join('proses_aprioris as proses2', 'proses1.transaction_id', '=', 'proses2.transaction_id')
-            ->join('proses_aprioris as proses3', 'proses1.transaction_id', '=', 'proses3.transaction_id')
-            ->where('proses1.product', $item1)
-            ->where('proses2.product', $item2)
-            ->where('proses3.product', $item3)
+        $countItemset123 = DB::table('detail_transactions as proses1')
+            ->join('detail_transactions as proses2', 'proses1.transaction_id', '=', 'proses2.transaction_id')
+            ->join('detail_transactions as proses3', 'proses1.transaction_id', '=', 'proses3.transaction_id')
+            ->where('proses1.product_id', $item1)
+            ->where('proses2.product_id', $item2)
+            ->where('proses3.product_id', $item3)
             ->count();
 
 
@@ -250,16 +254,20 @@ class ProsesApriori extends Component
         $confidence5 = $countItemset2Itemset3 / $countItemset2;
         $confidence6 = $countItemset2Itemset3 / $countItemset3;
 
+        $item1name = isset($itemset['idItemset1']) ? Product::find($itemset['idItemset1'])->name : '';
+        $item2name = isset($itemset['idItemset2']) ? Product::find($itemset['idItemset2'])->name : '';
+        $item3name = isset($itemset['idItemset3']) ? Product::find($itemset['idItemset3'])->name : '';
+
         // Tambahkan asosiasi dengan confidence
-        $this->associations[] = ['rule' => "$item1 -> $item2", 'confidence' => $confidence1, 'conclusion' => "Jika pelanggan membeli $item1, maka pelanggan juga akan membeli $item2."];
-        $this->associations[] = ['rule' => "$item2 -> $item1", 'confidence' => $confidence2, 'conclusion' => "Jika pelanggan membeli $item2, maka pelanggan juga akan membeli $item1."];
-        $this->associations[] = ['rule' => "$item1 -> $item3", 'confidence' => $confidence3, 'conclusion' => "Jika pelanggan membeli $item1, maka pelanggan juga akan membeli $item3."];
-        $this->associations[] = ['rule' => "$item3 -> $item1", 'confidence' => $confidence4, 'conclusion' => "Jika pelanggan membeli $item3, maka pelanggan juga akan membeli $item1."];
-        $this->associations[] = ['rule' => "$item2 -> $item3", 'confidence' => $confidence5, 'conclusion' => "Jika pelanggan membeli $item2, maka pelanggan juga akan membeli $item3."];
-        $this->associations[] = ['rule' => "$item3 -> $item2", 'confidence' => $confidence6, 'conclusion' => "Jika pelanggan membeli $item3, maka pelanggan juga akan membeli $item2."];
-        $this->associations[] = ['rule' => "$item1, $item2 -> $item3", 'confidence' => $countItemset123 / $countItemset1Itemset2, 'conclusion' => "Jika pelanggan membeli $item1 dan $item2, maka pelanggan juga akan membeli $item3."];
-        $this->associations[] = ['rule' => "$item1, $item3 -> $item2", 'confidence' => $countItemset123 / $countItemset1Itemset3, 'conclusion' => "Jika pelanggan membeli $item1 dan $item3, maka pelanggan juga akan membeli $item2."];
-        $this->associations[] = ['rule' => "$item2, $item3 -> $item1", 'confidence' => $countItemset123 / $countItemset2Itemset3, 'conclusion' => "Jika pelanggan membeli $item2 dan $item3, maka pelanggan juga akan membeli $item1."];
+        $this->associations[] = ['rule' => "$item1name -> $item2name", 'confidence' => $confidence1, 'conclusion' => "Jika pelanggan membeli $item1name, maka pelanggan juga akan membeli $item2name."];
+        $this->associations[] = ['rule' => "$item2name -> $item1name", 'confidence' => $confidence2, 'conclusion' => "Jika pelanggan membeli $item2name, maka pelanggan juga akan membeli $item1name."];
+        $this->associations[] = ['rule' => "$item1name -> $item3name", 'confidence' => $confidence3, 'conclusion' => "Jika pelanggan membeli $item1name, maka pelanggan juga akan membeli $item3name."];
+        $this->associations[] = ['rule' => "$item3name -> $item1name", 'confidence' => $confidence4, 'conclusion' => "Jika pelanggan membeli $item3name, maka pelanggan juga akan membeli $item1name."];
+        $this->associations[] = ['rule' => "$item2name -> $item3name", 'confidence' => $confidence5, 'conclusion' => "Jika pelanggan membeli $item2name, maka pelanggan juga akan membeli $item3name."];
+        $this->associations[] = ['rule' => "$item3name -> $item2name", 'confidence' => $confidence6, 'conclusion' => "Jika pelanggan membeli $item3name, maka pelanggan juga akan membeli $item2name."];
+        $this->associations[] = ['rule' => "$item1name, $item2name -> $item3name", 'confidence' => $countItemset123 / $countItemset1Itemset2, 'conclusion' => "Jika pelanggan membeli $item1name dan $item2name, maka pelanggan juga akan membeli $item3name."];
+        $this->associations[] = ['rule' => "$item1name, $item3name -> $item2name", 'confidence' => $countItemset123 / $countItemset1Itemset3, 'conclusion' => "Jika pelanggan membeli $item1name dan $item3name, maka pelanggan juga akan membeli $item2name."];
+        $this->associations[] = ['rule' => "$item2name, $item3name -> $item1name", 'confidence' => $countItemset123 / $countItemset2Itemset3, 'conclusion' => "Jika pelanggan membeli $item2name dan $item3name, maka pelanggan juga akan membeli $item1name."];
     }
 }
 
@@ -334,7 +342,7 @@ class ProsesApriori extends Component
 
     public function save() {
         $this->validate();
-        $this->import();
+        // $this->import();
         $this->generateItemset1();
         $this->generateItemset2();
         $this->generateItemset3();
@@ -348,10 +356,10 @@ class ProsesApriori extends Component
         ModelsProsesApriori::truncate();
     }
 
-    public function import()
-    {
-        Excel::import(new TransactionImport, $this->importTransaction);
-    }
+    // public function import()
+    // {
+    //     Excel::import(new TransactionImport, $this->importTransaction);
+    // }
 
 
     public function render()

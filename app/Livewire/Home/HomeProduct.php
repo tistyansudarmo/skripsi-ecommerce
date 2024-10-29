@@ -75,13 +75,14 @@ class HomeProduct extends Component
                 if (!in_array($recommendation->product_recom3, array_column($recommendedProducts, 'id'))) {
                     $recommendedProducts[] = Product::find($recommendation->product_recom3);
                 }
-            } elseif ($recommendation->product_recom3 === null &&
-                in_array($recommendation->product_recom1, $transactionProductIds)) {
-
-                if (!in_array($recommendation->product_recom1, array_column($recommendedProducts, 'id'))) {
-                    $recommendedProducts[] = Product::find($recommendation->product_recom2);
-                }
             }
+            // elseif ($recommendation->product_recom3 === null &&
+            //     in_array($recommendation->product_recom1, $transactionProductIds)) {
+
+            //     if (!in_array($recommendation->product_recom1, array_column($recommendedProducts, 'id'))) {
+            //         $recommendedProducts[] = Product::find($recommendation->product_recom2);
+            //     }
+            // }
         }
     }
 
