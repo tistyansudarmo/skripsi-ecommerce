@@ -74,11 +74,9 @@
                 </div>
             </div>
             @endforeach
-            @else
-                <p class="text-recom" style="white-space: nowrap; text-align: left;">No recommendations available. Please buy a product to see personalized product recommendations.</p>
             @endif
             @else
-            <p class="text-recom" style="white-space: nowrap; text-align: left;">No recommendations available. Please log in and buy a product to see personalized product recommendations.</p>
+            <p style="white-space: nowrap; text-align: left;">No recommendations available.</p>
             @endif
         </div>
     </div>

@@ -16,6 +16,7 @@ class Transaction extends Component
     public $transactions;
     public $transactionsId;
     public $newStatus;
+    public $receiptNumber;
     public $paginate = 5;
     public $formVisible = false;
 
@@ -26,7 +27,7 @@ class Transaction extends Component
         ->join('transactions', 'transactions.id', 'detail_transactions.transaction_id')
         ->join('customers', 'customers.id', 'transactions.customer_id')
         ->join('products', 'products.id', 'detail_transactions.product_id')
-        ->select('customers.name as customer_name', 'detail_transactions.*','transactions.status', 'products.name as product_name', 'products.size as product_size')
+        ->select('customers.name as customer_name', 'detail_transactions.*','transactions.status', 'transactions.receipt_number', 'products.name as product_name', 'products.size as product_size')
         ->orderBy('detail_transactions.id', 'desc')->paginate($this->paginate);
         $offset = ($transactionsPaginate->currentPage() -1) * $this->paginate;
         return view('livewire.transaction.transaction', ['transactionsPaginate' => $transactionsPaginate, 'offset' => $offset])->layout('components.layouts.admin-layout');
@@ -42,6 +43,7 @@ class Transaction extends Component
         $this->formVisible = true;
         $currentStatus = detail_transaction::find($transactionId);
         $this->newStatus = $currentStatus->transaction->status;
+        $this->receiptNumber = $currentStatus->transaction->receipt_number;
         $this->transactionsId = $transactionId;
     }
 
@@ -53,7 +55,8 @@ class Transaction extends Component
             return;
         }
         $updateStatus->transaction->update([
-            'status' => $this->newStatus
+            'status' => $this->newStatus,
+            'receipt_number' => $this->receiptNumber
         ]);
 
         $this->allTransaction();

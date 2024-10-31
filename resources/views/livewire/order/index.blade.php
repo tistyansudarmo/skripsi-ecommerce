@@ -38,7 +38,7 @@
                     </td>
                     <td style="vertical-align: middle;">{{  strtoupper($item->courier)  }} {{$item->shipping_service }}</td>
                     <td style="vertical-align: middle;">{{ $item->estimate }} days</td>
-                    <td style="vertical-align: middle;">?</td>
+                    <td style="vertical-align: middle;"><a href="https://cekresi.com/" target="_blank">{{ $item->receipt_number }}</a></td>
                 </tr>
                 @empty
                 <tr>
