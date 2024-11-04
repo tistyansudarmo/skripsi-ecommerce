@@ -17578,7 +17578,7 @@ iframe {
     padding: 1rem 1rem;
 }
 
-@media (max-width: 510px) {
+@media (max-width: 511px) {
     .cart-btn {
         padding: 5px;
         font-size: 10px;
@@ -17601,6 +17601,11 @@ iframe {
 
     .row-cart {
         margin-top: -30px !important;
+    }
+
+    .title-dashboard {
+        font-size: 1.9rem !important;
+        margin-top: 100px
     }
 
 

@@ -24,7 +24,7 @@
               <div class="container">
                 <div class="row align-items-center">
                   <div class="col-md-6 text-md-start text-center py-6" data-aos="fade-right" data-aos-duration="3000">
-                    <h1 class="mb-4 fs-9 fw-bold">Curated Collection for the Modern Woman</h1>
+                    <h1 class="mb-4 fs-9 fw-bold title-dashboard">Curated Collection for the Modern Woman</h1>
                     <p class="mb-6 lead text-secondary">Find your unique fashion with our handpicked selection. Your Style, Your Story!</p>
                     <div class="text-center text-md-start">
                         <button class="btn btn-lg btn-warning" id="scrollToSearch">Our Products</button>

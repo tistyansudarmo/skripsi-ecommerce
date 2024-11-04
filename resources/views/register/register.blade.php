@@ -55,23 +55,33 @@
                     @enderror
                   </div>
                   <div class="col-md-6 col-12">
-                    <label for="address_street" class="form-label">Alamat<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="address_street" id="address_street" required>
-                    @error('address_street')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                  </div>
-                  <div class="col-md-6 col-12">
                     <label for="province" class="form-label">Provinsi<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('province') is-invalid @enderror" name="province" id="province" required>
+                    <select class="form-select @error('province') is-invalid @enderror" aria-label="Default select example" name="province" id="province" required>
+                        <option selected>--- Pilih Provinsi ---</option>
+                        @foreach ($province as $provinsi)
+                            <option value="{{ $provinsi->id }}">{{ $provinsi->name }}</option>
+                        @endforeach
+                    </select>
                     @error('province')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                   </div>
                   <div class="col-md-6 col-12">
-                    <label for="city" class="form-label">City<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('city') is-invalid @enderror" name="city" id="city" required>
+                    <label for="city" class="form-label">Kota<span class="text-danger">*</span></label>
+                    <select class="form-select @error('city') is-invalid @enderror" aria-label="Default select example" name="city" id="city" required>
+                        <option selected>--- Pilih Kota ---</option>
+                        @foreach ($city as $kota)
+                            <option value="{{ $kota->id }}">{{ $kota->name }}</option>
+                        @endforeach
+                    </select>
                     @error('city')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label for="address_street" class="form-label">Alamat<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="address_street" id="address_street" required>
+                    @error('address_street')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                   </div>

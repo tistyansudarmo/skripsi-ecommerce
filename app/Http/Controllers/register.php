@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cities;
 use App\Models\Customer;
+use App\Models\Province;
 use Illuminate\Http\Request;
 
 class register extends Controller
 {
     public function view() {
-        return view('register.register');
+        $provinsi = Province::all();
+        $city = Cities::all();
+        return view('register.register', ['province' => $provinsi, 'city' => $city]);
     }
 
     public function store(Request $request) {
