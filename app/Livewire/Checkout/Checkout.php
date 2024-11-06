@@ -325,14 +325,18 @@ class Checkout extends Component
 
         $transactionStatus = $notif->transaction_status;
         $orderId = $notif->order_id;
+        $type = $notif->payment_type;
+        $fraud = $notif->fraud_status;
         $transaction = Transaction::where('order_id_midtrans', $orderId)->first();
 
         // Lakukan logika penyimpanan transaksi setelah mendapatkan notifikasi
-        if ($transaction && $transactionStatus == 'settlement') {
-        // Save transaction to the database
-            $transaction->update([
-                'status' => 'Sudah dibayar'
-            ]);
+        if ($transactionStatus == 'capture') {
+            if ($type == 'gopay'){
+              if($fraud == 'accept'){
+                // TODO set payment status in merchant's database to 'Success'
+                $transaction->update(['status' => 'Sudah dibayar']);
+                }
+            }
         }
     }
 
