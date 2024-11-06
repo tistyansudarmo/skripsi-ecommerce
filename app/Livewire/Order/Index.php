@@ -23,7 +23,6 @@ class Index extends Component
         ->where('customer_id', Auth::guard('customers')->user()->id)->paginate($this->paginate);
 
         $offset = ($status->currentPage() - 1) * $this->paginate;
-
         return view('livewire.order.index', ['status' => $status, 'offset' => $offset]);
     }
 }

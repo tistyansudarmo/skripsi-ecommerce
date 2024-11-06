@@ -55,6 +55,7 @@
             onClose: function(){
               /* You may add your own implementation here */
               alert('You closed the popup without finishing the payment');
+              window.location.href = '/order';
             }
           });
         });

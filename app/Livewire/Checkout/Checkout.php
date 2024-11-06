@@ -308,6 +308,10 @@ class Checkout extends Component
         // Generate Snap token
         $snapToken = Snap::getSnapToken($payload);
 
+        $transactionId = Transaction::find($transaction->id);
+        $transactionId->update([
+            'bill_number' => $snapToken
+        ]);
         // Redirect to Midtrans payment page using Snap token
         return redirect()->route('payment', ['snap_token' => $snapToken]);
     }

@@ -7,7 +7,7 @@
             <div class="alert alert-success mt-4">{{ session('checkoutSingleProduct') }}</div>
             @endif
             <div>
-          <table class="table table-striped">
+          <table class="table table-striped table-sm">
             <thead>
               <tr>
                 <th scope="col">No</th>
@@ -21,12 +21,13 @@
                 <th scope="col">Expedition</th>
                 <th scope="col">Etd</th>
                 <th scope="col">No Resi</th>
+                <th scope="col" class="text-center">Bill</th>
               </tr>
             </thead>
             <tbody>
                 @forelse ($status as $item)
                 <tr>
-                    <th scope="row" style="vertical-align: middle;">{{ $loop->iteration + $offset }}</th>
+                    <th scope="row" style="vertical-align: middle;" class="p-3">{{ $loop->iteration + $offset }}</th>
                     <td style="vertical-align: middle;">{{ $item->product->name}}</td>
                     <td style="vertical-align: middle;" class="text-center">{{ $item->quantity }}</td>
                     <td style="vertical-align: middle;">Rp{{ number_format($item->price, 2, ',', '.') }}</td>
@@ -39,10 +40,15 @@
                     <td style="vertical-align: middle;">{{  strtoupper($item->courier)  }} {{$item->shipping_service }}</td>
                     <td style="vertical-align: middle;">{{ $item->estimate }} days</td>
                     <td style="vertical-align: middle;"><a href="https://cekresi.com/" target="_blank">{{ $item->receipt_number }}</a></td>
+                    <td style="vertical-align: middle;" class="p-3">
+                        @if ($item->bill_number)
+                        <a href="/payment/{{ $item->bill_number }}" target="_blank"><button class="btn btn-success btn-sm">Bayar</button></a>
+                        @endif
+                    </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="9" class="text-center">Don't have an order yet.</td>
+                    <td colspan="12" class="text-center">Don't have an order yet.</td>
                 </tr>
                 @endforelse
             </tbody>

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('shipping_service'); // Jenis layanan pengiriman (Reguler, YES, dll)
             $table->string('estimate');
             $table->string('receipt_number')->nullable();
+            $table->string('bill_number')->nullable();
             $table->date('date');
         });
     }
