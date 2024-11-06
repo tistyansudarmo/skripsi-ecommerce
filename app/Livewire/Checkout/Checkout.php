@@ -328,10 +328,11 @@ class Checkout extends Component
         $transaction = Transaction::where('order_id_midtrans', $orderId)->first();
 
         // Lakukan logika penyimpanan transaksi setelah mendapatkan notifikasi
-        if ($orderId && $transactionStatus == 'settlement') {
+        if ($transaction && $transactionStatus == 'settlement') {
         // Save transaction to the database
-            $transaction->status = 'Sudah dibayar';
-            $transaction->save();
+            $transaction->update([
+                'status' => 'Sudah dibayar'
+            ]);
         }
     }
 
